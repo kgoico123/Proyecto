@@ -1,0 +1,18 @@
+﻿@using Proyecto.Models
+@inject SignInManager<ApplicationUser> SignInManager
+@using Microsoft.AspNetCore.Identity
+
+<div class="space-y-1">
+        <a asp-page="./Index"
+                class="group flex items-center px-3 py-2 text-sm font-medium rounded-md @ManageNavPages.IndexNavClass(ViewContext)">
+                Perfil
+        </a>
+        <a asp-page="./Email"
+                class="group flex items-center px-3 py-2 text-sm font-medium rounded-md @ManageNavPages.EmailNavClass(ViewContext)">
+                Email
+        </a>
+        <a asp-page="./ChangePassword"
+                class="group flex items-center px-3 py-2 text-sm font-medium rounded-md @ManageNavPages.ChangePasswordNavClass(ViewContext)">
+                Contraseña
+        </a>
+</div>

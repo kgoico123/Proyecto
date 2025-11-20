@@ -1,0 +1,198 @@
+@model Proyecto.ViewModels.NewCursoVM
+@using Proyecto.shared
+@{
+    ViewData["Title"] = "Actualizar Curso";
+}
+
+<div class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-3xl bg-white rounded-xl shadow-2xl p-8 space-y-6">
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Actualizar Curso</h2>
+            <p class="text-gray-500 mt-2">Modifique la información del curso y gestione los docentes asignados.</p>
+        </div>
+
+        <form method="post" asp-action="ActualizarCurso" class="space-y-6">
+            @* Campo oculto para el ID del curso, esencial para la actualización *@
+            <input type="hidden" asp-for="Curso.IdCurso" />
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label asp-for="Curso.Nombre" class="block text-sm font-medium text-gray-700">Nombre del
+                        curso</label>
+                    <input asp-for="Curso.Nombre"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+                <div>
+                    <label asp-for="Curso.aula" class="block text-sm font-medium text-gray-700">Aula</label>
+                    <input asp-for="Curso.aula"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+                <div>
+                    <label asp-for="Curso.Grado" class="block text-sm font-medium text-gray-700">Grado</label>
+                    <select asp-for="Curso.Grado"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Seleccione un grado...</option>
+                        <option value="@Grados.Primero">@Grados.Primero</option>
+                        <option value="@Grados.Segundo">@Grados.Segundo</option>
+                        <option value="@Grados.Tercero">@Grados.Tercero</option>
+                        <option value="@Grados.Cuarto">@Grados.Cuarto</option>
+                        <option value="@Grados.Quinto">@Grados.Quinto</option>
+                    </select>
+                </div>
+                <div>
+                    <label asp-for="Curso.HorarioInicio" class="block text-sm font-medium text-gray-700">Horario
+                        Inicio</label>
+                    <input asp-for="Curso.HorarioInicio" type="time"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+                <div>
+                    <label asp-for="Curso.HorarioFin" class="block text-sm font-medium text-gray-700">Horario
+                        Fin</label>
+                    <input asp-for="Curso.HorarioFin" type="time"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+            </div>
+
+            <!-- Sección para Gestionar Docentes -->
+            <div class="border-t border-gray-200 pt-6 space-y-4">
+                <h3 class="text-lg font-medium text-gray-900">Docentes Asignados</h3>
+                @if (Model.Curso.Docentes != null && Model.Curso.Docentes.Any())
+                {
+                    <ul class="space-y-2">
+                        @foreach (var docente in Model.Curso.Docentes)
+                        {
+                            <li class="flex items-center justify-between p-2 bg-gray-50 rounded-md"
+                                id="docente-@docente.IdDocente">
+                                <span>@docente.user.UserName @docente.user.Apellido</span>
+                                <button type="button" onclick="desvincularDocente(@docente.IdDocente, @Model.Curso.IdCurso)"
+                                    class="text-red-600 hover:text-red-800 text-sm font-medium bg-transparent border-none cursor-pointer">
+                                    Desvincular
+                                </button>
+                            </li>
+                        }
+                    </ul>
+                }
+                else
+                {
+                    <p class="text-sm text-gray-500">No hay docentes asignados a este curso.</p>
+                }
+
+                <div class="relative flex items-start pt-4">
+                    <div class="flex items-center h-5">
+                        <input id="asignarDocenteCheck" type="checkbox" onchange="toggleAsignarDocente()"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="asignarDocenteCheck" class="font-medium text-gray-700">Añadir un nuevo docente a
+                            este curso</label>
+                    </div>
+                </div>
+
+                <div id="asignarDocenteSection" style="display:none;">
+                    <label class="block text-sm font-medium text-gray-700">Seleccionar docente para añadir</label>
+                    <select asp-for="DocenteId"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Seleccione un docente...</option>
+                        @foreach (var docente in Model.Docentes)
+                        {
+                            <option value="@docente.IdDocente">@docente.user.UserName @docente.user.Apellido</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <button type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
+                    Actualizar Curso
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function setInputsDisabled(sectionId, disabled) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const select = section.querySelector('select');
+                select.disabled = disabled;
+                if (disabled) {
+                    select.value = ""; // Resetea la selección si se deshabilita
+                    select.classList.add('bg-gray-100', 'cursor-not-allowed');
+                } else {
+                    select.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                }
+            }
+        }
+
+        function toggleAsignarDocente() {
+            var check = document.getElementById('asignarDocenteCheck').checked;
+            var section = document.getElementById('asignarDocenteSection');
+            section.style.display = check ? 'block' : 'none';
+            setInputsDisabled('asignarDocenteSection', !check);
+        }
+
+        function desvincularDocente(docenteId, cursoId) {
+            if (!confirm('¿Está seguro de que desea desvincular este docente del curso?')) {
+                return;
+            }
+
+            fetch('@Url.Action("DesvincularDocente", "Administrador")', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]').value
+                },
+                body: JSON.stringify({
+                    docenteId: docenteId,
+                    cursoId: cursoId
+                })
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remover el elemento de la lista
+                        const docenteElement = document.getElementById('docente-' + docenteId);
+                        if (docenteElement) {
+                            docenteElement.remove();
+                        }
+
+                        // Agregar el docente de vuelta al dropdown
+                        const select = document.querySelector('select[name="DocenteId"]');
+                        const option = document.createElement('option');
+                        option.value = docenteId;
+                        option.textContent = data.docenteNombre;
+                        select.appendChild(option);
+
+                        // Mostrar mensaje de éxito (opcional)
+                        alert('Docente desvinculado correctamente');
+                    } else {
+                        alert('Error: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Ocurrió un error al desvincular el docente');
+                });
+        }
+
+        // Llamada inicial para establecer el estado correcto al cargar la página
+        document.addEventListener('DOMContentLoaded', function () {
+            toggleAsignarDocente();
+        });
+    </script>
+}
+
+
+
+
+
+
+

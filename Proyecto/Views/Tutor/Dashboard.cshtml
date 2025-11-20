@@ -1,0 +1,59 @@
+﻿@model Proyecto.ViewModels.TutorDashboardVM
+@{
+    ViewBag.Title = "Página de Inicio del Padre";
+}
+
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-10">
+            <h1 class="text-4xl font-extrabold text-gray-800 tracking-tight">Panel del Tutor</h1>
+            <p class="mt-2 text-lg text-gray-500">Supervisa el progreso de tus hijas.</p>
+        </div>
+
+        @if (!Model.Estudiantes.Any())
+        {
+            <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4 rounded-md shadow-md" role="alert">
+                <p class="font-bold">Información</p>
+                <p>Actualmente no tiene estudiantes asignados a su cuenta.</p>
+            </div>
+        }
+        else
+        {
+            <div class="space-y-6">
+                @foreach (var est in Model.Estudiantes)
+                {
+                    <div class="bg-white rounded-2xl shadow-lg overflow-hidden transform hover:scale-105 transition-transform duration-300 ease-in-out">
+                        <div class="p-6 sm:flex sm:items-center sm:justify-between">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+                                    <div class="h-12 w-12 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-xl">
+                                        @est.user?.UserName.Substring(0, 1)
+                                    </div>
+                                </div>
+                                <div class="ml-4">
+                                    <h3 class="text-xl font-bold text-gray-900">@est.user?.UserName</h3>
+                                    <p class="text-sm text-gray-500">Estudiante</p>
+                                    <span class="text-sm text-gray-500">Grado: @est.Grado</span>
+                                </div>
+                            </div>
+                            <div class="mt-4 sm:mt-0 flex space-x-2">
+                                <a href="@Url.Action("Notificaciones", "Tutor", new { estudianteId = est.IdEstudiante })"
+                                   class="px-3 py-2 text-sm font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 transition-colors">
+                                    Notificaciones
+                                </a>
+                                <a href="@Url.Action("Comportamiento", "Tutor", new { estudianteId = est.IdEstudiante })"
+                                   class="px-3 py-2 text-sm font-medium text-center text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 transition-colors">
+                                    Conducta
+                                </a>
+                                <a href="@Url.Action("Calificaciones", "Tutor", new { estudianteId = est.IdEstudiante })"
+                                   class="px-3 py-2 text-sm font-medium text-center text-white bg-purple-600 rounded-lg hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 transition-colors">
+                                    Calificaciones
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

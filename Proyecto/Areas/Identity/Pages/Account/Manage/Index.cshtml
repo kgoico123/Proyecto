@@ -1,0 +1,54 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Perfil de Usuario";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<div class="w-full max-w-lg mx-auto bg-white rounded-xl shadow-md p-8 space-y-6">
+    <h3 class="text-2xl font-bold text-center text-gray-800">@ViewData["Title"]</h3>
+
+    <partial name="_StatusMessage" for="StatusMessage" />
+
+    <form id="profile-form" method="post" class="space-y-4">
+        <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm" role="alert"></div>
+
+        <div>
+            <label asp-for="Username" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Username"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
+                disabled />
+        </div>
+
+        <div>
+            <label asp-for="Input.Apellido" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Input.Apellido"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="Input.Apellido" class="text-red-600 text-sm"></span>
+        </div>
+
+        <div>
+            <label asp-for="Input.Dni" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Input.Dni"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+            <span asp-validation-for="Input.Dni" class="text-red-600 text-sm"></span>
+        </div>
+
+        <div>
+            <label asp-for="Input.PhoneNumber" class="block text-sm font-medium text-gray-700"></label>
+            <input asp-for="Input.PhoneNumber"
+                class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                placeholder="Ingrese su número de teléfono." />
+            <span asp-validation-for="Input.PhoneNumber" class="text-red-600 text-sm"></span>
+        </div>
+
+        <button id="update-profile-button" type="submit"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Guardar Cambios
+        </button>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,63 @@
+﻿@model Proyecto.ViewModels.DocenteConductaVM
+@{
+    ViewData["Title"] = "Registro de Conducta";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
+
+<div class="max-w-4xl mx-auto mt-8 rounded-2xl shadow-[8px_8px_16px_#d1d9e6,-8px_-8px_16px_#ffffff] p-8">
+    <h2 class="text-2xl font-bold mb-4 text-blue-700">Registrar conducta de estudiantes</h2>
+    @if (!Model.Estudiantes.Any())
+    {
+        <div class="bg-yellow-100 text-yellow-800 rounded px-4 py-2 mt-4 shadow-inner">
+            No hay estudiantes asignados a su curso actualmente.
+        </div>
+    }
+    else
+    {
+        <form asp-action="Conducta" method="post">
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm text-left rounded-xl bg-gray-100 shadow-inner">
+                    <thead class="bg-gray-200">
+                        <tr>
+                            <th class="px-4 py-2 border-b font-semibold text-gray-600">Estudiante</th>
+                            <th class="px-4 py-2 border-b font-semibold text-gray-600">Conducta</th>
+                            <th class="px-4 py-2 border-b font-semibold text-gray-600">Comentario</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (int i = 0; i < Model.Estudiantes.Count; i++)
+                        {
+                            var estudiante = Model.Estudiantes[i];
+                            <tr class="hover:bg-gray-50 transition">
+                                <td class="px-4 py-2 border-b">
+                                    @(estudiante.user?.UserName ?? "Estudiante sin nombre")
+                                    <input type="hidden" asp-for="AlumnosId[i]" value="@estudiante.IdEstudiante" />
+                                </td>
+                                <td class="px-4 py-2 border-b">
+                                    <select asp-for="Conductas[i]" required
+                                        class="w-full rounded-xl px-2 py-1 bg-gray-100 shadow-inner border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                                        <option value="">Seleccione</option>
+                                        <option value="AD">AD - Logro destacado</option>
+                                        <option value="A">A - Logro esperado</option>
+                                        <option value="B">B - En proceso</option>
+                                        <option value="C">C - En inicio</option>
+                                    </select>
+                                </td>
+                                <td class="px-4 py-2 border-b">
+                                    <input type="text"
+                                        class="w-full rounded-xl px-2 py-1 bg-gray-100 shadow-inner border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-300"
+                                        asp-for="Comentarios[i]" maxlength="200" placeholder="Máx. 200 caracteres" />
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <button type="submit"
+                class="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2 rounded-xl shadow transition">
+                Guardar Conductas
+            </button>
+        </form>
+    }
+</div>

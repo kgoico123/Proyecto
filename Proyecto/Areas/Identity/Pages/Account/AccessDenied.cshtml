@@ -1,0 +1,33 @@
+﻿@page
+@model AccessDeniedModel
+@{
+    ViewData["Title"] = "Acceso Denegado";
+}
+
+<div class="container mx-auto px-4 py-16">
+    <div class="max-w-md mx-auto bg-white rounded-lg shadow-xl overflow-hidden">
+        <div class="p-8">
+            <div class="text-center">
+                <svg class="mx-auto h-12 w-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636">
+                    </path>
+                </svg>
+                <h1 class="mt-4 text-3xl font-extrabold text-gray-900 tracking-tight">@ViewData["Title"]</h1>
+                <p class="mt-2 text-base text-gray-500">No tienes los permisos necesarios para acceder a esta página.
+                </p>
+                <div class="mt-6">
+                    <a asp-controller="Home" asp-action="Index"
+                        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+       
+           
+           

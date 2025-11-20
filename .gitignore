@@ -1,0 +1,28 @@
+## Visual Studio / ASP.NET Core defaults
+.vs/
+bin/
+obj/
+TestProyecto/bin/
+TestProyecto/obj/
+*.user
+*.suo
+*.cache
+*.log
+.vscode/
+node_modules/
+wwwroot/lib/
+*.db
+*.mdf
+*.ldf
+*.sqlite
+*.db-wal
+*.db-shm
+
+# Rider
+.idea/
+
+# Build outputs
+dist/
+
+# IIS Express
+.vs/*

@@ -1,0 +1,199 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Proyecto.Models
+@using Proyecto.shared
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    string controller = User.IsInRole(VCG.Role_Admin) ? "Administrador" :
+                        User.IsInRole(VCG.Role_Docente) ? "Docente" :
+                        User.IsInRole(VCG.Role_Tutor) ? "Tutor" : "Estudiante";
+}
+<!DOCTYPE html>
+<html lang="es" class="h-[100vh]">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ProyectoCalidad</title>
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> *@
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ProyectoCalidad.styles.css" asp-append-version="true" />
+    <!-- Google Fonts used by accessibility widget -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Nunito:wght@400;600&family=Roboto:wght@400;500&family=Open+Sans:wght@400;600&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-[100vh] flex flex-col">
+    <header>
+        <nav class="bg-white/90 shadow-lg min-h-[10vh] flex items-center px-6 border-b border-green-700 relative">
+            <div class="w-full flex justify-between items-center">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <img class="w-12 h-12 rounded-full border-2 border-green-700 shadow" src="/images/logo.png"
+                        alt="Logo I.E. Micaela Bastidas" />
+                    <span class="text-2xl font-bold text-green-800 tracking-wide ">I.E. MICAELA
+                        BASTIDAS</span>
+                </div>
+                @if (SignInManager.IsSignedIn(User))
+                {
+                   
+                    <div class="hidden md:flex space-x-6 items-center">
+                        <a class="text-green-800 hover:text-red-700 font-semibold transition" asp-area=""
+                            asp-controller="Home" asp-action="Index">Inicio</a>
+                        <a class="text-green-800 hover:text-red-700 font-semibold transition" asp-area=""
+                            asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="text-green-800 hover:text-red-700 font-semibold transition" >Perfil</a>
+                        <a class="text-green-800 hover:text-red-700 font-semibold transition" asp-controller="@controller" asp-action="Dashboard">Dashboard</a>
+                        <form class="m-0" id="logoutForm"
+                            asp-area="Identity" asp-page="/Account/Logout"
+                            asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button id="logout" type="submit" class="text-green-800 hover:text-red-700 font-semibold transition bg-transparent border-0 p-0">Cerrar Sesión</button>
+                        </form>
+                    </div>
+
+                    <div class="flex items-center gap-4">
+                        <div class="md:hidden">
+                            <button id="mobile-menu-button" class="text-green-800 hover:text-red-700 focus:outline-none">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Menú Móvil -->
+            @if (SignInManager.IsSignedIn(User))
+            {
+                var ruta = User.IsInRole(VCG.Role_Admin) ? "/Administrador/Dashboard" : User.IsInRole(VCG.Role_Docente)
+                ?
+                "/Docente/Dashboard" : User.IsInRole(VCG.Role_Tutor) ? "/Tutor/Dashboard" : "/Estudiante/Dashboard";
+                <div id="mobile-menu" class="hidden md:hidden absolute top-full left-0 w-full bg-white shadow-lg z-1000">
+                    <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col items-center">
+                        <a class="text-green-800 hover:text-red-700 font-semibold transition block px-3 py-2 rounded-md text-base" asp-area="" asp-controller="Home" asp-action="Index">Inicio</a>
+                        <a class="text-green-800 hover:text-red-700 font-semibold transition block px-3 py-2 rounded-md text-base" asp-area="" asp-controller="Home" asp-action="Privacy">Privacidad</a>
+                        <a class="text-green-800 hover:text-red-700 font-semibold transition block px-3 py-2 rounded-md text-base" href="#">Noticias</a>
+                        <a class="text-green-800 hover:text-red-700 font-semibold transition block px-3 py-2 rounded-md text-base" href="@ruta">Dashboard</a>
+                        <form class="w-full text-center" id="logoutFormMobile" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                            <button type="submit" class="text-green-800 hover:text-red-700 font-semibold transition w-full px-3 py-2">Cerrar Sesión</button>
+                        </form>
+                    </div>
+                </div>
+            }
+        </nav>
+    </header>
+
+    <div id="site-bg" class="relative overflow-hidden min-h-[90vh]" style="background-image: url('/images/colegio.jpg'); background-size: cover; background-position: center;">
+        <!-- Capa de superposición para mejorar la legibilidad -->
+        <div id="site-overlay" style="position:absolute;inset:0;pointer-events:none;z-index:1;background-color:transparent"></div>
+        
+        <main role="main" class="relative max-h-[90vh] h-[90vh] min-h-[90vh] overflow-auto">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <link rel="stylesheet" href="~/css/accessibility.css" asp-append-version="true" />
+    <script src="~/js/accessibility.js" asp-append-version="true"></script>
+
+    <!-- Accessibility widget markup -->
+    <button id="acc-toggle-btn" class="acc-btn" aria-controls="acc-panel" aria-expanded="false" title="Accesibilidad" aria-label="Accesibilidad">
+        <!-- Icono tipo persona (mejor legibilidad) -->
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+            <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="#ffffff" />
+        </svg>
+    </button>
+
+    <div id="acc-panel" class="acc-panel hidden" role="dialog" aria-hidden="true" aria-label="Opciones de accesibilidad">
+        <div class="acc-header" tabindex="0">
+            <h4>Accesibilidad</h4>
+            <div>
+                <button id="acc-close" class="acc-close" aria-label="Cerrar">✕</button>
+            </div>
+        </div>
+        <div class="acc-body">
+            <div class="acc-group">
+                <label class="acc-label" for="acc-font-inc">Tamaño de letra</label>
+                <div class="acc-controls">
+                    <button id="acc-font-dec" aria-label="Reducir fuente">A-</button>
+                    <button id="acc-font-inc" aria-label="Aumentar fuente">A+</button>
+                </div>
+            </div>
+
+            <div class="acc-group">
+                <label class="acc-label" for="acc-bg-select">Fondo</label>
+                <div class="acc-controls">
+                    <select id="acc-bg-select" aria-label="Seleccionar fondo">
+                        <option value="normal">Normal</option>
+                        <option value="dark">Alto contraste (negro)</option>
+                        <option value="light">Alto contraste (blanco)</option>
+                        <option value="custom">Personalizado</option>
+                    </select>
+                    <input id="acc-bg-color" type="color" title="Color de overlay" aria-label="Color de fondo personalizado" value="#000000" style="width:48px;height:34px;border-radius:6px;border:1px solid #ddd;" />
+                    <label class="acc-label" for="acc-bg-opacity" style="font-size:0.7rem;margin-left:6px;align-self:center">Opacidad</label>
+                    <input id="acc-bg-opacity" type="range" min="0" max="100" value="88" aria-label="Opacidad del overlay" style="width:110px" />
+                    <select id="acc-blur-select" aria-label="Intensidad de difuminado" style="margin-left:6px">
+                        <option value="medium">Difuminado medio</option>
+                        <option value="light">Difuminado ligero</option>
+                        <option value="strong">Difuminado fuerte</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="acc-group">
+                <label class="acc-label" for="acc-text-color">Color del texto</label>
+                <div class="acc-controls">
+                    <select id="acc-text-color" aria-label="Color del texto">
+                        <option value="">Automático</option>
+                        <option value="#000000">Negro</option>
+                        <option value="#ffffff">Blanco</option>
+                        <option value="#ffff00">Amarillo</option>
+                        <option value="#0b7a3d">Verde institucional</option>
+                        <option value="#064b2a">Verde oscuro</option>
+                        <option value="#f36b21">Naranja institucional</option>
+                        <option value="#007bff">Azul</option>
+                        <option value="#d63031">Rojo</option>
+                        <option value="#333333">Gris oscuro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="acc-group">
+                <label class="acc-label" for="acc-font-family">Fuente</label>
+                <div class="acc-controls">
+                    <select id="acc-font-family" aria-label="Familia de fuente">
+                        <option value="">Por defecto</option>
+                        <option value="'Segoe UI', Tahoma, Geneva, Verdana, sans-serif">Segoe UI</option>
+                        <option value="Arial, Helvetica, sans-serif">Arial</option>
+                        <option value="Calibri, Arial, sans-serif">Calibri</option>
+                        <option value="'Roboto', Arial, sans-serif">Roboto</option>
+                        <option value="'Open Sans', Arial, sans-serif">Open Sans</option>
+                        <option value="'Montserrat', Arial, sans-serif">Montserrat</option>
+                        <option value="'Nunito', Arial, sans-serif">Nunito</option>
+                        <option value="'Lato', Arial, sans-serif">Lato</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Script para el menú móvil
+        document.addEventListener('DOMContentLoaded', function () {
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function () {
+                    mobileMenu.classList.toggle('hidden');
+                });
+            }
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>

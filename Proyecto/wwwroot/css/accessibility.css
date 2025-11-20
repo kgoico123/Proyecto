@@ -1,0 +1,148 @@
+/* Accessibility Widget Styles */
+:root {
+  /* School color palette */
+  --acc-school-green: #0b7a3d; /* primary green */
+  --acc-school-accent: #f36b21; /* warm accent (used on CTA) */
+  --acc-white: #ffffff;
+  --acc-bg: rgba(255,255,255,0.98);
+  --acc-text-color: initial;
+  --acc-btn-grad: linear-gradient(90deg, var(--acc-school-green), var(--acc-school-accent));
+}
+
+/* Floating button */
+.acc-btn {
+  position: fixed;
+  right: 1rem;
+  bottom: 1rem;
+  width: 56px;
+  height: 56px;
+  background: var(--acc-btn-grad);
+  color: var(--acc-white);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+  z-index: 2000;
+  border: 2px solid rgba(255,255,255,0.12);
+  cursor: pointer;
+}
+.acc-btn:focus {
+  outline: 3px solid rgba(0,123,255,0.35);
+  outline-offset: 2px;
+}
+.acc-btn:active { transform: translateY(1px); }
+
+/* Panel */
+.acc-panel {
+  position: fixed;
+  right: 1rem;
+  bottom: 5.5rem;
+  width: 320px;
+  max-width: calc(100% - 2rem);
+  background: var(--acc-bg);
+  color: #111;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+  z-index: 2000;
+  font-family: Arial, Helvetica, sans-serif;
+  border: 2px solid rgba(11,122,61,0.12); /* subtle green border */
+}
+.acc-panel.hidden { display:none; }
+.acc-panel .acc-header {
+  padding: 10px 12px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  background: var(--acc-school-green);
+  color: #fff;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.acc-panel .acc-header h4 { color: #fff; margin:0; font-weight:600; }
+.acc-panel .acc-body { padding: 12px; background: linear-gradient(180deg, rgba(11,122,61,0.03), rgba(255,255,255,0.98)); border-bottom-left-radius:12px; border-bottom-right-radius:12px; }
+.acc-panel h4 { margin:0 0 8px 0; font-size:1rem; }
+.acc-close {
+  background: transparent; border: none; font-size: 18px; cursor:pointer; color: #fff; padding:6px; border-radius:6px;
+}
+.acc-close:focus { outline: 3px solid rgba(255,255,255,0.18); }
+.acc-group { margin-bottom: 10px; }
+.acc-controls { display:flex; gap:8px; flex-wrap:wrap; }
+.acc-controls button, .acc-controls select {
+  padding:6px 8px; border-radius:6px; border:1px solid #ddd; background:#f7f7f7; cursor:pointer;
+}
+.acc-controls button:focus, .acc-controls select:focus { outline:3px solid rgba(0,123,255,0.25); }
+
+/* compact labels */
+.acc-label { font-size:0.875rem; display:block; margin-bottom:6px; }
+
+/* draggable handle visual */
+.acc-header .handle { width:10px; height:10px; border-radius:2px; background:transparent; }
+
+@media (prefers-reduced-motion: reduce) {
+  .acc-btn, .acc-panel { transition: none !important; }
+}
+
+/* High contrast modes override site background and colors */
+/* High-contrast overlay: keep school background image but add a colored overlay above it */
+.acc-high-contrast-dark #site-overlay {
+  background-color: rgba(0,0,0,0.88) !important;
+  backdrop-filter: none !important;
+}
+.acc-high-contrast-light #site-overlay {
+  background-color: rgba(255,255,255,0.94) !important;
+  backdrop-filter: none !important;
+}
+
+/* Text color override (applies globally when enabled). Keep high specificity and !important so most site rules are overridden. */
+body.acc-text-override, body.acc-text-override * {
+  color: var(--acc-text-color) !important;
+}
+
+/* If needed, slightly increase contrast of images when dark mode is on */
+.acc-high-contrast-dark #site-bg img, .acc-high-contrast-dark #site-bg picture { filter: brightness(0.95) contrast(1.05) !important; }
+
+/* Create a blurred background layer while keeping the original image visible
+   Uses a pseudo-element so the main content and overlay can sit above it. */
+#site-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+#site-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  /* copy the background properties from the container; ensure it covers */
+  background-image: inherit;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  filter: blur(8px) brightness(0.9) saturate(0.9);
+  transform: scale(1.03);
+  z-index: 0; /* below overlay (1) and content (2) */
+  pointer-events: none;
+}
+
+/* Ensure overlay sits above the blurred pseudo-element */
+#site-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-color: transparent;
+}
+
+/* Ensure main content is above overlay */
+.site-content, main[role="main"], .container.site-content {
+  position: relative;
+  z-index: 2;
+}
+
+/* Provide a helper class to increase/decrease blur if the user wants stronger effect */
+.acc-blur-strong #site-bg::before { filter: blur(12px) brightness(0.88) saturate(0.9); transform: scale(1.05); }
+.acc-blur-medium #site-bg::before { filter: blur(8px) brightness(0.92) saturate(0.95); transform: scale(1.03); }
+.acc-blur-light #site-bg::before { filter: blur(4px) brightness(0.96) saturate(1); transform: scale(1.01); }
+
+

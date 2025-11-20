@@ -1,0 +1,228 @@
+@model IEnumerable<Proyecto.Models.Curso>
+@{
+    ViewData["Title"] = "Gestión de Cursos";
+}
+
+<div class="container mx-auto p-4 sm:p-6 lg:p-8">
+    <!-- Encabezado y botón de acción -->
+    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">Gestión de Cursos</h1>
+            <p class="mt-1 text-gray-600">Administra los cursos, asigna grados y horarios.</p>
+        </div>
+        <div class="flex items-center space-x-2 mt-4 sm:mt-0">
+            <a asp-action="Dashboard"
+                class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-25 transition ease-in-out duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-400" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                </svg>
+                Dashboard
+            </a>
+            <a asp-action="RegisterCurso"
+                class="inline-flex items-center px-4 py-2 bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 active:bg-indigo-900 disabled:opacity-25 transition ease-in-out duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                Crear Curso
+            </a>
+        </div>
+    </div>
+
+    <!-- Contenedor para Alertas Dinámicas -->
+    <div id="alert-container" class="fixed top-20 right-5 z-50 space-y-2"></div>
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="mb-4 px-4 py-3 bg-red-100 border border-red-400 text-red-700 rounded relative" role="alert">
+            <span class="block sm:inline">@TempData["Error"]</span>
+        </div>
+    }
+    @if (TempData["Success"] != null)
+    {
+        <div class="mb-4 px-4 py-3 bg-green-100 border border-green-400 text-green-700 rounded relative" role="alert">
+            <span class="block sm:inline">@TempData["Success"]</span>
+        </div>
+    }
+
+
+    <!-- Tabla de Cursos -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm text-left text-gray-500">
+                <thead class="bg-gray-50 text-xs text-gray-700 uppercase">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Nombre del Curso</th>
+                        <th scope="col" class="px-6 py-3">Aula</th>
+                        <th scope="col" class="px-6 py-3">Grado</th>
+                        <th scope="col" class="px-6 py-3">Horario</th>
+                        <th scope="col" class="px-6 py-3 text-center">Estudiantes</th>
+                        <th scope="col" class="px-6 py-3 text-center">Docentes</th>
+                        <th scope="col" class="px-6 py-3 text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var curso in Model)
+                    {
+                        <tr class="bg-white border-b hover:bg-gray-50">
+                            <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                                @curso.Nombre
+                            </td>
+                            <td class="px-6 py-4">
+                                @curso.aula
+                            </td>
+                            <td class="px-6 py-4">
+                                @curso.Grado
+                            </td>
+                            <td class="px-6 py-4">
+                                @curso.HorarioInicio.ToString("hh\\:mm") - @curso.HorarioFin.ToString("hh\\:mm")
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span
+                                    class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@curso.estudiante_Curso.Count()</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span
+                                    class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@curso.Docentes.Count()</span>
+                            </td>
+                            <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                                <a asp-action="ActualizarCurso" asp-route-id="@curso.IdCurso"
+                                    class="font-medium text-indigo-600 hover:underline">Editar</a>
+                                <a asp-action="DetalleCurso" asp-route-id="@curso.IdCurso"
+                                    class="font-medium text-green-600 hover:underline">Detalles</a>
+                                <button data-id="@curso.IdCurso"
+                                    class="font-medium text-red-600 hover:underline delete-button">Eliminar</button>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal de Confirmación de Eliminación -->
+<div id="delete-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+    <div class="relative top-20 mx-auto p-5 border w-full max-w-md shadow-lg rounded-md bg-white">
+        <div class="mt-3 text-center">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
+                <svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="2" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+                </svg>
+            </div>
+            <h3 class="text-lg leading-6 font-medium text-gray-900 mt-4">Eliminar Curso</h3>
+            <div class="mt-2 px-7 py-3">
+                <p class="text-sm text-gray-500">
+                    ¿Estás seguro de que quieres eliminar este curso? Esta acción no se puede deshacer.
+                </p>
+            </div>
+            <div class="items-center px-4 py-3 space-x-4">
+                <button id="cancel-delete-btn"
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
+                    Cancelar
+                </button>
+                <button id="confirm-delete-btn"
+                    class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                    Eliminar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const deleteModal = document.getElementById('delete-modal');
+            const confirmDeleteBtn = document.getElementById('confirm-delete-btn');
+            const cancelDeleteBtn = document.getElementById('cancel-delete-btn');
+            const deleteButtons = document.querySelectorAll('.delete-button');
+            let cursoIdToDelete = null;
+            let rowToDelete = null;
+
+            // Mostrar la modal al hacer clic en cualquier botón de eliminar
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    cursoIdToDelete = this.getAttribute('data-id');
+                    rowToDelete = this.closest('tr');
+                    deleteModal.classList.remove('hidden');
+                });
+            });
+
+            // Ocultar la modal al hacer clic en "Cancelar"
+            cancelDeleteBtn.addEventListener('click', function () {
+                deleteModal.classList.add('hidden');
+                cursoIdToDelete = null;
+                rowToDelete = null;
+            });
+
+            // Cerrar modal al hacer clic fuera de ella
+            deleteModal.addEventListener('click', function (event) {
+                if (event.target === deleteModal) {
+                    deleteModal.classList.add('hidden');
+                    cursoIdToDelete = null;
+                    rowToDelete = null;
+                }
+            });
+
+            // Procesar la eliminación al hacer clic en "Eliminar"
+            confirmDeleteBtn.addEventListener('click', function () {
+                if (cursoIdToDelete) {
+                    const url = `@Url.Action("EliminarCurso")/${cursoIdToDelete}`;
+                    const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+                    fetch(url, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'RequestVerificationToken': token
+                        }
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            showAlert(data.message, data.success);
+                            if (data.success && rowToDelete) {
+                                rowToDelete.remove();
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            showAlert('Ocurrió un error al intentar eliminar el curso.', false);
+                        })
+                        .finally(() => {
+                            deleteModal.classList.add('hidden');
+                            cursoIdToDelete = null;
+                            rowToDelete = null;
+                        });
+                }
+            });
+
+            // Función para mostrar alertas dinámicas (toasts)
+            function showAlert(message, isSuccess) {
+                const alertContainer = document.getElementById('alert-container');
+                const alertDiv = document.createElement('div');
+                const bgColor = isSuccess ? 'bg-green-100 border-green-400 text-green-700' : 'bg-red-100 border-red-400 text-red-700';
+
+                alertDiv.className = `px-4 py-3 rounded relative border ${bgColor}`;
+                alertDiv.setAttribute('role', 'alert');
+                alertDiv.innerHTML = `<span class="block sm:inline">${message}</span>`;
+
+                alertContainer.appendChild(alertDiv);
+
+                setTimeout(() => {
+                    alertDiv.remove();
+                }, 5000);
+            }
+        });
+    </script>
+}
+
+<form>
+    @Html.AntiForgeryToken()
+</form>

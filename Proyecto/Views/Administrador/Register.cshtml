@@ -1,0 +1,288 @@
+﻿@model Proyecto.ViewModels.NewRegisterTypeUserVM
+@using Proyecto.shared
+@{
+    ViewData["Title"] = "Registro de Usuario";
+}
+
+<div class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-3xl bg-white rounded-xl shadow-2xl p-8 space-y-6">
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Crear Nueva Cuenta</h2>
+            <p class="text-gray-500 mt-2">Selecciona un tipo de usuario y completa los campos requeridos.</p>
+        </div>
+
+        <form method="post" asp-action="Register" id="registerForm" class="space-y-6">
+
+            <!-- Selector de Tipo de Usuario -->
+            <div>
+                <label for="userType" class="block text-sm font-medium text-gray-700 mb-1">Tipo de Usuario</label>
+                <select id="userType" asp-for="tipo"
+                    class="block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="">Seleccione un rol...</option>
+                    <option value="@TypesRegister.Tutor">Tutor</option>
+                    <option value="@TypesRegister.Estudiante">Estudiante</option>
+                    <option value="@TypesRegister.Docente">Docente</option>
+                    <option value="@TypesRegister.Administrador">Administrador</option>
+                </select>
+            </div>
+
+            <!-- Campos Comunes -->
+            <div class="border-t border-gray-200 pt-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Información Personal</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div>
+                        <label asp-for="User.UserName" class="block text-sm font-medium text-gray-700">Nombre</label>
+                        <input asp-for="User.UserName"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            required />
+                    </div>
+                    <div>
+                        <label asp-for="User.Apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
+                        <input asp-for="User.Apellido"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            required />
+                    </div>
+                    <div>
+                        <label asp-for="User.Dni" class="block text-sm font-medium text-gray-700">DNI</label>
+                        <input asp-for="User.Dni"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            required />
+                    </div>
+                    <div>
+                        <label asp-for="User.Email" class="block text-sm font-medium text-gray-700">Email</label>
+                        <input asp-for="User.Email" type="email"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            required />
+                    </div>
+                    <div>
+                        <label asp-for="User.PhoneNumber"
+                            class="block text-sm font-medium text-gray-700">Teléfono</label>
+                        <input asp-for="User.PhoneNumber"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                            required />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campo Grado (compartido) -->
+            <div id="gradoSection" style="display:none;" class="border-t border-gray-200 pt-6">
+                <label asp-for="estudiante.Grado" class="block text-sm font-medium text-gray-700">Grado
+                    Académico</label>
+                <select asp-for="estudiante.Grado"
+                    class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                    <option value="">Seleccione un grado...</option>
+                    <option value="@Grados.Primero">@Grados.Primero</option>
+                    <option value="@Grados.Segundo">@Grados.Segundo</option>
+                    <option value="@Grados.Tercero">@Grados.Tercero</option>
+                    <option value="@Grados.Cuarto">@Grados.Cuarto</option>
+                    <option value="@Grados.Quinto">@Grados.Quinto</option>
+                </select>
+            </div>
+
+            <!-- Sección Tutor -->
+            <div id="tutorSection" style="display:none;" class="border-t border-gray-200 pt-6 space-y-4">
+                <h3 class="text-lg font-semibold text-gray-900">Registrar Hija a Cargo</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                        <label asp-for="estudiante.user.UserName" class="block text-sm font-medium text-gray-700">Nombre
+                            de la hija</label>
+                        <input asp-for="estudiante.user.UserName"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    </div>
+                    <div>
+                        <label asp-for="estudiante.user.Apellido"
+                            class="block text-sm font-medium text-gray-700">Apellido de la hija</label>
+                        <input asp-for="estudiante.user.Apellido"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    </div>
+                    <div>
+                        <label asp-for="estudiante.user.Dni" class="block text-sm font-medium text-gray-700">DNI de la
+                            hija</label>
+                        <input asp-for="estudiante.user.Dni"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección Estudiante -->
+            <div id="estudianteSection" style="display:none;" class="border-t border-gray-200 pt-6 space-y-4">
+                <h3 class="text-lg font-semibold text-gray-900">Asignar Tutor</h3>
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="tutorOption" value="existente" checked onchange="toggleTutorFields()"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                        <span class="ml-2 text-sm text-gray-700">Seleccionar tutor existente</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="tutorOption" value="nuevo" onchange="toggleTutorFields()"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                        <span class="ml-2 text-sm text-gray-700">Registrar nuevo tutor</span>
+                    </label>
+                </div>
+                <div id="buscarTutor">
+                    <select asp-for="estudiante.TutorId" id="IdTutor"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Seleccione un tutor...</option>
+                        @if (Model.tutores != null)
+                        {
+                            @foreach (var tutor in Model.tutores)
+                            {
+                                <option value="@tutor.IdTutor">@tutor.user.UserName @tutor.user.Apellido</option>
+                            }
+                        }
+                    </select>
+                </div>
+                <div id="nuevoTutor" style="display:none;" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input asp-for="tutor.user.UserName" placeholder="Nombre del tutor"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    <input asp-for="tutor.user.Apellido" placeholder="Apellido del tutor"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    <input asp-for="tutor.user.Dni" placeholder="DNI del tutor"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    <input asp-for="tutor.user.PhoneNumber" placeholder="Teléfono del tutor"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    <input asp-for="tutor.direccion" placeholder="Dirección del tutor"
+                        class="md:col-span-2 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                </div>
+            </div>
+
+            <!-- Sección Docente -->
+            <div id="docenteSection" style="display:none;" class="border-t border-gray-200 pt-6 space-y-4">
+                <h3 class="text-lg font-semibold text-gray-900">Asignar Curso</h3>
+
+                <div class="flex items-center space-x-4">
+                    <label class="flex items-center">
+                        <input type="radio" name="cursoOption" value="existente" checked onchange="toggleNuevoCurso()"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                        <span class="ml-2 text-sm text-gray-700">Seleccionar curso existente</span>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="radio" name="cursoOption" value="nuevo" onchange="toggleNuevoCurso()"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500" />
+                        <span class="ml-2 text-sm text-gray-700">Registrar nuevo curso</span>
+                    </label>
+                </div>
+
+                <div id="buscarCurso">
+                    <label class="block text-sm font-medium text-gray-700">Curso</label>
+                    <select asp-for="curso.IdCurso"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Seleccione un curso...</option>
+                        @if (Model.cursos != null)
+                        {
+                            @foreach (var curso in Model.cursos)
+                            {
+                                <option value="@curso.IdCurso">@curso.Nombre - @curso.Grado</option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div id="nuevoCurso" style="display:none;"
+                    class="p-4 bg-gray-50 rounded-lg border border-gray-200 grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input asp-for="curso.Nombre" placeholder="Nombre del curso"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    <input asp-for="curso.aula" placeholder="Aula"
+                        class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500">Hora Inicio</label>
+                        <input asp-for="curso.HorarioInicio" type="time"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-medium text-gray-500">Hora Fin</label>
+                        <input asp-for="curso.HorarioFin" type="time"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
+                    </div>
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-medium text-gray-500">Grado del Curso</label>
+                        <select asp-for="curso.Grado"
+                            class="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                            <option value="">Seleccione un grado...</option>
+                            <option value="@Grados.Primero">@Grados.Primero</option>
+                            <option value="@Grados.Segundo">@Grados.Segundo</option>
+                            <option value="@Grados.Tercero">@Grados.Tercero</option>
+                            <option value="@Grados.Cuarto">@Grados.Cuarto</option>
+                            <option value="@Grados.Quinto">@Grados.Quinto</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botón de Envío -->
+            <div class="pt-6">
+                <button type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-transform transform hover:scale-105">
+                    Registrar Usuario
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function setInputsDisabled(sectionId, disabled) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const inputs = section.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    input.disabled = disabled;
+                    // Opcional: Añadir/quitar clases para un feedback visual de deshabilitado
+                    if (disabled) {
+                        input.classList.add('bg-gray-100', 'cursor-not-allowed');
+                    } else {
+                        input.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                    }
+                });
+            }
+        }
+
+        document.getElementById('userType').addEventListener('change', function () {
+            const userType = this.value;
+
+            const isTutor = userType === '@TypesRegister.Tutor';
+            const isEstudiante = userType === '@TypesRegister.Estudiante';
+            const isDocente = userType === '@TypesRegister.Docente';
+
+            // Control de visibilidad y estado de las secciones
+            document.getElementById('tutorSection').style.display = isTutor ? '' : 'none';
+            setInputsDisabled('tutorSection', !isTutor);
+
+            document.getElementById('estudianteSection').style.display = isEstudiante ? '' : 'none';
+            setInputsDisabled('estudianteSection', !isEstudiante);
+
+            document.getElementById('docenteSection').style.display = isDocente ? '' : 'none';
+            setInputsDisabled('docenteSection', !isDocente);
+
+            // Control de la sección Grado compartida
+            const showGrado = isTutor || isEstudiante;
+            document.getElementById('gradoSection').style.display = showGrado ? '' : 'none';
+            setInputsDisabled('gradoSection', !showGrado);
+
+            // Reiniciar estados de sub-secciones al cambiar de tipo de usuario
+            if (isEstudiante) toggleTutorFields();
+            if (isDocente) toggleNuevoCurso();
+        });
+
+        function toggleTutorFields() {
+            var isNuevo = document.querySelector('input[name="tutorOption"]:checked').value === 'nuevo';
+            document.getElementById('buscarTutor').style.display = isNuevo ? 'none' : '';
+            setInputsDisabled('buscarTutor', isNuevo);
+            document.getElementById('nuevoTutor').style.display = isNuevo ? '' : 'none';
+            setInputsDisabled('nuevoTutor', !isNuevo);
+        }
+
+        function toggleNuevoCurso() {
+            var isNuevo = document.querySelector('input[name="cursoOption"]:checked').value === 'nuevo';
+            document.getElementById('buscarCurso').style.display = isNuevo ? 'none' : '';
+            setInputsDisabled('buscarCurso', isNuevo);
+            document.getElementById('nuevoCurso').style.display = isNuevo ? '' : 'none';
+            setInputsDisabled('nuevoCurso', !isNuevo);
+        }
+
+        // Llamada inicial para establecer el estado correcto al cargar la página
+        document.getElementById('userType').dispatchEvent(new Event('change'));
+    </script>
+}

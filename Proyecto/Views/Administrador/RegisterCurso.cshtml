@@ -1,0 +1,127 @@
+﻿@model Proyecto.ViewModels.NewCursoVM
+@using Proyecto.shared
+@{
+    ViewData["Title"] = "Registrar Curso";
+}
+
+<div class="min-h-screen flex items-center justify-center p-4">
+    <div class="w-full max-w-2xl bg-white rounded-xl shadow-2xl p-8 space-y-6">
+
+        <div class="text-center mb-8">
+            <h2 class="text-3xl font-bold text-gray-800">Registrar Nuevo Curso</h2>
+            <p class="text-gray-500 mt-2">Complete la información para crear un nuevo curso en el sistema.</p>
+        </div>
+
+        <form method="post" asp-action="RegisterCurso" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="md:col-span-2">
+                    <label asp-for="Curso.Nombre" class="block text-sm font-medium text-gray-700">Nombre del
+                        curso</label>
+                    <input asp-for="Curso.Nombre"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+                <div>
+                    <label asp-for="Curso.aula" class="block text-sm font-medium text-gray-700">Aula</label>
+                    <input asp-for="Curso.aula"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+                <div>
+                    <label asp-for="Curso.Grado" class="block text-sm font-medium text-gray-700">Grado</label>
+                    <select asp-for="Curso.Grado"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Seleccione un grado...</option>
+                        <option value="@Grados.Primero">@Grados.Primero</option>
+                        <option value="@Grados.Segundo">@Grados.Segundo</option>
+                        <option value="@Grados.Tercero">@Grados.Tercero</option>
+                        <option value="@Grados.Cuarto">@Grados.Cuarto</option>
+                        <option value="@Grados.Quinto">@Grados.Quinto</option>
+                    </select>
+                </div>
+                <div>
+                    <label asp-for="Curso.HorarioInicio" class="block text-sm font-medium text-gray-700">Horario
+                        Inicio</label>
+                    <input asp-for="Curso.HorarioInicio" type="time"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+                <div>
+                    <label asp-for="Curso.HorarioFin" class="block text-sm font-medium text-gray-700">Horario
+                        Fin</label>
+                    <input asp-for="Curso.HorarioFin" type="time"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                        required />
+                </div>
+            </div>
+
+            <div class="border-t border-gray-200 pt-6 space-y-4">
+                <div class="relative flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="asignarDocenteCheck" type="checkbox" onchange="toggleAsignarDocente()"
+                            class="h-4 w-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="asignarDocenteCheck" class="font-medium text-gray-700">Asignar un docente a este
+                            curso ahora</label>
+                    </div>
+                </div>
+
+                <div id="asignarDocenteSection" style="display:none;">
+                    <label class="block text-sm font-medium text-gray-700">Seleccionar docente</label>
+                    <select asp-for="DocenteId"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
+                        <option value="">Seleccione un docente...</option>
+                        @foreach (var docente in Model.Docentes)
+                        {
+                            <option value="@docente.IdDocente">@docente.user.UserName @docente.user.Apellido</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-6">
+                <button type="submit"
+                    class="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-transform transform hover:scale-105">
+                    Registrar Curso
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function setInputsDisabled(sectionId, disabled) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const inputs = section.querySelectorAll('input, select, textarea');
+                inputs.forEach(input => {
+                    input.disabled = disabled;
+                    if (disabled) {
+                        input.classList.add('bg-gray-100', 'cursor-not-allowed');
+                    } else {
+                        input.classList.remove('bg-gray-100', 'cursor-not-allowed');
+                    }
+                });
+            }
+        }
+
+        function toggleAsignarDocente() {
+            var check = document.getElementById('asignarDocenteCheck').checked;
+            var section = document.getElementById('asignarDocenteSection');
+            section.style.display = check ? '' : 'none';
+            setInputsDisabled('asignarDocenteSection', !check);
+        }
+
+        // Llamada inicial para establecer el estado correcto al cargar la página
+        toggleAsignarDocente();
+    </script>
+}
+
+
+       
+       
+               
+               
+           
