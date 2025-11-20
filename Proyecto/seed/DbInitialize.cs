@@ -14,7 +14,7 @@ public class DbInitialize : IDbInitialize
     public DbInitialize(AppDBContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
     {
         _context = context;
-        _userManager = userManager;
+        _userManager = userManager; 
         _roleManager = roleManager;
     }
     public void Initialize()
