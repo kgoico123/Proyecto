@@ -72,10 +72,10 @@ namespace Proyecto.Controllers
                 {
                     IdCurso = ec.Curso?.IdCurso ?? 0,
                     NombreCurso = ec.Curso?.Nombre ?? "Desconocido",
-                    Aula = ec.Curso?.aula,
+                    Aula = ec.Curso?.aula ?? string.Empty,
                     Horario = horario,
                     // Unir los nombres de los docentes asignados a ese curso
-                    NombreDocente = (docentesNombres != null && docentesNombres.Any())
+                    NombreDocente = (docentesNombres != null && docentesNombres.Count > 0)
                                     ? string.Join(", ", docentesNombres)
                                     : "No asignado",
                     PromedioAcumulado = ultimaCalificacion?.promedioAcumulado
@@ -123,14 +123,15 @@ namespace Proyecto.Controllers
                 .OrderByDescending(c => c.FechaCalificacion)
                 .FirstOrDefault();
 
+            var docentesList = estudianteCurso.Curso?.Docentes?.Select(d => d.user?.UserName).Where(n => !string.IsNullOrEmpty(n)).ToList();
             var viewModel = new EstudianteCalificacionesVM
             {
                 NombreCurso = estudianteCurso.Curso?.Nombre ?? "Desconocido",
-                NombreDocente = estudianteCurso.Curso?.Docentes != null && estudianteCurso.Curso.Docentes.Any()
-                                ? string.Join(", ", estudianteCurso.Curso.Docentes.Select(d => d.user?.UserName).Where(n => !string.IsNullOrEmpty(n)))
+                NombreDocente = (docentesList != null && docentesList.Count > 0)
+                                ? string.Join(", ", docentesList)
                                 : "No asignado",
                 Horario = estudianteCurso.Curso != null ? $"{estudianteCurso.Curso.HorarioInicio:hh\\:mm} - {estudianteCurso.Curso.HorarioFin:hh\\:mm}" : string.Empty,
-                Calificaciones = estudianteCurso.Calificaciones.OrderBy(c => c.FechaCalificacion).ToList(),
+                Calificaciones = (estudianteCurso.Calificaciones ?? Enumerable.Empty<Calificacion>()).OrderBy(c => c.FechaCalificacion).ToList(),
                 promedioAcumulado = ultimaCalificacion?.promedioAcumulado
             };
 
