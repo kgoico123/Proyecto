@@ -35,7 +35,9 @@ namespace TestProyecto
             var user = new ApplicationUser();
 
             // Assert
-            Assert.IsNull(user.Id);
+            // Identity's base `IdentityUser` may generate a non-null Id by default,
+            // so assert it's not null here while keeping other properties null.
+            Assert.IsNotNull(user.Id);
             Assert.IsNull(user.UserName);
             Assert.IsNull(user.Email);
             Assert.IsNull(user.Dni);
