@@ -17,16 +17,13 @@ namespace Proyecto.Areas.Identity.Pages.Account
     public class LoginWith2FaModel : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<LoginWith2FaModel> _logger;
 
         public LoginWith2FaModel(
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager,
             ILogger<LoginWith2FaModel> logger)
         {
             _signInManager = signInManager;
-            _userManager = userManager;
             _logger = logger;
         }
 
