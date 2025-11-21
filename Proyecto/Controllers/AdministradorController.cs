@@ -38,6 +38,13 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(NewRegisterTypeUserVM userVM)
         {
+            if (!ModelState.IsValid)
+            {
+                // Recargar los datos necesarios para la vista antes de devolverla
+                userVM.cursos = _context.Cursos.ToList();
+                userVM.tutores = _context.Tutores.Include(t => t.user).ToList();
+                return View(userVM);
+            }
             string tipo = userVM.tipo ?? string.Empty;
             Console.WriteLine("======================================== tipo ========================================");
             Console.WriteLine(tipo);
@@ -150,6 +157,12 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> RegisterCurso(NewCursoVM cursoVM)
         {
+            if (!ModelState.IsValid)
+            {
+                // Repoblar datos necesarios para la vista
+                cursoVM.Docentes = _context.Docentes.Include(u => u.user).ToList();
+                return View(cursoVM);
+            }
             _context.Cursos.Add(cursoVM.Curso);
             await _context.SaveChangesAsync();
 
@@ -260,6 +273,15 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> ActualizarCurso(NewCursoVM cursoVM)
         {
+            if (!ModelState.IsValid)
+            {
+                // Repoblar los docentes para el dropdown y devolver la vista
+                cursoVM.Docentes = await _context.Docentes
+                    .Where(d => d.CursoId == null)
+                    .Include(d => d.user)
+                    .ToListAsync();
+                return View(cursoVM);
+            }
             // Buscar el curso existente en la base de datos
             var cursoExist = await _context.Cursos.FindAsync(cursoVM.Curso.IdCurso);
             if (cursoExist == null)
@@ -402,6 +424,10 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EliminarUser(UserDetailVM user)
         {
+            if (!ModelState.IsValid)
+            {
+                return View("DetalleUsuario", user);
+            }
             if (string.IsNullOrEmpty(user.UserId))
             {
                 return NotFound();
@@ -452,6 +478,10 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DesvincularDocente([FromBody] DesvincularDocenteRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Solicitud inválida." });
+            }
             try
             {
                 var docente = await _context.Docentes
