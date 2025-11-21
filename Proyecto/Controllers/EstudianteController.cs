@@ -14,6 +14,8 @@ namespace Proyecto.Controllers
     [Authorize(Roles = VCG.Role_Estudiante)]
     public class EstudianteController : Controller
     {
+        private const string TempErrorKey = "ErrorMessage";
+
         private readonly AppDBContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -27,6 +29,10 @@ namespace Proyecto.Controllers
         {
             // 1. Obtener el usuario actual y su entidad Estudiante
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
             var estudiante = await _context.Estudiantes
                 .Include(e => e.user)
                 .Include(e => e.Estudiante_Cursos)
@@ -42,7 +48,7 @@ namespace Proyecto.Controllers
 
             var viewModel = new EstudianteDashboardVM
             {
-                NombreEstudiante = estudiante.user.UserName,
+                NombreEstudiante = estudiante.user?.UserName ?? "Estudiante",
                 Cursos = new List<CursoEstudianteVM>()
             };
 
@@ -55,15 +61,22 @@ namespace Proyecto.Controllers
                     .OrderByDescending(c => c.FechaCalificacion)
                     .FirstOrDefaultAsync();
 
+                var docentesNombres = ec.Curso?.Docentes?.Select(d => d.user?.UserName).Where(n => !string.IsNullOrEmpty(n)).ToList();
+                string horario = "";
+                if (ec.Curso != null)
+                {
+                    horario = $"{ec.Curso.HorarioInicio:hh\\:mm} - {ec.Curso.HorarioFin:hh\\:mm}";
+                }
+
                 var cursoVM = new CursoEstudianteVM
                 {
-                    IdCurso = ec.Curso.IdCurso,
-                    NombreCurso = ec.Curso.Nombre,
-                    Aula = ec.Curso.aula,
-                    Horario = $"{ec.Curso.HorarioInicio:hh\\:mm} - {ec.Curso.HorarioFin:hh\\:mm}",
+                    IdCurso = ec.Curso?.IdCurso ?? 0,
+                    NombreCurso = ec.Curso?.Nombre ?? "Desconocido",
+                    Aula = ec.Curso?.aula,
+                    Horario = horario,
                     // Unir los nombres de los docentes asignados a ese curso
-                    NombreDocente = ec.Curso.Docentes != null && ec.Curso.Docentes.Any()
-                                    ? string.Join(", ", ec.Curso.Docentes.Select(d => d.user.UserName))
+                    NombreDocente = (docentesNombres != null && docentesNombres.Any())
+                                    ? string.Join(", ", docentesNombres)
                                     : "No asignado",
                     PromedioAcumulado = ultimaCalificacion?.promedioAcumulado
                 };
@@ -81,6 +94,10 @@ namespace Proyecto.Controllers
                 return BadRequest();
             }
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
             var estudiante = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UserId == user.Id);
 
             if (estudiante == null)
@@ -102,17 +119,17 @@ namespace Proyecto.Controllers
             }
 
             // Obtener la última calificación para el promedio
-            var ultimaCalificacion = estudianteCurso.Calificaciones
+            var ultimaCalificacion = (estudianteCurso.Calificaciones ?? Enumerable.Empty<Calificacion>())
                 .OrderByDescending(c => c.FechaCalificacion)
                 .FirstOrDefault();
 
             var viewModel = new EstudianteCalificacionesVM
             {
-                NombreCurso = estudianteCurso.Curso.Nombre,
-                NombreDocente = estudianteCurso.Curso.Docentes != null && estudianteCurso.Curso.Docentes.Any()
-                                ? string.Join(", ", estudianteCurso.Curso.Docentes.Select(d => d.user.UserName))
+                NombreCurso = estudianteCurso.Curso?.Nombre ?? "Desconocido",
+                NombreDocente = estudianteCurso.Curso?.Docentes != null && estudianteCurso.Curso.Docentes.Any()
+                                ? string.Join(", ", estudianteCurso.Curso.Docentes.Select(d => d.user?.UserName).Where(n => !string.IsNullOrEmpty(n)))
                                 : "No asignado",
-                Horario = $"{estudianteCurso.Curso.HorarioInicio:hh\\:mm} - {estudianteCurso.Curso.HorarioFin:hh\\:mm}",
+                Horario = estudianteCurso.Curso != null ? $"{estudianteCurso.Curso.HorarioInicio:hh\\:mm} - {estudianteCurso.Curso.HorarioFin:hh\\:mm}" : string.Empty,
                 Calificaciones = estudianteCurso.Calificaciones.OrderBy(c => c.FechaCalificacion).ToList(),
                 promedioAcumulado = ultimaCalificacion?.promedioAcumulado
             };
@@ -128,6 +145,10 @@ namespace Proyecto.Controllers
                 return BadRequest();
             }
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
             var estudiante = await _context.Estudiantes
                 .Include(e => e.Estudiante_Cursos)
                 .FirstOrDefaultAsync(e => e.UserId == user.Id);
@@ -138,7 +159,7 @@ namespace Proyecto.Controllers
             }
 
             // Obtener los IDs de los cursos en los que el estudiante ya está inscrito
-            var idsCursosInscritos = estudiante.Estudiante_Cursos.Select(ec => ec.CursoId).ToList();
+            var idsCursosInscritos = estudiante.Estudiante_Cursos?.Select(ec => ec.CursoId).ToList() ?? new List<int>();
 
             // Obtener todos los cursos disponibles para el grado del estudiante, excluyendo en los que ya está inscrito
             var cursosDisponibles = await _context.Cursos
@@ -159,15 +180,20 @@ namespace Proyecto.Controllers
         {
             if (!ModelState.IsValid)
             {
-                TempData["ErrorMessage"] = "Solicitud inválida.";
+                TempData[TempErrorKey] = "Solicitud inválida.";
                 return RedirectToAction(nameof(Cursos));
             }
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                TempData[TempErrorKey] = "No se pudo identificar al usuario.";
+                return RedirectToAction(nameof(Cursos));
+            }
             var estudiante = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UserId == user.Id);
 
             if (estudiante == null)
             {
-                TempData["ErrorMessage"] = "No se pudo encontrar tu perfil de estudiante.";
+                TempData[TempErrorKey] = "No se pudo encontrar tu perfil de estudiante.";
                 return RedirectToAction(nameof(Cursos));
             }
 
@@ -175,17 +201,17 @@ namespace Proyecto.Controllers
             var cursoAInscribir = await _context.Cursos.FindAsync(cursoId);
             if (cursoAInscribir == null || cursoAInscribir.Grado != estudiante.Grado)
             {
-                TempData["ErrorMessage"] = "El curso seleccionado no es válido o no corresponde a tu grado.";
+                TempData[TempErrorKey] = "El curso seleccionado no es válido o no corresponde a tu grado.";
                 return RedirectToAction(nameof(Cursos));
             }
 
             // Verificar si ya está inscrito
             var yaInscrito = await _context.Estudiantes_Cursos
-                .AnyAsync(ec => ec.IdEstudianteCurso == estudiante.IdEstudiante && ec.CursoId == cursoId);
+                .AnyAsync(ec => ec.EstudianteId == estudiante.IdEstudiante && ec.CursoId == cursoId);
 
             if (yaInscrito)
             {
-                TempData["ErrorMessage"] = "Ya te encuentras inscrito en este curso.";
+                TempData[TempErrorKey] = "Ya te encuentras inscrito en este curso.";
                 return RedirectToAction(nameof(Cursos));
             }
 
