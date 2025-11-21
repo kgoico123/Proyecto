@@ -53,6 +53,8 @@ namespace Proyecto.Areas.Identity.Pages.Account
 
         public void OnGet()
         {
+            // Intentionally left empty: this page renders a form that asks for the user's email
+            // to resend confirmation; no pre-population is required on GET.
         }
 
         public async Task<IActionResult> OnPostAsync()

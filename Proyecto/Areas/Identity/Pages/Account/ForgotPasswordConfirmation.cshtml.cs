@@ -20,6 +20,9 @@ namespace Proyecto.Areas.Identity.Pages.Account
         /// </summary>
         public void OnGet()
         {
+            // Intentionally left empty: this page only displays a confirmation message
+            // after the forgot-password flow and requires no server-side logic.
+            // The method exists to satisfy the Razor Pages handler convention.
         }
     }
 }

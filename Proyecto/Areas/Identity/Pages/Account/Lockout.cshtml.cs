@@ -20,6 +20,8 @@ namespace Proyecto.Areas.Identity.Pages.Account
         /// </summary>
         public void OnGet()
         {
+            // Intentionally left empty: this page renders a static "locked out" message.
+            // No server-side initialization is required; handler present for Razor Pages flow.
         }
     }
 }

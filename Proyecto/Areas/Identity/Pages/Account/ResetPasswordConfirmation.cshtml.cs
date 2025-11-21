@@ -20,6 +20,8 @@ namespace Proyecto.Areas.Identity.Pages.Account
         /// </summary>
         public void OnGet()
         {
+            // Intentionally left empty: this page displays a confirmation that the password
+            // reset was successful. No server-side processing is necessary on GET.
         }
     }
 }
