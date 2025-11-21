@@ -38,103 +38,57 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> Register(NewRegisterTypeUserVM userVM)
         {
+            if (userVM == null)
+            {
+                return BadRequest();
+            }
+
             if (!ModelState.IsValid)
             {
                 // Recargar los datos necesarios para la vista antes de devolverla
-                userVM.cursos = _context.Cursos.ToList();
-                userVM.tutores = _context.Tutores.Include(t => t.user).ToList();
+                userVM.cursos = await _context.Cursos.ToListAsync();
+                userVM.tutores = await _context.Tutores.Include(t => t.user).ToListAsync();
                 return View(userVM);
             }
-            string tipo = userVM.tipo ?? string.Empty;
-            Console.WriteLine("======================================== tipo ========================================");
-            Console.WriteLine(tipo);
 
+            var tipo = userVM.tipo ?? string.Empty;
 
-            var result = await _userManager.CreateAsync(userVM.User, userVM.User.Dni);
-            if (!result.Succeeded)
+            if (userVM.User == null)
             {
-                Console.WriteLine("======================================== error ========================================");
-                // si hay errores los imprimimos
-                foreach (var error in result.Errors)
-                {
-                    Console.WriteLine(error.Description);
-                }
-                ViewBag.Error = string.Join(", ", result.Errors.Select(e => e.Description));
-                // Recargar los datos necesarios para la vista
-                userVM.cursos = _context.Cursos.ToList();
-                userVM.tutores = _context.Tutores.Include(t => t.user).ToList();
-                return View(userVM); // Pasar el modelo de vuelta a la vista
+                ModelState.AddModelError(string.Empty, "User data is required.");
+                userVM.cursos = await _context.Cursos.ToListAsync();
+                userVM.tutores = await _context.Tutores.Include(t => t.user).ToListAsync();
+                return View(userVM);
             }
 
+            // Ensure password is present (use DNI if provided, otherwise a generated temp password)
+            var password = string.IsNullOrEmpty(userVM.User.Dni) ? GenerateTemporaryPassword() : userVM.User.Dni;
+
+            var result = await _userManager.CreateAsync(userVM.User, password);
+            if (!result.Succeeded)
+            {
+                ViewBag.Error = string.Join(", ", result.Errors.Select(e => e.Description));
+                userVM.cursos = await _context.Cursos.ToListAsync();
+                userVM.tutores = await _context.Tutores.Include(t => t.user).ToListAsync();
+                return View(userVM);
+            }
+
+            // Delegate role-specific work to helpers to reduce method complexity
             if (tipo == TypesRegister.Tutor)
             {
-                await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Tutor);
-                var tutor = new Tutor
-                {
-                    UserId = userVM.User.Id,
-                    direccion = "" // Puedes agregar campo en el formulario si lo necesitas
-                };
-                _context.Tutores.Add(tutor);
-                await _context.SaveChangesAsync();
-
-                // Registrar hija si se ingresó
-                if (!string.IsNullOrEmpty(userVM.estudiante.user.UserName))
-                {
-                    await _userManager.CreateAsync(userVM.estudiante.user, userVM.estudiante.user.Dni); // Contraseña temporal
-                    var estudiante = new Estudiante
-                    {
-                        UserId = userVM.estudiante.user.Id,
-                        TutorId = tutor.IdTutor,
-                        Grado = userVM.estudiante.Grado
-                    };
-                    _context.Estudiantes.Add(estudiante);
-                    await _context.SaveChangesAsync();
-                }
+                await HandleTutorRegistrationAsync(userVM);
             }
             else if (tipo == TypesRegister.Estudiante)
             {
-                await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Estudiante);
-                if (userVM.estudiante.TutorId <= 0 && !string.IsNullOrEmpty(userVM.tutor.user.UserName))
-                {
-                    await _userManager.CreateAsync(userVM.tutor.user, userVM.tutor.user.Dni); // Contraseña temporal
-                    await _userManager.AddToRoleAsync(userVM.tutor.user, VCG.Role_Tutor);
-                    Console.WriteLine("================================================================================");
-                    Console.WriteLine($"user id: {userVM.tutor.user.Id}");
-                    userVM.tutor.UserId = userVM.tutor.user.Id;
-                    _context.Tutores.Add(userVM.tutor);
-                    await _context.SaveChangesAsync();
-                    userVM.estudiante.TutorId = userVM.tutor.IdTutor;
-                }
-                Console.WriteLine($"id final del tutor: {userVM.estudiante.TutorId}");
-                userVM.estudiante.UserId = userVM.User.Id;
-
-                _context.Estudiantes.Add(userVM.estudiante);
-                await _context.SaveChangesAsync();
+                await HandleEstudianteRegistrationAsync(userVM);
             }
             else if (tipo == TypesRegister.Docente)
             {
-                await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Docente);
-                if (!string.IsNullOrEmpty(userVM.curso.Nombre))
-                {
-                    _context.Cursos.Add(userVM.curso);
-                    await _context.SaveChangesAsync();
-                }
-                else if (userVM.curso.IdCurso > 0)
-                {
-                    userVM.curso = _context.Cursos.FirstOrDefault(c => c.IdCurso == userVM.curso.IdCurso);
-                }
-                var docente = new Docente
-                {
-                    UserId = userVM.User.Id,
-                    Curso = userVM.curso
-                };
-                _context.Docentes.Add(docente);
-                await _context.SaveChangesAsync();
+                await HandleDocenteRegistrationAsync(userVM);
             }
             else if (tipo == TypesRegister.Administrador)
             {
                 await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Admin);
-                // Puedes agregar lógica adicional si tienes tabla Administrador
             }
 
             return RedirectToAction("Dashboard");
@@ -509,10 +463,109 @@ namespace Proyecto.Controllers
                     docenteNombre = $"{docente.user.UserName} {docente.user.Apellido}"
                 });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return Json(new { success = false, message = "Error interno del servidor." });
             }
         }
+
+        #region Registration helpers
+
+        private static string GenerateTemporaryPassword()
+        {
+            // Minimal temporary password generator (adjust rules as needed)
+            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
+            var random = new System.Random();
+            return new string(Enumerable.Range(0, 12).Select(_ => chars[random.Next(chars.Length)]).ToArray());
+        }
+
+        private async Task HandleTutorRegistrationAsync(NewRegisterTypeUserVM userVM)
+        {
+            await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Tutor);
+
+            var tutor = new Tutor
+            {
+                UserId = userVM.User.Id,
+                direccion = string.Empty
+            };
+            _context.Tutores.Add(tutor);
+            await _context.SaveChangesAsync();
+
+            // If estudiante data provided, create child user and estudiante record
+            if (userVM?.estudiante?.user != null && !string.IsNullOrEmpty(userVM.estudiante.user.UserName))
+            {
+                var estudianteUser = userVM.estudiante.user;
+                var estudiantePassword = string.IsNullOrEmpty(estudianteUser.Dni) ? GenerateTemporaryPassword() : estudianteUser.Dni;
+                var createRes = await _userManager.CreateAsync(estudianteUser, estudiantePassword);
+                if (createRes.Succeeded)
+                {
+                    var estudiante = new Estudiante
+                    {
+                        UserId = estudianteUser.Id,
+                        TutorId = tutor.IdTutor,
+                        Grado = userVM.estudiante.Grado
+                    };
+                    _context.Estudiantes.Add(estudiante);
+                    await _context.SaveChangesAsync();
+                }
+            }
+        }
+
+        private async Task HandleEstudianteRegistrationAsync(NewRegisterTypeUserVM userVM)
+        {
+            await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Estudiante);
+
+            // If tutor info provided and no TutorId, create tutor user & record
+            if (userVM.estudiante != null && userVM.estudiante.TutorId <= 0 && userVM.tutor?.user != null && !string.IsNullOrEmpty(userVM.tutor.user.UserName))
+            {
+                var tutorUser = userVM.tutor.user;
+                var tutorPassword = string.IsNullOrEmpty(tutorUser.Dni) ? GenerateTemporaryPassword() : tutorUser.Dni;
+                var createTutor = await _userManager.CreateAsync(tutorUser, tutorPassword);
+                if (createTutor.Succeeded)
+                {
+                    await _userManager.AddToRoleAsync(tutorUser, VCG.Role_Tutor);
+                    userVM.tutor.UserId = tutorUser.Id;
+                    _context.Tutores.Add(userVM.tutor);
+                    await _context.SaveChangesAsync();
+                    userVM.estudiante.TutorId = userVM.tutor.IdTutor;
+                }
+            }
+
+            // Create estudiante record
+            if (userVM.estudiante != null)
+            {
+                userVM.estudiante.UserId = userVM.User.Id;
+                _context.Estudiantes.Add(userVM.estudiante);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        private async Task HandleDocenteRegistrationAsync(NewRegisterTypeUserVM userVM)
+        {
+            await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Docente);
+
+            if (userVM.curso != null)
+            {
+                if (!string.IsNullOrEmpty(userVM.curso.Nombre))
+                {
+                    _context.Cursos.Add(userVM.curso);
+                    await _context.SaveChangesAsync();
+                }
+                else if (userVM.curso.IdCurso > 0)
+                {
+                    userVM.curso = await _context.Cursos.FirstOrDefaultAsync(c => c.IdCurso == userVM.curso.IdCurso);
+                }
+
+                var docente = new Docente
+                {
+                    UserId = userVM.User.Id,
+                    Curso = userVM.curso
+                };
+                _context.Docentes.Add(docente);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        #endregion
     }
 }
