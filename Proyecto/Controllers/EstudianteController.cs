@@ -76,6 +76,10 @@ namespace Proyecto.Controllers
         [HttpGet]
         public async Task<IActionResult> Calificaciones(int cursoId)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.GetUserAsync(User);
             var estudiante = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UserId == user.Id);
 
@@ -119,6 +123,10 @@ namespace Proyecto.Controllers
         [HttpGet]
         public async Task<IActionResult> Cursos()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.GetUserAsync(User);
             var estudiante = await _context.Estudiantes
                 .Include(e => e.Estudiante_Cursos)
@@ -149,6 +157,11 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Cursos(int cursoId)
         {
+            if (!ModelState.IsValid)
+            {
+                TempData["ErrorMessage"] = "Solicitud inválida.";
+                return RedirectToAction(nameof(Cursos));
+            }
             var user = await _userManager.GetUserAsync(User);
             var estudiante = await _context.Estudiantes.FirstOrDefaultAsync(e => e.UserId == user.Id);
 

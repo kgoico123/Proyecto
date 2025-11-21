@@ -40,7 +40,11 @@ namespace Proyecto.Controllers
         // Notificaciones: muestra las notificaciones del estudiante seleccionado
         public async Task<IActionResult> Notificaciones(int estudianteId)
         {
-            var estudiante = await _context.Estudiantes
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+                var estudiante = await _context.Estudiantes
                 .Include(e => e.user)
                 .Include(e => e.Estudiante_Cursos)
                 .FirstOrDefaultAsync(e => e.IdEstudiante == estudianteId);
@@ -60,7 +64,12 @@ namespace Proyecto.Controllers
 
         public async Task<IActionResult> LeerNotificacion(int notificacionId)
         {
-            var notificacion = await _context.Notificaciones.FirstOrDefaultAsync(n => n.IdNotificacion == notificacionId);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
+
+                var notificacion = await _context.Notificaciones.FirstOrDefaultAsync(n => n.IdNotificacion == notificacionId);
 
             if (notificacion == null)
             {
@@ -74,7 +83,8 @@ namespace Proyecto.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            ViewBag.UrlAnterior = Request.Headers["Referer"].ToString();
+            var referer = Request.Headers.ContainsKey("Referer") ? Request.Headers["Referer"].ToString() : null;
+            ViewBag.UrlAnterior = referer;
 
             return View(notificacion);
         }
@@ -82,6 +92,10 @@ namespace Proyecto.Controllers
         // Conducta: muestra las conductas del estudiante seleccionado
         public async Task<IActionResult> Comportamiento(int estudianteId)
         {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
             var estudiante = await _context.Estudiantes
                 .Include(e => e.user)
                 .Include(e => e.Estudiante_Cursos)
@@ -106,6 +120,10 @@ namespace Proyecto.Controllers
         // Calificaciones: muestra las calificaciones del estudiante seleccionado
         public async Task<IActionResult> Calificaciones(int estudianteId)
         {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest();
+                }
             var estudiante = await _context.Estudiantes
                 .Include(e => e.user)
                 .Include(e => e.Estudiante_Cursos)

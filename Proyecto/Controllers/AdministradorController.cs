@@ -139,6 +139,10 @@ namespace Proyecto.Controllers
 
         public async Task<IActionResult> DetalleCurso(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var curso = await _context.Cursos
                 .Include(c => c.estudiante_Curso)
                 .Include(c => c.Docentes)
@@ -177,6 +181,10 @@ namespace Proyecto.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EliminarCurso(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return Json(new { success = false, message = "Solicitud inválida." });
+            }
             var curso = await _context.Cursos
                 .Include(c => c.estudiante_Curso)
                 .Include(c => c.Docentes)
@@ -201,6 +209,10 @@ namespace Proyecto.Controllers
 
         public async Task<IActionResult> ActualizarCurso(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var curso = await _context.Cursos
                 .Include(c => c.Docentes)
                 .ThenInclude(d => d.user)
@@ -277,6 +289,10 @@ namespace Proyecto.Controllers
 
         public async Task<IActionResult> DetalleUser(string id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
@@ -327,6 +343,10 @@ namespace Proyecto.Controllers
 
         public async Task<IActionResult> EliminarUser(string id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {

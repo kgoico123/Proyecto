@@ -43,6 +43,10 @@ namespace Proyecto.Controllers
         [HttpGet]
         public async Task<IActionResult> Calificaciones(int? horarioId = null, string? seccion = null)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.GetUserAsync(User);
             var docenteRes = await _context.Docentes
                 .Include(d => d.Curso)
@@ -95,6 +99,10 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> Calificaciones(DocenteCalificacionesVM data)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.GetUserAsync(User);
             var docente = await _context.Docentes
                 .Include(d => d.Curso)
@@ -172,6 +180,10 @@ namespace Proyecto.Controllers
         [HttpGet]
         public async Task<IActionResult> Conducta()
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             var user = await _userManager.GetUserAsync(User);
             var docente = await _context.Docentes
                 .Include(d => d.Curso)
@@ -201,6 +213,10 @@ namespace Proyecto.Controllers
         [HttpPost]
         public async Task<IActionResult> Conducta(DocenteConductaVM dataVm)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
             for (int i = 0; i < dataVm.AlumnosId.Count; i++)
             {
                 var estudianteCurso = await _context.Estudiantes_Cursos.FirstOrDefaultAsync(ec => ec.EstudianteId == dataVm.AlumnosId[i]);
