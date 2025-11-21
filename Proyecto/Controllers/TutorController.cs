@@ -62,7 +62,7 @@ namespace Proyecto.Controllers
             return View(responseVM);
         }
 
-        public async Task<IActionResult> LeerNotificacion(int notificacionId, [FromHeader(Name = "Referer")] string referer = null)
+        public async Task<IActionResult> LeerNotificacion(int notificacionId, [FromHeader(Name = "Referer")] string? referer = null)
         {
                 if (!ModelState.IsValid)
                 {
