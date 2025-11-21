@@ -492,7 +492,7 @@ namespace Proyecto.Controllers
             await _context.SaveChangesAsync();
 
             // If estudiante data provided, create child user and estudiante record
-            if (userVM?.estudiante?.user != null && !string.IsNullOrEmpty(userVM.estudiante.user.UserName))
+            if (!string.IsNullOrEmpty(userVM?.estudiante?.user?.UserName))
             {
                 var estudianteUser = userVM.estudiante.user;
                 var estudiantePassword = string.IsNullOrEmpty(estudianteUser.Dni) ? GenerateTemporaryPassword() : estudianteUser.Dni;
@@ -553,7 +553,11 @@ namespace Proyecto.Controllers
                 }
                 else if (userVM.curso.IdCurso > 0)
                 {
-                    userVM.curso = await _context.Cursos.FirstOrDefaultAsync(c => c.IdCurso == userVM.curso.IdCurso);
+                    var cursoFound = await _context.Cursos.FirstOrDefaultAsync(c => c.IdCurso == userVM.curso.IdCurso);
+                    if (cursoFound != null)
+                    {
+                        userVM.curso = cursoFound;
+                    }
                 }
 
                 var docente = new Docente
