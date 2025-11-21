@@ -62,7 +62,7 @@ namespace Proyecto.Controllers
             return View(responseVM);
         }
 
-        public async Task<IActionResult> LeerNotificacion(int notificacionId)
+        public async Task<IActionResult> LeerNotificacion(int notificacionId, [FromHeader(Name = "Referer")] string referer = null)
         {
                 if (!ModelState.IsValid)
                 {
@@ -83,8 +83,9 @@ namespace Proyecto.Controllers
                 await _context.SaveChangesAsync();
             }
 
-            var referer = Request.Headers.ContainsKey("Referer") ? Request.Headers["Referer"].ToString() : null;
-            ViewBag.UrlAnterior = referer;
+            // Prefer model binding for headers; fall back to typed headers if binding not provided.
+            var resolvedReferer = referer ?? Request.GetTypedHeaders().Referer?.ToString();
+            ViewBag.UrlAnterior = resolvedReferer;
 
             return View(notificacion);
         }
