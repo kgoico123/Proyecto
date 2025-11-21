@@ -16,8 +16,8 @@
         @if (Model.IsEmailConfirmed)
         {
             <div class="relative">
-                <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
-                <input asp-for="Email"
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700">Email actual</label>
+                <input asp-for="Email" id="EmailCurrent" 
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
                     disabled />
                 <div class="absolute inset-y-0 right-0 top-6 flex items-center pr-3 pointer-events-none">
@@ -28,8 +28,8 @@
         else
         {
             <div>
-                <label asp-for="Email" class="block text-sm font-medium text-gray-700"></label>
-                <input asp-for="Email"
+                <label asp-for="Email" class="block text-sm font-medium text-gray-700">Email actual</label>
+                <input asp-for="Email" id="EmailExisting"
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
                     disabled />
                 <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail"
@@ -40,8 +40,8 @@
         }
 
         <div>
-            <label asp-for="Input.NewEmail" class="block text-sm font-medium text-gray-700"></label>
-            <input asp-for="Input.NewEmail"
+            <label asp-for="Input.NewEmail" class="block text-sm font-medium text-gray-700">Nuevo email</label>
+            <input asp-for="Input.NewEmail" id="Input_NewEmail"
                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                 autocomplete="email" aria-required="true" placeholder="Ingrese el nuevo email." />
             <span asp-validation-for="Input.NewEmail" class="text-red-600 text-sm"></span>

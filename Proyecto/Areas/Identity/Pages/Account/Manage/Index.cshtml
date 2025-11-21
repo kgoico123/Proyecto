@@ -14,29 +14,29 @@
         <div asp-validation-summary="ModelOnly" class="text-red-600 text-sm" role="alert"></div>
 
         <div>
-            <label asp-for="Username" class="block text-sm font-medium text-gray-700"></label>
-            <input asp-for="Username"
+            <label asp-for="Username" class="block text-sm font-medium text-gray-700">Usuario</label>
+            <input asp-for="Username" id="Username" 
                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 cursor-not-allowed"
                 disabled />
         </div>
 
         <div>
-            <label asp-for="Input.Apellido" class="block text-sm font-medium text-gray-700"></label>
-            <input asp-for="Input.Apellido"
+            <label asp-for="Input.Apellido" class="block text-sm font-medium text-gray-700">Apellido</label>
+            <input asp-for="Input.Apellido" id="Input_Apellido"
                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
             <span asp-validation-for="Input.Apellido" class="text-red-600 text-sm"></span>
         </div>
 
         <div>
-            <label asp-for="Input.Dni" class="block text-sm font-medium text-gray-700"></label>
-            <input asp-for="Input.Dni"
+            <label asp-for="Input.Dni" class="block text-sm font-medium text-gray-700">DNI</label>
+            <input asp-for="Input.Dni" id="Input_Dni"
                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" />
             <span asp-validation-for="Input.Dni" class="text-red-600 text-sm"></span>
         </div>
 
         <div>
-            <label asp-for="Input.PhoneNumber" class="block text-sm font-medium text-gray-700"></label>
-            <input asp-for="Input.PhoneNumber"
+            <label asp-for="Input.PhoneNumber" class="block text-sm font-medium text-gray-700">Teléfono</label>
+            <input asp-for="Input.PhoneNumber" id="Input_PhoneNumber" type="tel"
                 class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                 placeholder="Ingrese su número de teléfono." />
             <span asp-validation-for="Input.PhoneNumber" class="text-red-600 text-sm"></span>
