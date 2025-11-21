@@ -24,12 +24,12 @@ namespace Proyecto.Controllers
         }
 
         // GET: /Administrador/Register
-        public IActionResult Register()
+        public async Task<IActionResult> Register()
         {
             NewRegisterTypeUserVM dataResponse = new NewRegisterTypeUserVM
             {
-                cursos = _context.Cursos.ToList(),
-                tutores = _context.Tutores.Include(t => t.user).ToList()
+                cursos = await _context.Cursos.ToListAsync(),
+                tutores = await _context.Tutores.Include(t => t.user).ToListAsync()
             };
             return View(dataResponse);
         }
@@ -96,13 +96,13 @@ namespace Proyecto.Controllers
 
         // GET: /Administrador/RegisterCurso
         [HttpGet]
-        public IActionResult RegisterCurso()
+        public async Task<IActionResult> RegisterCurso()
         {
             NewCursoVM cursoVM = new NewCursoVM()
             {
                 Curso = new Curso(),
                 DocenteId = 0,
-                Docentes = _context.Docentes.Include(u => u.user).ToList(),
+                Docentes = await _context.Docentes.Include(u => u.user).ToListAsync(),
             };
             return View(cursoVM);
         }
@@ -114,7 +114,7 @@ namespace Proyecto.Controllers
             if (!ModelState.IsValid)
             {
                 // Repoblar datos necesarios para la vista
-                cursoVM.Docentes = _context.Docentes.Include(u => u.user).ToList();
+                cursoVM.Docentes = await _context.Docentes.Include(u => u.user).ToListAsync();
                 return View(cursoVM);
             }
             _context.Cursos.Add(cursoVM.Curso);
