@@ -125,7 +125,7 @@ namespace Proyecto.Controllers
             if (cursoVM.DocenteId > 0)
             {
                 int docenteId = cursoVM.DocenteId;
-                var docente = _context.Docentes.FirstOrDefault(d => d.IdDocente == docenteId);
+                var docente = await _context.Docentes.FirstOrDefaultAsync(d => d.IdDocente == docenteId);
                 if (docente != null)
                 {
                     docente.Curso = cursoVM.Curso;

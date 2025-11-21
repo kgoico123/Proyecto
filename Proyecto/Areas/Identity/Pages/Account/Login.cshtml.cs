@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -84,7 +85,7 @@ namespace Proyecto.Areas.Identity.Pages.Account
                 return Page();
 
             // Buscar usuario por DNI
-            var user = _userManager.Users.FirstOrDefault(u => u.Dni == Input.Dni);
+            var user = await _userManager.Users.FirstOrDefaultAsync(u => u.Dni == Input.Dni);
 
             if (user == null)
             {

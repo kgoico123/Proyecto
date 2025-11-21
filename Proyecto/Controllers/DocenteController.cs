@@ -104,9 +104,9 @@ namespace Proyecto.Controllers
                 .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
             for (int i = 0; i < data.alumnosId.Count; i++)
             {
-                var estudianteCurso = _context.Estudiantes_Cursos
+                var estudianteCurso = await _context.Estudiantes_Cursos
                     .Where(ec => ec.EstudianteId == data.alumnosId[i] && ec.CursoId == docente.Curso.IdCurso)
-                    .ToList();
+                    .ToListAsync();
 
                 foreach (var ec in estudianteCurso)
                 {
@@ -114,10 +114,10 @@ namespace Proyecto.Controllers
                     if (estudianteCurso != null)
                     {
                         // Obtener todas las calificaciones anteriores de este estudiante en este curso
-                        var calificacionesAnteriores = _context.Calificaciones
+                        var calificacionesAnteriores = await _context.Calificaciones
                             .Where(c => c.estudiante_CursoId == ec.IdEstudianteCurso)
                             .OrderBy(c => c.FechaCalificacion)
-                            .ToList();
+                            .ToListAsync();
 
                         Console.WriteLine($"Calificaciones : {calificacionesAnteriores.Count}");
 
@@ -165,7 +165,7 @@ namespace Proyecto.Controllers
                 }
 
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("Dashboard", new { data.seccion });
         }
 
@@ -199,11 +199,11 @@ namespace Proyecto.Controllers
         }
 
         [HttpPost]
-        public IActionResult Conducta(DocenteConductaVM dataVm)
+        public async Task<IActionResult> Conducta(DocenteConductaVM dataVm)
         {
             for (int i = 0; i < dataVm.AlumnosId.Count; i++)
             {
-                var estudianteCurso = _context.Estudiantes_Cursos.FirstOrDefault(ec => ec.EstudianteId == dataVm.AlumnosId[i]);
+                var estudianteCurso = await _context.Estudiantes_Cursos.FirstOrDefaultAsync(ec => ec.EstudianteId == dataVm.AlumnosId[i]);
                 if (estudianteCurso != null && !string.IsNullOrWhiteSpace(dataVm.Conductas[i]))
                 {
                     var comportamiento = new Comportamiento
@@ -219,7 +219,7 @@ namespace Proyecto.Controllers
                     if (dataVm.Conductas[i].Trim().ToUpper() == "C" || dataVm.Conductas[i].Trim().ToUpper() == "B")
                     {
                         // Obtener el estudiante y su tutor
-                        var estudiante = _context.Estudiantes.Include(e => e.user).FirstOrDefault(e => e.IdEstudiante == dataVm.AlumnosId[i]);
+                        var estudiante = await _context.Estudiantes.Include(e => e.user).FirstOrDefaultAsync(e => e.IdEstudiante == dataVm.AlumnosId[i]);
                         if (estudiante != null)
                         {
                             var notificacion = new Notificacion
@@ -236,7 +236,7 @@ namespace Proyecto.Controllers
                     }
                 }
             }
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return RedirectToAction("Conducta");
         }
     }
