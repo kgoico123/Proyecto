@@ -18,6 +18,11 @@ namespace Proyecto.Areas.Identity.Pages.Account
         /// </summary>
         public void OnGet()
         {
+            // Intentionally empty.
+            // This page only displays static information (Access Denied) and requires no
+            // server-side processing on GET requests. Keeping this method empty makes
+            // it explicit that no action is taken here. If later server-side logic
+            // is required (e.g., logging, redirecting), implement it here.
         }
     }
 }
