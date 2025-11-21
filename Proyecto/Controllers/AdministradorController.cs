@@ -5,6 +5,7 @@ using Proyecto.Data;
 using Proyecto.shared;
 using Microsoft.EntityFrameworkCore;
 using Proyecto.ViewModels;
+using System.Security.Cryptography;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Proyecto.Controllers
@@ -473,10 +474,39 @@ namespace Proyecto.Controllers
 
         private static string GenerateTemporaryPassword()
         {
-            // Minimal temporary password generator (adjust rules as needed)
-            const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%";
-            var random = new System.Random();
-            return new string(Enumerable.Range(0, 12).Select(_ => chars[random.Next(chars.Length)]).ToArray());
+            // Cryptographically secure temporary password generator.
+            // Ensures at least one upper, one lower, one digit and one symbol are present.
+            const string upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const string lower = "abcdefghijklmnopqrstuvwxyz";
+            const string digits = "0123456789";
+            const string symbols = "!@#$%";
+            string all = upper + lower + digits + symbols;
+            int length = 12;
+
+            var chars = new char[length];
+
+            // Guarantee inclusion of each required class
+            chars[0] = upper[RandomNumberGenerator.GetInt32(upper.Length)];
+            chars[1] = lower[RandomNumberGenerator.GetInt32(lower.Length)];
+            chars[2] = digits[RandomNumberGenerator.GetInt32(digits.Length)];
+            chars[3] = symbols[RandomNumberGenerator.GetInt32(symbols.Length)];
+
+            // Fill the rest
+            for (int i = 4; i < length; i++)
+            {
+                chars[i] = all[RandomNumberGenerator.GetInt32(all.Length)];
+            }
+
+            // Shuffle using a cryptographically secure RNG (Fisher-Yates)
+            for (int i = length - 1; i > 0; i--)
+            {
+                int j = RandomNumberGenerator.GetInt32(i + 1);
+                var tmp = chars[i];
+                chars[i] = chars[j];
+                chars[j] = tmp;
+            }
+
+            return new string(chars);
         }
 
         private async Task HandleTutorRegistrationAsync(NewRegisterTypeUserVM userVM)
