@@ -11,15 +11,15 @@
     <h3>Registered Logins</h3>
     <table class="table">
         <tbody>
-            @{ var _loginIndex = 0; }
-            @foreach (var login in Model.CurrentLogins)
+            @for (int i = 0; i < Model.CurrentLogins.Count; i++)
             {
+                var login = Model.CurrentLogins[i];
                 <tr>
-                    <td id="login-provider-@_loginIndex">@login.ProviderDisplayName</td>
+                    <td id="login-provider-@i">@login.ProviderDisplayName</td>
                     <td>
                         @if (Model.ShowRemoveButton)
                         {
-                            <form id="remove-login-@_loginIndex" asp-page-handler="RemoveLogin" method="post">
+                            <form id="remove-login-@i" asp-page-handler="RemoveLogin" method="post">
                                 <div>
                                     <input name="LoginProvider" type="hidden" value="@login.LoginProvider" />
                                     <input name="ProviderKey" type="hidden" value="@login.ProviderKey" />
@@ -33,7 +33,6 @@
                         }
                     </td>
                 </tr>
-                @{ _loginIndex++; }
             }
         </tbody>
     </table>
@@ -45,13 +44,12 @@
     <form id="link-login-form" asp-page-handler="LinkLogin" method="post" class="form-horizontal">
         <div id="socialLoginList">
             <p>
-                @{ var _providerIndex = 0; }
-                @foreach (var provider in Model.OtherLogins)
+                @for (int j = 0; j < Model.OtherLogins.Count; j++)
                 {
-                    <button id="link-login-button-@_providerIndex" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
-                    @{ _providerIndex++; }
+                    var provider = Model.OtherLogins[j];
+                    <button id="link-login-button-@j" type="submit" class="btn btn-primary" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.DisplayName</button>
                 }
             </p>
         </div>
     </form>
-}
+}   
