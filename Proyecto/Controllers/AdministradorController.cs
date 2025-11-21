@@ -522,7 +522,8 @@ namespace Proyecto.Controllers
             await _context.SaveChangesAsync();
 
             // If estudiante data provided, create child user and estudiante record
-            if (!string.IsNullOrEmpty(userVM?.estudiante?.user?.UserName))
+            // `userVM` is non-nullable here (validated by caller), so remove the redundant null-conditional on it.
+            if (!string.IsNullOrEmpty(userVM.estudiante?.user?.UserName))
             {
                 var estudianteUser = userVM.estudiante.user;
                 var estudiantePassword = string.IsNullOrEmpty(estudianteUser.Dni) ? GenerateTemporaryPassword() : estudianteUser.Dni;
