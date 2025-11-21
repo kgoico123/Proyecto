@@ -15,7 +15,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.RecoveryCode" id="Input_RecoveryCode" class="form-control" autocomplete="one-time-code" placeholder="Recovery code" />
+                <input asp-for="Input.RecoveryCode" id="Input_RecoveryCode" type="text" inputmode="numeric" pattern="[0-9A-Za-z-]*" maxlength="16" class="form-control" autocomplete="one-time-code" placeholder="Recovery code" />
                 <label for="Input_RecoveryCode" class="form-label">@Html.DisplayNameFor(m => m.Input.RecoveryCode)</label>
                 <span asp-validation-for="Input.RecoveryCode" class="text-danger"></span>
             </div>

@@ -13,7 +13,7 @@
             <input asp-for="RememberMe" type="hidden" />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
-                <input asp-for="Input.TwoFactorCode" id="Input_TwoFactorCode" class="form-control" autocomplete="one-time-code" />
+                <input asp-for="Input.TwoFactorCode" id="Input_TwoFactorCode" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="7" class="form-control" autocomplete="one-time-code" />
                 <label for="Input_TwoFactorCode" class="form-label">@Html.DisplayNameFor(m => m.Input.TwoFactorCode)</label>
                 <span asp-validation-for="Input.TwoFactorCode" class="text-danger"></span>
             </div>
