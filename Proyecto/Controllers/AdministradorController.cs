@@ -142,9 +142,9 @@ namespace Proyecto.Controllers
                 return BadRequest();
             }
             var curso = await _context.Cursos
-                .Include(c => c.estudiante_Curso)
-                .Include(c => c.Docentes)
-                .ThenInclude(d => d.user)
+                .Include(c => c.estudiante_Curso!)
+                .Include(c => c.Docentes!)
+                .ThenInclude(d => d.user!)
                 .FirstOrDefaultAsync(c => c.IdCurso == id);
 
             if (curso == null)
@@ -168,9 +168,9 @@ namespace Proyecto.Controllers
         public async Task<IActionResult> Cursos()
         {
             var curso = await _context.Cursos
-                .Include(c => c.Docentes)
-                .ThenInclude(d => d.user)
-                .Include(c => c.estudiante_Curso)
+                .Include(c => c.Docentes!)
+                .ThenInclude(d => d.user!)
+                .Include(c => c.estudiante_Curso!)
                 .ToListAsync();
             return View(curso);
         }
@@ -184,9 +184,9 @@ namespace Proyecto.Controllers
                 return Json(new { success = false, message = "Solicitud inválida." });
             }
             var curso = await _context.Cursos
-                .Include(c => c.estudiante_Curso)
-                .Include(c => c.Docentes)
-                .ThenInclude(d => d.user)
+                .Include(c => c.estudiante_Curso!)
+                .Include(c => c.Docentes!)
+                .ThenInclude(d => d.user!)
                 .FirstOrDefaultAsync(c => c.IdCurso == id);
 
             if (curso == null)
@@ -228,7 +228,7 @@ namespace Proyecto.Controllers
                 // Cargar todos los docentes para el dropdown de asignación
                 Docentes = await _context.Docentes
                     .Where(d => d.CursoId == null)
-                    .Include(d => d.user)
+                    .Include(d => d.user!)
                     .ToListAsync()
             };
 
@@ -305,30 +305,31 @@ namespace Proyecto.Controllers
 
             if (roles.Contains(VCG.Role_Tutor))
             {
-                responseData.tutor = await _context.Tutores.Include(t => t.user)
-                                          .Include(t => t.Estudiantes)
-                                          .ThenInclude(e => e.user)
+                responseData.tutor = await _context.Tutores
+                                          .Include(t => t.user!)
+                                          .Include(t => t.Estudiantes!)
+                                          .ThenInclude(e => e.user!)
                                           .FirstOrDefaultAsync(t => t.UserId == user.Id);
 
             }
             else if (roles.Contains(VCG.Role_Estudiante))
             {
                 responseData.estudiante = await _context.Estudiantes
-                                                  .Include(e => e.user)
-                                               .Include(e => e.Tutor)
-                                               .ThenInclude(t => t.user)
-                                               .Include(e => e.Estudiante_Cursos)
-                                               .ThenInclude(ec => ec.Curso)
-                                               .ThenInclude(c => c.Docentes)
-                                               .ThenInclude(d => d.user)
+                                                  .Include(e => e.user!)
+                                               .Include(e => e.Tutor!)
+                                               .ThenInclude(t => t.user!)
+                                               .Include(e => e.Estudiante_Cursos!)
+                                               .ThenInclude(ec => ec.Curso!)
+                                               .ThenInclude(c => c.Docentes!)
+                                               .ThenInclude(d => d.user!)
                                                .FirstOrDefaultAsync(e => e.UserId == user.Id);
             }
             else if (roles.Contains(VCG.Role_Docente))
             {
                 responseData.docente = await _context.Docentes
-                                            .Include(d => d.user)
-                                            .Include(d => d.Curso)
-                                            .ThenInclude(c => c.estudiante_Curso)
+                                            .Include(d => d.user!)
+                                            .Include(d => d.Curso!)
+                                            .ThenInclude(c => c.estudiante_Curso!)
                                             .FirstOrDefaultAsync(d => d.UserId == user.Id);
             }
             else if (roles.Contains(VCG.Role_Admin))
@@ -479,7 +480,7 @@ namespace Proyecto.Controllers
                 {
                     success = true,
                     message = "Docente desvinculado correctamente.",
-                    docenteNombre = $"{docente.user.UserName} {docente.user.Apellido}"
+                    docenteNombre = $"{docente.user?.UserName ?? "Desconocido"} {docente.user?.Apellido ?? string.Empty}"
                 });
             }
             catch (Exception)
@@ -529,11 +530,11 @@ namespace Proyecto.Controllers
 
         private async Task HandleTutorRegistrationAsync(NewRegisterTypeUserVM userVM)
         {
-            await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Tutor);
+            await _userManager.AddToRoleAsync(userVM.User!, VCG.Role_Tutor);
 
             var tutor = new Tutor
             {
-                UserId = userVM.User.Id,
+                UserId = userVM.User!.Id,
                 direccion = string.Empty
             };
             _context.Tutores.Add(tutor);
@@ -562,7 +563,7 @@ namespace Proyecto.Controllers
 
         private async Task HandleEstudianteRegistrationAsync(NewRegisterTypeUserVM userVM)
         {
-            await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Estudiante);
+            await _userManager.AddToRoleAsync(userVM.User!, VCG.Role_Estudiante);
 
             // If tutor info provided and no TutorId, create tutor user & record
             if (userVM.estudiante != null && userVM.estudiante.TutorId <= 0 && userVM.tutor?.user != null && !string.IsNullOrEmpty(userVM.tutor.user.UserName))
@@ -581,9 +582,9 @@ namespace Proyecto.Controllers
             }
 
             // Create estudiante record
-            if (userVM.estudiante != null)
+                if (userVM.estudiante != null)
             {
-                userVM.estudiante.UserId = userVM.User.Id;
+                userVM.estudiante.UserId = userVM.User!.Id;
                 _context.Estudiantes.Add(userVM.estudiante);
                 await _context.SaveChangesAsync();
             }
@@ -591,7 +592,7 @@ namespace Proyecto.Controllers
 
         private async Task HandleDocenteRegistrationAsync(NewRegisterTypeUserVM userVM)
         {
-            await _userManager.AddToRoleAsync(userVM.User, VCG.Role_Docente);
+            await _userManager.AddToRoleAsync(userVM.User!, VCG.Role_Docente);
 
             if (userVM.curso != null)
             {
@@ -611,7 +612,7 @@ namespace Proyecto.Controllers
 
                 var docente = new Docente
                 {
-                    UserId = userVM.User.Id,
+                    UserId = userVM.User!.Id,
                     Curso = userVM.curso
                 };
                 _context.Docentes.Add(docente);
