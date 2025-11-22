@@ -35,9 +35,9 @@ namespace Proyecto.Controllers
             }
             var estudiante = await _context.Estudiantes
                 .Include(e => e.user)
-                .Include(e => e.Estudiante_Cursos)
-                    .ThenInclude(ec => ec.Curso)
-                        .ThenInclude(c => c.Docentes)
+                .Include(e => e.Estudiante_Cursos!)
+                    .ThenInclude(ec => ec.Curso!)
+                        .ThenInclude(c => c.Docentes!)
                             .ThenInclude(d => d.user)
                 .FirstOrDefaultAsync(e => e.UserId == user.Id);
 
@@ -53,7 +53,7 @@ namespace Proyecto.Controllers
             };
 
             // 2. Iterar sobre cada curso en el que el estudiante está inscrito
-            foreach (var ec in estudiante.Estudiante_Cursos)
+            foreach (var ec in estudiante.Estudiante_Cursos ?? Enumerable.Empty<Estudiante_Curso>())
             {
                 // 3. Obtener la última calificación para sacar el promedio acumulado
                 var ultimaCalificacion = await _context.Calificaciones
@@ -107,8 +107,8 @@ namespace Proyecto.Controllers
 
             // Buscar la inscripción específica del estudiante en ese curso
             var estudianteCurso = await _context.Estudiantes_Cursos
-                .Include(ec => ec.Curso)
-                    .ThenInclude(c => c.Docentes)
+                .Include(ec => ec.Curso!)
+                    .ThenInclude(c => c.Docentes!)
                         .ThenInclude(d => d.user)
                 .Include(ec => ec.Calificaciones)
                 .FirstOrDefaultAsync(ec => ec.EstudianteId == estudiante.IdEstudiante && ec.CursoId == cursoId);

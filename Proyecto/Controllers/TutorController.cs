@@ -25,16 +25,22 @@ namespace Proyecto.Controllers
         public async Task<IActionResult> Dashboard()
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return Unauthorized();
+            }
+
             var tutor = await _context.Tutores
-                .Include(t => t.Estudiantes)
-                .ThenInclude(e => e.user)
+                .Include(t => t.Estudiantes!)
+                    .ThenInclude(e => e.user)
                 .FirstOrDefaultAsync(t => t.UserId == user.Id);
 
-            TutorDashboardVM estudiantes = new TutorDashboardVM
+            var vm = new TutorDashboardVM
             {
-                Estudiantes = tutor?.Estudiantes
+                Estudiantes = tutor?.Estudiantes?.ToList() ?? new List<Estudiante>()
             };
-            return View(estudiantes);
+
+            return View(vm);
         }
 
         // Notificaciones: muestra las notificaciones del estudiante seleccionado
@@ -46,11 +52,16 @@ namespace Proyecto.Controllers
                 }
                 var estudiante = await _context.Estudiantes
                 .Include(e => e.user)
-                .Include(e => e.Estudiante_Cursos)
+                .Include(e => e.Estudiante_Cursos!)
                 .FirstOrDefaultAsync(e => e.IdEstudiante == estudianteId);
 
+            if (estudiante == null)
+            {
+                return NotFound();
+            }
+
             var notificaciones = await _context.Notificaciones
-                .Where(n => n.TutorId == estudiante.TutorId && n.Tutor.Estudiantes.Any(e => e.IdEstudiante == estudiante.IdEstudiante))
+                .Where(n => n.TutorId == estudiante.TutorId && (n.Tutor != null && n.Tutor.Estudiantes != null && n.Tutor.Estudiantes.Any(e => e.IdEstudiante == estudiante.IdEstudiante)))
                 .OrderByDescending(n => n.fecha)
                 .ToListAsync();
 
@@ -102,8 +113,13 @@ namespace Proyecto.Controllers
                 .Include(e => e.Estudiante_Cursos)
                 .FirstOrDefaultAsync(e => e.IdEstudiante == estudianteId);
 
+            if (estudiante == null)
+            {
+                return NotFound();
+            }
+
             // Obtener los ids de Estudiante_Curso de este estudiante
-            var estudianteCursoIds = estudiante.Estudiante_Cursos.Select(ec => ec.IdEstudianteCurso).ToList();
+            var estudianteCursoIds = estudiante.Estudiante_Cursos?.Select(ec => ec.IdEstudianteCurso).ToList() ?? new List<int>();
 
             var conductas = await _context.Comportamientos
                 .Where(c => estudianteCursoIds.Contains(c.estudiante_CursoId))
@@ -127,15 +143,20 @@ namespace Proyecto.Controllers
                 }
             var estudiante = await _context.Estudiantes
                 .Include(e => e.user)
-                .Include(e => e.Estudiante_Cursos)
-                    .ThenInclude(ec => ec.Curso)
+                .Include(e => e.Estudiante_Cursos!)
+                    .ThenInclude(ec => ec.Curso!)
                 .FirstOrDefaultAsync(e => e.IdEstudiante == estudianteId);
 
-            var estudianteCursoIds = estudiante.Estudiante_Cursos.Select(ec => ec.IdEstudianteCurso).ToList();
+            if (estudiante == null)
+            {
+                return NotFound();
+            }
+
+            var estudianteCursoIds = estudiante.Estudiante_Cursos?.Select(ec => ec.IdEstudianteCurso).ToList() ?? new List<int>();
 
             var calificaciones = await _context.Calificaciones
-                .Include(c => c.Estudiante_Curso)
-                .Include(c => c.Estudiante_Curso.Curso)
+                .Include(c => c.Estudiante_Curso!)
+                .Include(c => c.Estudiante_Curso!.Curso!)
                 .Where(c => estudianteCursoIds.Contains(c.estudiante_CursoId))
                 .OrderByDescending(c => c.FechaCalificacion)
                 .ToListAsync();
