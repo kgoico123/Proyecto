@@ -64,35 +64,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var curso in Model)
+                    @foreach (var curso in Model ?? Enumerable.Empty<Proyecto.Models.Curso>())
                     {
                         <tr class="bg-white border-b hover:bg-gray-50">
                             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                @curso.Nombre
+                                @curso?.Nombre ?? string.Empty
                             </td>
                             <td class="px-6 py-4">
-                                @curso.aula
+                                @curso?.aula ?? string.Empty
                             </td>
                             <td class="px-6 py-4">
-                                @curso.Grado
+                                @curso?.Grado ?? string.Empty
                             </td>
                             <td class="px-6 py-4">
-                                @curso.HorarioInicio.ToString("hh\\:mm") - @curso.HorarioFin.ToString("hh\\:mm")
+                                @(curso != null ? curso.HorarioInicio.ToString("hh\\:mm") : string.Empty) - @(curso != null ? curso.HorarioFin.ToString("hh\\:mm") : string.Empty)
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <span
-                                    class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@curso.estudiante_Curso.Count()</span>
+                                    class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@(curso?.estudiante_Curso?.Count() ?? 0)</span>
                             </td>
                             <td class="px-6 py-4 text-center">
                                 <span
-                                    class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@curso.Docentes.Count()</span>
+                                    class="bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@(curso?.Docentes?.Count() ?? 0)</span>
                             </td>
                             <td class="px-6 py-4 text-right space-x-2 whitespace-nowrap">
-                                <a asp-action="ActualizarCurso" asp-route-id="@curso.IdCurso"
+                                <a asp-action="ActualizarCurso" asp-route-id="@curso?.IdCurso"
                                     class="font-medium text-indigo-600 hover:underline">Editar</a>
-                                <a asp-action="DetalleCurso" asp-route-id="@curso.IdCurso"
+                                <a asp-action="DetalleCurso" asp-route-id="@curso?.IdCurso"
                                     class="font-medium text-green-600 hover:underline">Detalles</a>
-                                <button data-id="@curso.IdCurso"
+                                <button data-id="@curso?.IdCurso"
                                     class="font-medium text-red-600 hover:underline delete-button">Eliminar</button>
                             </td>
                         </tr>

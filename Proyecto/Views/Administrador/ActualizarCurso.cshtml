@@ -61,15 +61,15 @@
             <!-- Sección para Gestionar Docentes -->
             <div class="border-t border-gray-200 pt-6 space-y-4">
                 <h3 class="text-lg font-medium text-gray-900">Docentes Asignados</h3>
-                @if (Model.Curso.Docentes != null && Model.Curso.Docentes.Any())
+                @if (Model?.Curso?.Docentes != null && Model?.Curso?.Docentes.Any() == true)
                 {
                     <ul class="space-y-2">
-                        @foreach (var docente in Model.Curso.Docentes)
+                        @foreach (var docente in Model?.Curso?.Docentes ?? new List<Proyecto.Models.Docente>())
                         {
                             <li class="flex items-center justify-between p-2 bg-gray-50 rounded-md"
-                                id="docente-@docente.IdDocente">
-                                <span>@docente.user.UserName @docente.user.Apellido</span>
-                                <button type="button" onclick="desvincularDocente(@docente.IdDocente, @Model.Curso.IdCurso)"
+                                id="docente-@docente?.IdDocente">
+                                <span>@docente?.user?.UserName @docente?.user?.Apellido</span>
+                                <button type="button" onclick="desvincularDocente(@(docente?.IdDocente ?? 0), @(Model?.Curso?.IdCurso ?? 0))"
                                     class="text-red-600 hover:text-red-800 text-sm font-medium bg-transparent border-none cursor-pointer">
                                     Desvincular
                                 </button>
@@ -98,9 +98,9 @@
                     <select asp-for="DocenteId"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">Seleccione un docente...</option>
-                        @foreach (var docente in Model.Docentes)
+                        @foreach (var docente in Model?.Docentes ?? Enumerable.Empty<Proyecto.Models.Docente>())
                         {
-                            <option value="@docente.IdDocente">@docente.user.UserName @docente.user.Apellido</option>
+                            <option value="@(docente?.IdDocente ?? 0)">@docente?.user?.UserName @docente?.user?.Apellido</option>
                         }
                     </select>
                 </div>
