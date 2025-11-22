@@ -1,9 +1,10 @@
-﻿using Proyecto.Models;
+﻿using System.Collections.Generic;
+using Proyecto.Models;
 
 namespace Proyecto.ViewModels;
 
 public class TutorComportamientoVM
 {
-    public Estudiante Estudiante { get; set; }
-    public IEnumerable<Comportamiento> Conductas { get; set; }
+    public Estudiante? Estudiante { get; set; }
+    public IEnumerable<Comportamiento> Conductas { get; set; } = new List<Comportamiento>();
 }

@@ -16,15 +16,15 @@ public class DocenteCalificacionesVM
 
 public class Secciones
 {
-    public string Grado { get; set; }
-    public string Seccion { get; set; }
-    public IEnumerable<AlumnoCalificacionVM> Alumnos { get; set; } // Cambiado de Estudiante_Curso
+    public string Grado { get; set; } = string.Empty;
+    public string Seccion { get; set; } = string.Empty;
+    public IEnumerable<AlumnoCalificacionVM> Alumnos { get; set; } = new List<AlumnoCalificacionVM>(); // Cambiado de Estudiante_Curso
 }
 
 // Nueva clase para representar los datos del alumno en esta vista
 public class AlumnoCalificacionVM
 {
     public int IdEstudiante { get; set; }
-    public string UserId { get; set; }
-    public string Nombre { get; set; }
+    public string UserId { get; set; } = string.Empty;
+    public string Nombre { get; set; } = string.Empty;
 }
