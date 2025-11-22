@@ -103,6 +103,7 @@ namespace Proyecto.Controllers
             {
                 return BadRequest();
             }
+
             var user = await _userManager.GetUserAsync(User);
             var docente = await _context.Docentes
                 .Include(d => d.Curso)
@@ -110,71 +111,80 @@ namespace Proyecto.Controllers
                         .ThenInclude(ec => ec.Estudiante)
                             .ThenInclude(e => e.user)
                 .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
+
+            if (docente == null)
+                return Unauthorized();
+
+            if (data?.alumnosId == null || data.notas == null || data.comentarios == null)
+                return BadRequest();
+
             for (int i = 0; i < data.alumnosId.Count; i++)
             {
-                var estudianteCurso = await _context.Estudiantes_Cursos
-                    .Where(ec => ec.EstudianteId == data.alumnosId[i] && ec.CursoId == docente.Curso.IdCurso)
-                    .ToListAsync();
+                int estudianteId = data.alumnosId[i];
+                var estudianteCursos = await GetEstudianteCursosAsync(estudianteId, docente.Curso?.IdCurso ?? 0);
+                if (estudianteCursos == null || estudianteCursos.Count == 0)
+                    continue;
 
-                foreach (var ec in estudianteCurso)
+                int nota = MapNota(data.notas.ElementAtOrDefault(i));
+                string comentario = data.comentarios.ElementAtOrDefault(i) ?? "Sin comentario";
+
+                foreach (var ec in estudianteCursos)
                 {
-                    Console.WriteLine($"Estudiante: {ec.EstudianteId}, Curso: {ec.CursoId}, Id: {ec.IdEstudianteCurso}");
-                    if (estudianteCurso != null)
+                    var calificacionesAnteriores = await _context.Calificaciones
+                        .Where(c => c.estudiante_CursoId == ec.IdEstudianteCurso)
+                        .OrderBy(c => c.FechaCalificacion)
+                        .ToListAsync();
+
+                    // Solo permitir máximo 4 registros (bimestres)
+                    if (calificacionesAnteriores.Count >= 4)
+                        continue;
+
+                    int promedio = CalculatePromedioAcumulado(calificacionesAnteriores, nota);
+
+                    var calificacion = new Calificacion
                     {
-                        // Obtener todas las calificaciones anteriores de este estudiante en este curso
-                        var calificacionesAnteriores = await _context.Calificaciones
-                            .Where(c => c.estudiante_CursoId == ec.IdEstudianteCurso)
-                            .OrderBy(c => c.FechaCalificacion)
-                            .ToListAsync();
-
-                        Console.WriteLine($"Calificaciones : {calificacionesAnteriores.Count}");
-
-                        // Solo permitir máximo 4 registros (bimestres)
-                        if (calificacionesAnteriores.Count >= 4)
-                            continue;
-
-                        // Convertir nota literal a numérica
-                        int nota = 0;
-                        switch ((data.notas[i] ?? "").Trim().ToUpper())
-                        {
-                            case "AD":
-                                nota = 20;
-                                break;
-                            case "A":
-                                nota = 16;
-                                break;
-                            case "B":
-                                nota = 12;
-                                break;
-                            case "C":
-                                nota = 8;
-                                break;
-                            default:
-                                nota = 0;
-                                break;
-                        }
-
-                        // Calcular el nuevo promedio acumulado (máximo 20)
-                        var listaNotas = calificacionesAnteriores.Select(c => c.Puntaje).ToList();
-                        listaNotas.Add(nota);
-                        double promedio = listaNotas.Any() ? listaNotas.Average() : 0;
-                        if (promedio > 20) promedio = 20;
-
-                        var calificacion = new Calificacion
-                        {
-                            estudiante_CursoId = ec.IdEstudianteCurso,
-                            Puntaje = nota,
-                            FechaCalificacion = DateTime.Now,
-                            promedioAcumulado = (int)Math.Round(promedio),
-                            Comentario = data.comentarios[i] ?? "Sin comentario"
-                        };
-                        _context.Calificaciones.Add(calificacion);
-                    }
+                        estudiante_CursoId = ec.IdEstudianteCurso,
+                        Puntaje = nota,
+                        FechaCalificacion = DateTime.Now,
+                        promedioAcumulado = promedio,
+                        Comentario = comentario
+                    };
+                    _context.Calificaciones.Add(calificacion);
                 }
-
             }
+
             await _context.SaveChangesAsync();
             return RedirectToAction("Dashboard", new { data.seccion });
+        }
+
+        private async Task<List<Estudiante_Curso>> GetEstudianteCursosAsync(int estudianteId, int cursoId)
+        {
+            if (cursoId == 0) return new List<Estudiante_Curso>();
+
+            return await _context.Estudiantes_Cursos
+                .Where(ec => ec.EstudianteId == estudianteId && ec.CursoId == cursoId)
+                .ToListAsync();
+        }
+
+        private int MapNota(string notaLiteral)
+        {
+            switch ((notaLiteral ?? string.Empty).Trim().ToUpper())
+            {
+                case "AD": return 20;
+                case "A": return 16;
+                case "B": return 12;
+                case "C": return 8;
+                default: return 0;
+            }
+        }
+
+        private int CalculatePromedioAcumulado(List<Calificacion> anteriores, int nuevaNota)
+        {
+            var listaNotas = anteriores.Select(c => c.Puntaje).ToList();
+            listaNotas.Add(nuevaNota);
+            double promedio = listaNotas.Any() ? listaNotas.Average() : 0;
+            if (promedio > 20) promedio = 20;
+            return (int)Math.Round(promedio);
         }
 
         [HttpGet]
