@@ -3,7 +3,7 @@
     ViewData["Title"] = "Leer Notificación";
 
     // Helper para obtener estilos según el tipo de notificación
-    (string iconClass, string colorClass) GetTypeStyles(string tipo)
+    (string iconClass, string colorClass) GetTypeStyles(string? tipo)
     {
         return tipo?.ToLower() switch
         {

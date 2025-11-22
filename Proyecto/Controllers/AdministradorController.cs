@@ -116,7 +116,7 @@ namespace Proyecto.Controllers
                 cursoVM.Docentes = await _context.Docentes.Include(u => u.user).ToListAsync();
                 return View(cursoVM);
             }
-            _context.Cursos.Add(cursoVM.Curso);
+            _context.Cursos.Add(cursoVM.Curso!);
             await _context.SaveChangesAsync();
 
             // Asignar docente si corresponde
@@ -212,8 +212,8 @@ namespace Proyecto.Controllers
                 return BadRequest();
             }
             var curso = await _context.Cursos
-                .Include(c => c.Docentes)
-                .ThenInclude(d => d.user)
+                .Include(c => c.Docentes!)
+                .ThenInclude(d => d.user!)
                 .FirstOrDefaultAsync(c => c.IdCurso == id);
 
             if (curso == null)
@@ -248,18 +248,18 @@ namespace Proyecto.Controllers
                 return View(cursoVM);
             }
             // Buscar el curso existente en la base de datos
-            var cursoExist = await _context.Cursos.FindAsync(cursoVM.Curso.IdCurso);
+            var cursoExist = await _context.Cursos.FindAsync(cursoVM.Curso!.IdCurso);
             if (cursoExist == null)
             {
                 return NotFound();
             }
 
             // Actualizar las propiedades del curso
-            cursoExist.Nombre = cursoVM.Curso.Nombre;
-            cursoExist.HorarioInicio = cursoVM.Curso.HorarioInicio;
-            cursoExist.HorarioFin = cursoVM.Curso.HorarioFin;
-            cursoExist.aula = cursoVM.Curso.aula;
-            cursoExist.Grado = cursoVM.Curso.Grado;
+            cursoExist.Nombre = cursoVM.Curso!.Nombre;
+            cursoExist.HorarioInicio = cursoVM.Curso!.HorarioInicio;
+            cursoExist.HorarioFin = cursoVM.Curso!.HorarioFin;
+            cursoExist.aula = cursoVM.Curso!.aula;
+            cursoExist.Grado = cursoVM.Curso!.Grado;
 
             _context.Cursos.Update(cursoExist);
 
@@ -360,30 +360,31 @@ namespace Proyecto.Controllers
 
             if (roles.Contains(VCG.Role_Tutor))
             {
-                responseData.tutor = await _context.Tutores.Include(t => t.user)
-                                          .Include(t => t.Estudiantes)
-                                          .ThenInclude(e => e.user)
+                responseData.tutor = await _context.Tutores
+                                          .Include(t => t.user!)
+                                          .Include(t => t.Estudiantes!)
+                                          .ThenInclude(e => e.user!)
                                           .FirstOrDefaultAsync(t => t.UserId == user.Id);
 
             }
             else if (roles.Contains(VCG.Role_Estudiante))
             {
                 responseData.estudiante = await _context.Estudiantes
-                                                  .Include(e => e.user)
-                                               .Include(e => e.Tutor)
-                                               .ThenInclude(t => t.user)
-                                               .Include(e => e.Estudiante_Cursos)
-                                               .ThenInclude(ec => ec.Curso)
-                                               .ThenInclude(c => c.Docentes)
-                                               .ThenInclude(d => d.user)
+                                                  .Include(e => e.user!)
+                                               .Include(e => e.Tutor!)
+                                               .ThenInclude(t => t.user!)
+                                               .Include(e => e.Estudiante_Cursos!)
+                                               .ThenInclude(ec => ec.Curso!)
+                                               .ThenInclude(c => c.Docentes!)
+                                               .ThenInclude(d => d.user!)
                                                .FirstOrDefaultAsync(e => e.UserId == user.Id);
             }
             else if (roles.Contains(VCG.Role_Docente))
             {
                 responseData.docente = await _context.Docentes
-                                            .Include(d => d.user)
-                                            .Include(d => d.Curso)
-                                            .ThenInclude(c => c.estudiante_Curso)
+                                            .Include(d => d.user!)
+                                            .Include(d => d.Curso!)
+                                            .ThenInclude(c => c.estudiante_Curso!)
                                             .FirstOrDefaultAsync(d => d.UserId == user.Id);
             }
             else if (roles.Contains(VCG.Role_Admin))

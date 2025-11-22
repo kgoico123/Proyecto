@@ -25,17 +25,19 @@ namespace Proyecto.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
+            var userName = user.UserName;
+            // Removed duplicate null-check for user
 
             var docenteRes = await _context.Docentes
                 .Include(d => d.Curso!)
                     .ThenInclude(c => c.estudiante_Curso!)
                         .ThenInclude(ec => ec.Estudiante!)
-                .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
+                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
 
             DocenteDashboardVM Dashboard = new DocenteDashboardVM
             {
-                docente = docenteRes,
-                curso = docenteRes?.Curso,
+                docente = docenteRes!,
+                curso = docenteRes?.Curso!,
                 CantidadAlumnos = docenteRes?.Curso?.estudiante_Curso?.Count() ?? 0
             };
 
@@ -50,12 +52,14 @@ namespace Proyecto.Controllers
                 return BadRequest();
             }
             var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+            var userName = user.UserName;
             var docenteRes = await _context.Docentes
-                .Include(d => d.Curso)
-                    .ThenInclude(c => c.estudiante_Curso)
-                        .ThenInclude(ec => ec.Estudiante)
-                            .ThenInclude(e => e.user)
-                .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
+                .Include(d => d.Curso!)
+                    .ThenInclude(c => c.estudiante_Curso!)
+                        .ThenInclude(ec => ec.Estudiante!)
+                            .ThenInclude(e => e.user!)
+                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
 
             if (docenteRes == null)
                 return Unauthorized();
@@ -73,23 +77,23 @@ namespace Proyecto.Controllers
                     .Select(ec => new AlumnoCalificacionVM
                     {
                         IdEstudiante = ec!.Estudiante!.IdEstudiante,
-                        UserId = ec.Estudiante.UserId,
-                        Nombre = ec.Estudiante.user!.UserName
+                        UserId = ec.Estudiante!.UserId ?? string.Empty,
+                        Nombre = ec.Estudiante.user!.UserName ?? string.Empty
                     }).ToList();
 
                 alumnosCount = alumnos.Count; // Guardamos la cantidad de alumnos
 
                 seccionesRes.Add(new Secciones
                 {
-                    Grado = curso.Nombre,
-                    Seccion = curso.aula,
+                    Grado = curso?.Nombre ?? string.Empty,
+                    Seccion = curso?.aula ?? string.Empty,
                     Alumnos = alumnos
                 });
             }
 
             DocenteCalificacionesVM responseVM = new DocenteCalificacionesVM
             {
-                docente = docenteRes,
+                docente = docenteRes!,
                 secciones = seccionesRes,
                 // Inicializamos las listas para el formulario
                 alumnosId = new List<int>(new int[alumnosCount]),
@@ -110,13 +114,14 @@ namespace Proyecto.Controllers
 
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
+            var userName = user.UserName;
 
             var docente = await _context.Docentes
                 .Include(d => d.Curso!)
                     .ThenInclude(c => c.estudiante_Curso!)
                         .ThenInclude(ec => ec.Estudiante!)
                             .ThenInclude(e => e.user!)
-                .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
+                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
 
             if (docente == null)
                 return Unauthorized();
@@ -172,7 +177,7 @@ namespace Proyecto.Controllers
                 .ToListAsync();
         }
 
-        private int MapNota(string notaLiteral)
+        private int MapNota(string? notaLiteral)
         {
             switch ((notaLiteral ?? string.Empty).Trim().ToUpper())
             {
@@ -202,13 +207,14 @@ namespace Proyecto.Controllers
             }
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return Unauthorized();
+            var userName = user.UserName;
 
             var docente = await _context.Docentes
                 .Include(d => d.Curso!)
                     .ThenInclude(c => c.estudiante_Curso!)
                         .ThenInclude(ec => ec.Estudiante!)
                             .ThenInclude(e => e.user!)
-                .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
+                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
 
             var estudiantes = (docente?.Curso?.estudiante_Curso ?? Enumerable.Empty<Estudiante_Curso>())
                                 .Where(ec => ec?.Estudiante != null)
