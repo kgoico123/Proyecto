@@ -14,13 +14,11 @@ namespace Proyecto.Controllers
     public class AdministradorController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AppDBContext _context;
 
-        public AdministradorController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, AppDBContext context)
+        public AdministradorController(UserManager<ApplicationUser> userManager, AppDBContext context)
         {
             _userManager = userManager;
-            _roleManager = roleManager;
             _context = context;
         }
 
