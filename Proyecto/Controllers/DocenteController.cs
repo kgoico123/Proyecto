@@ -24,10 +24,12 @@ namespace Proyecto.Controllers
         public async Task<IActionResult> Dashboard()
         {
             var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+
             var docenteRes = await _context.Docentes
-                .Include(d => d.Curso)
-                    .ThenInclude(c => c.estudiante_Curso)
-                        .ThenInclude(ec => ec.Estudiante)
+                .Include(d => d.Curso!)
+                    .ThenInclude(c => c.estudiante_Curso!)
+                        .ThenInclude(ec => ec.Estudiante!)
                 .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
 
             DocenteDashboardVM Dashboard = new DocenteDashboardVM
@@ -66,12 +68,14 @@ namespace Proyecto.Controllers
             var alumnosCount = 0; // Variable para contar los alumnos
             if (curso != null)
             {
-                var alumnos = curso.estudiante_Curso.Select(ec => new AlumnoCalificacionVM
-                {
-                    IdEstudiante = ec.Estudiante.IdEstudiante,
-                    UserId = ec.Estudiante.UserId,
-                    Nombre = ec.Estudiante.user.UserName
-                }).ToList();
+                var alumnos = (curso.estudiante_Curso ?? Enumerable.Empty<Estudiante_Curso>())
+                    .Where(ec => ec?.Estudiante != null && ec.Estudiante.user != null)
+                    .Select(ec => new AlumnoCalificacionVM
+                    {
+                        IdEstudiante = ec!.Estudiante!.IdEstudiante,
+                        UserId = ec.Estudiante.UserId,
+                        Nombre = ec.Estudiante.user!.UserName
+                    }).ToList();
 
                 alumnosCount = alumnos.Count; // Guardamos la cantidad de alumnos
 
@@ -105,11 +109,13 @@ namespace Proyecto.Controllers
             }
 
             var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+
             var docente = await _context.Docentes
-                .Include(d => d.Curso)
-                    .ThenInclude(c => c.estudiante_Curso)
-                        .ThenInclude(ec => ec.Estudiante)
-                            .ThenInclude(e => e.user)
+                .Include(d => d.Curso!)
+                    .ThenInclude(c => c.estudiante_Curso!)
+                        .ThenInclude(ec => ec.Estudiante!)
+                            .ThenInclude(e => e.user!)
                 .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
 
             if (docente == null)
@@ -195,16 +201,19 @@ namespace Proyecto.Controllers
                 return BadRequest();
             }
             var user = await _userManager.GetUserAsync(User);
+            if (user == null) return Unauthorized();
+
             var docente = await _context.Docentes
-                .Include(d => d.Curso)
-                    .ThenInclude(c => c.estudiante_Curso)
-                        .ThenInclude(ec => ec.Estudiante)
-                            .ThenInclude(e => e.user)
+                .Include(d => d.Curso!)
+                    .ThenInclude(c => c.estudiante_Curso!)
+                        .ThenInclude(ec => ec.Estudiante!)
+                            .ThenInclude(e => e.user!)
                 .FirstOrDefaultAsync(d => d.user.UserName == user.UserName);
 
-            var estudiantes = docente?.Curso?.estudiante_Curso
-                                .Select(ec => ec.Estudiante)
-                                .ToList() ?? new List<Estudiante>();
+            var estudiantes = (docente?.Curso?.estudiante_Curso ?? Enumerable.Empty<Estudiante_Curso>())
+                                .Where(ec => ec?.Estudiante != null)
+                                .Select(ec => ec!.Estudiante!)
+                                .ToList();
 
             DocenteConductaVM conductaVM = new DocenteConductaVM
             {
