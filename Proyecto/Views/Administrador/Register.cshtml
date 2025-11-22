@@ -121,15 +121,12 @@
                     </label>
                 </div>
                 <div id="buscarTutor">
-                    <select asp-for="estudiante.TutorId" id="IdTutor"
+                        <select asp-for="estudiante.TutorId" id="IdTutor"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">Seleccione un tutor...</option>
-                        @if (Model.tutores != null)
+                        @foreach (var tutor in Model?.tutores ?? Enumerable.Empty<Proyecto.Models.Tutor>())
                         {
-                            @foreach (var tutor in Model.tutores)
-                            {
-                                <option value="@tutor.IdTutor">@tutor.user.UserName @tutor.user.Apellido</option>
-                            }
+                            <option value="@(tutor?.IdTutor ?? 0)">@tutor?.user?.UserName @tutor?.user?.Apellido</option>
                         }
                     </select>
                 </div>
@@ -166,15 +163,12 @@
 
                 <div id="buscarCurso">
                     <label class="block text-sm font-medium text-gray-700">Curso</label>
-                    <select asp-for="curso.IdCurso"
+                        <select asp-for="curso.IdCurso"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">Seleccione un curso...</option>
-                        @if (Model.cursos != null)
+                        @foreach (var curso in Model?.cursos ?? Enumerable.Empty<Proyecto.Models.Curso>())
                         {
-                            @foreach (var curso in Model.cursos)
-                            {
-                                <option value="@curso.IdCurso">@curso.Nombre - @curso.Grado</option>
-                            }
+                            <option value="@(curso?.IdCurso ?? 0)">@curso?.Nombre - @curso?.Grado</option>
                         }
                     </select>
                 </div>

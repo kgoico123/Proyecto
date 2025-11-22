@@ -72,9 +72,9 @@
                     <select asp-for="DocenteId"
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="">Seleccione un docente...</option>
-                        @foreach (var docente in Model.Docentes)
+                        @foreach (var docente in Model?.Docentes ?? Enumerable.Empty<Proyecto.Models.Docente>())
                         {
-                            <option value="@docente.IdDocente">@docente.user.UserName @docente.user.Apellido</option>
+                            <option value="@(docente?.IdDocente ?? 0)">@docente?.user?.UserName @docente?.user?.Apellido</option>
                         }
                     </select>
                 </div>
