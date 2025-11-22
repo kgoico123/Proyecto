@@ -1,40 +1,41 @@
 @model Proyecto.ViewModels.UserDetailVM
 @using Proyecto.shared
+@using Proyecto.Models
 @{
     ViewData["Title"] = "Eliminar Usuario";
     string userName = "";
     string userApellido = "";
     string userEmail = "";
     string userDni = "";
-    string userRole = Model.role.FirstOrDefault() ?? "Usuario";
+    string userRole = Model?.role?.FirstOrDefault() ?? "Usuario";
 
-    if (Model.role.Contains(VCG.Role_Docente))
+    if (Model?.role?.Contains(VCG.Role_Docente) == true)
     {
-        userName = Model.docente.user.UserName;
-        userApellido = Model.docente.user.Apellido;
-        userEmail = Model.docente.user.Email;
-        userDni = Model.docente.user.Dni;
+        userName = Model?.docente?.user?.UserName ?? string.Empty;
+        userApellido = Model?.docente?.user?.Apellido ?? string.Empty;
+        userEmail = Model?.docente?.user?.Email ?? string.Empty;
+        userDni = Model?.docente?.user?.Dni ?? string.Empty;
     }
-    else if (Model.role.Contains(VCG.Role_Tutor))
+    else if (Model?.role?.Contains(VCG.Role_Tutor) == true)
     {
-        userName = Model.tutor.user.UserName;
-        userApellido = Model.tutor.user.Apellido;
-        userEmail = Model.tutor.user.Email;
-        userDni = Model.tutor.user.Dni;
+        userName = Model?.tutor?.user?.UserName ?? string.Empty;
+        userApellido = Model?.tutor?.user?.Apellido ?? string.Empty;
+        userEmail = Model?.tutor?.user?.Email ?? string.Empty;
+        userDni = Model?.tutor?.user?.Dni ?? string.Empty;
     }
-    else if (Model.role.Contains(VCG.Role_Estudiante))
+    else if (Model?.role?.Contains(VCG.Role_Estudiante) == true)
     {
-        userName = Model.estudiante.user.UserName;
-        userApellido = Model.estudiante.user.Apellido;
-        userEmail = Model.estudiante.user.Email;
-        userDni = Model.estudiante.user.Dni;
+        userName = Model?.estudiante?.user?.UserName ?? string.Empty;
+        userApellido = Model?.estudiante?.user?.Apellido ?? string.Empty;
+        userEmail = Model?.estudiante?.user?.Email ?? string.Empty;
+        userDni = Model?.estudiante?.user?.Dni ?? string.Empty;
     }
-    else if (Model.role.Contains(VCG.Role_Admin))
+    else if (Model?.role?.Contains(VCG.Role_Admin) == true)
     {
-        userName = Model.Administrador.UserName;
-        userApellido = Model.Administrador.Apellido;
-        userEmail = Model.Administrador.Email;
-        userDni = Model.Administrador.Dni;
+        userName = Model?.Administrador?.UserName ?? string.Empty;
+        userApellido = Model?.Administrador?.Apellido ?? string.Empty;
+        userEmail = Model?.Administrador?.Email ?? string.Empty;
+        userDni = Model?.Administrador?.Dni ?? string.Empty;
     }
 }
 
@@ -65,27 +66,26 @@
 
             <div class="p-6 md:p-8">
                 <!-- Role-specific details -->
-                @if (Model.role.Contains(VCG.Role_Docente))
+                @if (Model?.role?.Contains(VCG.Role_Docente) == true)
                 {
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Curso Asignado</h2>
                     <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
-                        <h3 class="text-xl font-bold text-indigo-700">@Model.docente.Curso.Nombre</h3>
-                        <p class="text-gray-600">Grado: @Model.docente.Curso.Grado</p>
+                        <h3 class="text-xl font-bold text-indigo-700">@Model?.docente?.Curso?.Nombre ?? string.Empty</h3>
+                        <p class="text-gray-600">Grado: @Model?.docente?.Curso?.Grado ?? string.Empty</p>
                         <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div><strong class="block text-gray-700">Aula:</strong> @Model.docente.Curso.aula</div>
-                            <div><strong class="block text-gray-700">Horario:</strong> @Model.docente.Curso.HorarioInicio -
-                                @Model.docente.Curso.HorarioFin</div>
+                            <div><strong class="block text-gray-700">Aula:</strong> @Model?.docente?.Curso?.aula ?? string.Empty</div>
+                            <div><strong class="block text-gray-700">Horario:</strong> @(Model?.docente?.Curso != null ? Model.docente.Curso.HorarioInicio.ToString() : string.Empty) - @(Model?.docente?.Curso != null ? Model.docente.Curso.HorarioFin.ToString() : string.Empty)</div>
                             <div><strong class="block text-gray-700">N° Estudiantes:</strong> <span
-                                    class="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@Model.docente.Curso.estudiante_Curso.Count()</span>
+                                    class="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@(Model?.docente?.Curso?.estudiante_Curso?.Count() ?? 0)</span>
                             </div>
                         </div>
                     </div>
                 }
 
-                @if (Model.role.Contains(VCG.Role_Tutor))
+                @if (Model?.role?.Contains(VCG.Role_Tutor) == true)
                 {
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Estudiantes a Cargo
-                        (@Model.tutor.Estudiantes.Count())</h2>
+                        (@(Model?.tutor?.Estudiantes?.Count() ?? 0))</h2>
                     <div class="overflow-x-auto">
                         <table class="min-w-full bg-white border border-gray-200">
                             <thead class="bg-gray-50">
@@ -102,14 +102,14 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200">
-                                @foreach (var estudiante in Model.tutor.Estudiantes)
+                                @foreach (var estudiante in Model?.tutor?.Estudiantes ?? new List<Estudiante>())
                                 {
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                            @estudiante.user.UserName @estudiante.user.Apellido</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@estudiante.user.Email
+                                            @estudiante?.user?.UserName @estudiante?.user?.Apellido</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@estudiante?.user?.Email
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@estudiante.user.Dni</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@estudiante?.user?.Dni</td>
                                     </tr>
                                 }
                             </tbody>
@@ -117,27 +117,26 @@
                     </div>
                 }
 
-                @if (Model.role.Contains(VCG.Role_Estudiante))
+                @if (Model?.role?.Contains(VCG.Role_Estudiante) == true)
                 {
                     <h2 class="text-2xl font-semibold text-gray-800 mb-4">Cursos Inscritos
-                        (@Model.estudiante.Estudiante_Cursos.Count())</h2>
+                        (@(Model?.estudiante?.Estudiante_Cursos?.Count() ?? 0))</h2>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        @foreach (var curso in Model.estudiante.Estudiante_Cursos)
+                        @foreach (var curso in Model?.estudiante?.Estudiante_Cursos ?? new List<Estudiante_Curso>())
                         {
                             <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <h3 class="font-bold text-lg text-indigo-700">@curso.Curso.Nombre</h3>
-                                <p class="text-sm text-gray-600">Docente: @(curso.Curso.Docentes.FirstOrDefault()?.user.UserName
-                                                                ?? "No asignado")</p>
+                                <h3 class="font-bold text-lg text-indigo-700">@curso?.Curso?.Nombre</h3>
+                                <p class="text-sm text-gray-600">Docente: @(curso?.Curso?.Docentes?.FirstOrDefault()?.user?.UserName ?? "No asignado")</p>
                         <div class="mt-3 text-xs space-y-1 text-gray-700">
-                            <p><strong>Aula:</strong> @curso.Curso.aula</p>
-                            <p><strong>Horario:</strong> @curso.Curso.HorarioInicio - @curso.Curso.HorarioFin</p>
+                            <p><strong>Aula:</strong> @curso?.Curso?.aula</p>
+                            <p><strong>Horario:</strong> @(curso?.Curso != null ? curso.Curso.HorarioInicio.ToString() : string.Empty) - @(curso?.Curso != null ? curso.Curso.HorarioFin.ToString() : string.Empty)</p>
                         </div>
                     </div>
                                         }
                     </div>
                 }
 
-                @if (Model.role.Contains(VCG.Role_Admin))
+                @if (Model?.role?.Contains(VCG.Role_Admin) == true)
                 {
                     <div class="text-center py-10">
                         <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">

@@ -31,18 +31,7 @@
         };
     }
     
-    // Función para los colores del gráfico
-    string ColorHexNota(string literal)
-    {
-        return literal switch
-        {
-            "AD" => "#3b82f6", // blue-500
-            "A" => "#22c55e", // green-500
-            "B" => "#f59e0b", // amber-500
-            "C" => "#ef4444", // red-500
-            _ => "#6b7280"  // gray-500
-        };
-    }
+    // Note: ColorHexNota removed — the view uses inline hex mapping in the script section now.
 }
 
 <div class="min-h-screen p-4 sm:p-6 lg:p-8">

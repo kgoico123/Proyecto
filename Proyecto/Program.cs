@@ -53,7 +53,7 @@ using (var scope = app.Services.CreateScope())
         // Después ejecutamos el seed que depende de las tablas
         SeedData.Initialize(services);
     }
-    catch (Exception ex)
+    catch (Exception)
     {
         // Propagar para que el desarrollador vea el error en startup
         throw;
