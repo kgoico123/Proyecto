@@ -34,11 +34,14 @@ namespace Proyecto.Controllers
                         .ThenInclude(ec => ec.Estudiante!)
                 .FirstOrDefaultAsync(d => d.user!.UserName == userName);
 
+            if (docenteRes == null)
+                return Unauthorized();
+
             DocenteDashboardVM Dashboard = new DocenteDashboardVM
             {
-                docente = docenteRes!,
-                curso = docenteRes?.Curso!,
-                CantidadAlumnos = docenteRes?.Curso?.estudiante_Curso?.Count() ?? 0
+                docente = docenteRes,
+                curso = docenteRes.Curso!,
+                CantidadAlumnos = docenteRes.Curso?.estudiante_Curso?.Count() ?? 0
             };
 
             return View(Dashboard);

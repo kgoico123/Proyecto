@@ -3,34 +3,36 @@
 @using Proyecto.Models
 @{
     ViewData["Title"] = "Detalle de Usuario";
-    string userName = "";
-    string userApellido = "";
-    string userEmail = "";
-    string userDni = "";
-    string userRole = Model?.role?.FirstOrDefault() ?? "Usuario";
+    string userName = string.Empty;
+    string userApellido = string.Empty;
+    string userEmail = string.Empty;
+    string userDni = string.Empty;
 
-    if (Model?.role?.Contains(VCG.Role_Docente) == true)
+    var roles = Model?.role ?? Enumerable.Empty<string>();
+    string userRole = roles.FirstOrDefault() ?? "Usuario";
+
+    if (roles.Contains(VCG.Role_Docente))
     {
         userName = Model?.docente?.user?.UserName ?? string.Empty;
         userApellido = Model?.docente?.user?.Apellido ?? string.Empty;
         userEmail = Model?.docente?.user?.Email ?? string.Empty;
         userDni = Model?.docente?.user?.Dni ?? string.Empty;
     }
-    else if (Model?.role?.Contains(VCG.Role_Tutor) == true)
+    else if (roles.Contains(VCG.Role_Tutor))
     {
         userName = Model?.tutor?.user?.UserName ?? string.Empty;
         userApellido = Model?.tutor?.user?.Apellido ?? string.Empty;
         userEmail = Model?.tutor?.user?.Email ?? string.Empty;
         userDni = Model?.tutor?.user?.Dni ?? string.Empty;
     }
-    else if (Model?.role?.Contains(VCG.Role_Estudiante) == true)
+    else if (roles.Contains(VCG.Role_Estudiante))
     {
         userName = Model?.estudiante?.user?.UserName ?? string.Empty;
         userApellido = Model?.estudiante?.user?.Apellido ?? string.Empty;
         userEmail = Model?.estudiante?.user?.Email ?? string.Empty;
         userDni = Model?.estudiante?.user?.Dni ?? string.Empty;
     }
-    else if (Model?.role?.Contains(VCG.Role_Admin) == true)
+    else if (roles.Contains(VCG.Role_Admin))
     {
         userName = Model?.Administrador?.UserName ?? string.Empty;
         userApellido = Model?.Administrador?.Apellido ?? string.Empty;
