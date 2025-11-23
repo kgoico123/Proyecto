@@ -291,53 +291,14 @@ namespace Proyecto.Controllers
             {
                 return BadRequest();
             }
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
+
+            var responseData = await BuildUserDetailVmAsync(id);
+            if (responseData == null)
             {
                 return NotFound();
             }
-            var roles = await _userManager.GetRolesAsync(user);
 
-            UserDetailVM responseData = new UserDetailVM();
-
-            responseData.UserId = user.Id;
-            responseData.role = roles;
-
-            if (roles.Contains(VCG.Role_Tutor))
-            {
-                responseData.tutor = await _context.Tutores
-                                          .Include(t => t.user!)
-                                          .Include(t => t.Estudiantes!)
-                                          .ThenInclude(e => e.user!)
-                                          .FirstOrDefaultAsync(t => t.UserId == user.Id);
-
-            }
-            else if (roles.Contains(VCG.Role_Estudiante))
-            {
-                responseData.estudiante = await _context.Estudiantes
-                                                  .Include(e => e.user!)
-                                               .Include(e => e.Tutor!)
-                                               .ThenInclude(t => t.user!)
-                                               .Include(e => e.Estudiante_Cursos!)
-                                               .ThenInclude(ec => ec.Curso!)
-                                               .ThenInclude(c => c.Docentes!)
-                                               .ThenInclude(d => d.user!)
-                                               .FirstOrDefaultAsync(e => e.UserId == user.Id);
-            }
-            else if (roles.Contains(VCG.Role_Docente))
-            {
-                responseData.docente = await _context.Docentes
-                                            .Include(d => d.user!)
-                                            .Include(d => d.Curso!)
-                                            .ThenInclude(c => c.estudiante_Curso!)
-                                            .FirstOrDefaultAsync(d => d.UserId == user.Id);
-            }
-            else if (roles.Contains(VCG.Role_Admin))
-            {
-                responseData.Administrador = user;
-            }
-
-            return View(responseData);
+            return View("DetalleUser", responseData);
         }
 
         public async Task<IActionResult> EliminarUser(string id)
@@ -346,54 +307,17 @@ namespace Proyecto.Controllers
             {
                 return BadRequest();
             }
-            var user = await _userManager.FindByIdAsync(id);
-            if (user == null)
+
+            var responseData = await BuildUserDetailVmAsync(id);
+            if (responseData == null)
             {
                 return NotFound();
             }
-            var roles = await _userManager.GetRolesAsync(user);
 
-            UserDetailVM responseData = new UserDetailVM();
-
-            responseData.UserId = user.Id;
-            responseData.role = roles;
-
-            if (roles.Contains(VCG.Role_Tutor))
-            {
-                responseData.tutor = await _context.Tutores
-                                          .Include(t => t.user!)
-                                          .Include(t => t.Estudiantes!)
-                                          .ThenInclude(e => e.user!)
-                                          .FirstOrDefaultAsync(t => t.UserId == user.Id);
-
-            }
-            else if (roles.Contains(VCG.Role_Estudiante))
-            {
-                responseData.estudiante = await _context.Estudiantes
-                                                  .Include(e => e.user!)
-                                               .Include(e => e.Tutor!)
-                                               .ThenInclude(t => t.user!)
-                                               .Include(e => e.Estudiante_Cursos!)
-                                               .ThenInclude(ec => ec.Curso!)
-                                               .ThenInclude(c => c.Docentes!)
-                                               .ThenInclude(d => d.user!)
-                                               .FirstOrDefaultAsync(e => e.UserId == user.Id);
-            }
-            else if (roles.Contains(VCG.Role_Docente))
-            {
-                responseData.docente = await _context.Docentes
-                                            .Include(d => d.user!)
-                                            .Include(d => d.Curso!)
-                                            .ThenInclude(c => c.estudiante_Curso!)
-                                            .FirstOrDefaultAsync(d => d.UserId == user.Id);
-            }
-            else if (roles.Contains(VCG.Role_Admin))
-            {
-                responseData.Administrador = user;
-            }
-
-            return View(responseData);
+            return View("EliminarUser", responseData);
         }
+
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -447,6 +371,57 @@ namespace Proyecto.Controllers
             }
 
             return View("DetalleUsuario", user);
+        }
+
+        private async Task<UserDetailVM?> BuildUserDetailVmAsync(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return null;
+            }
+
+            var roles = await _userManager.GetRolesAsync(user);
+
+            UserDetailVM responseData = new UserDetailVM();
+            responseData.UserId = user.Id;
+            responseData.role = roles;
+
+            if (roles.Contains(VCG.Role_Tutor))
+            {
+                responseData.tutor = await _context.Tutores
+                                          .Include(t => t.user!)
+                                          .Include(t => t.Estudiantes!)
+                                          .ThenInclude(e => e.user!)
+                                          .FirstOrDefaultAsync(t => t.UserId == user.Id);
+
+            }
+            else if (roles.Contains(VCG.Role_Estudiante))
+            {
+                responseData.estudiante = await _context.Estudiantes
+                                                  .Include(e => e.user!)
+                                               .Include(e => e.Tutor!)
+                                               .ThenInclude(t => t.user!)
+                                               .Include(e => e.Estudiante_Cursos!)
+                                               .ThenInclude(ec => ec.Curso!)
+                                               .ThenInclude(c => c.Docentes!)
+                                               .ThenInclude(d => d.user!)
+                                               .FirstOrDefaultAsync(e => e.UserId == user.Id);
+            }
+            else if (roles.Contains(VCG.Role_Docente))
+            {
+                responseData.docente = await _context.Docentes
+                                            .Include(d => d.user!)
+                                            .Include(d => d.Curso!)
+                                            .ThenInclude(c => c.estudiante_Curso!)
+                                            .FirstOrDefaultAsync(d => d.UserId == user.Id);
+            }
+            else if (roles.Contains(VCG.Role_Admin))
+            {
+                responseData.Administrador = user;
+            }
+
+            return responseData;
         }
 
         [HttpPost]
