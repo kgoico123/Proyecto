@@ -1,0 +1,234 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="a2562578-b2e9-4208-892e-c0005b0558c6" name="ASUS@DESKTOP-KJ55FR1 2025-11-23 11:37:01" runUser="DESKTOP-KJ55FR1\ASUS" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2025-11-23T11:37:01.3565932-05:00" queuing="2025-11-23T11:37:01.3565938-05:00" start="2025-11-23T11:36:57.4368308-05:00" finish="2025-11-23T11:37:02.3387339-05:00" />
+  <TestSettings name="default" id="4050965a-10c1-45ce-839e-04b09900c5b7">
+    <Deployment runDeploymentRoot="ASUS_DESKTOP-KJ55FR1_2025-11-23_11_37_01" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="d09d1654-5cc6-4c4f-9068-14694a5b7b55" testId="e5416a52-5f6b-a041-aa15-85a30aae3641" testName="CrearEstudianteCurso" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0082960" startTime="2025-11-23T11:37:02.2131276-05:00" endTime="2025-11-23T11:37:02.2216453-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d09d1654-5cc6-4c4f-9068-14694a5b7b55" />
+    <UnitTestResult executionId="95872f76-6e24-4789-a120-d58b446d0d23" testId="a06dd349-79bc-311d-d461-c6f7dcdacdbc" testName="CrearCalificacion" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0010185" startTime="2025-11-23T11:37:00.8625575-05:00" endTime="2025-11-23T11:37:00.8637594-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95872f76-6e24-4789-a120-d58b446d0d23" />
+    <UnitTestResult executionId="c6a3faa1-41a0-407b-9a11-21fcc4b6b0da" testId="18db9368-5053-6363-cbad-3e00051f80f6" testName="Register_Post_InvalidModel_ReturnsViewWithSameModel" computerName="DESKTOP-KJ55FR1" duration="00:00:01.3882292" startTime="2025-11-23T11:37:00.8277350-05:00" endTime="2025-11-23T11:37:02.2364123-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6a3faa1-41a0-407b-9a11-21fcc4b6b0da" />
+    <UnitTestResult executionId="337c1815-d493-4bfc-be58-2757abbbd062" testId="a80efd67-a1e8-7d56-2902-99bf65197a01" testName="DetalleUser_ReturnsView_WhenUserExists" computerName="DESKTOP-KJ55FR1" duration="00:00:00.4701696" startTime="2025-11-23T11:37:00.8281420-05:00" endTime="2025-11-23T11:37:01.3183212-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="337c1815-d493-4bfc-be58-2757abbbd062" />
+    <UnitTestResult executionId="631fbd4c-4de6-47b5-9332-ea4ad87fe04e" testId="ca403db6-7ff0-ee78-8d37-adcee83d4581" testName="RegisterCurso_Post_AddsCourseAndRedirects" computerName="DESKTOP-KJ55FR1" duration="00:00:01.3548981" startTime="2025-11-23T11:37:00.8271965-05:00" endTime="2025-11-23T11:37:02.2031065-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="631fbd4c-4de6-47b5-9332-ea4ad87fe04e" />
+    <UnitTestResult executionId="ac5af680-e07d-42c6-bcbf-87486fe9ae91" testId="0cc1374b-6667-bbbe-4cf8-66d2e2d3bad3" testName="Docente_Dashboard_ReturnsView_WhenDocenteExists" computerName="DESKTOP-KJ55FR1" duration="00:00:01.3966484" startTime="2025-11-23T11:37:00.8647428-05:00" endTime="2025-11-23T11:37:02.2614973-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ac5af680-e07d-42c6-bcbf-87486fe9ae91" />
+    <UnitTestResult executionId="61330c35-c57b-47c4-bbe0-3026e4c17082" testId="2916c5c7-ac39-addd-41e0-04c4192e94b7" testName="ActualizarCurso_Post_Valid_UpdatesCourseAndRedirects" computerName="DESKTOP-KJ55FR1" duration="00:00:01.3078777" startTime="2025-11-23T11:37:00.8278327-05:00" endTime="2025-11-23T11:37:02.1560927-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="61330c35-c57b-47c4-bbe0-3026e4c17082" />
+    <UnitTestResult executionId="c8c62f58-93c8-49b2-bc05-82f83fa3278f" testId="162ca63d-1b16-7aa4-1fbd-3c765692be0a" testName="Docente_Calificaciones_Post_AddsCalificacion_AndRedirects" computerName="DESKTOP-KJ55FR1" duration="00:00:00.9617235" startTime="2025-11-23T11:37:01.3221459-05:00" endTime="2025-11-23T11:37:02.2848404-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8c62f58-93c8-49b2-bc05-82f83fa3278f" />
+    <UnitTestResult executionId="76cc3a2c-bcf6-4ff1-83b1-9fb33cfb3d72" testId="d4d9a0ca-ca32-002f-f08e-a014bc9f61d2" testName="RegisterCurso_Post_WithDocente_AssignsDocenteCourse" computerName="DESKTOP-KJ55FR1" duration="00:00:01.3892361" startTime="2025-11-23T11:37:00.8276340-05:00" endTime="2025-11-23T11:37:02.2373764-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="76cc3a2c-bcf6-4ff1-83b1-9fb33cfb3d72" />
+    <UnitTestResult executionId="03931da7-3fdb-4fb1-bc8c-08a73f90d286" testId="28257ccb-ce7c-d5fe-08f7-dd24529a701d" testName="CrearApplicationUser" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0059091" startTime="2025-11-23T11:37:00.8292222-05:00" endTime="2025-11-23T11:37:00.8560760-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="03931da7-3fdb-4fb1-bc8c-08a73f90d286" />
+    <UnitTestResult executionId="f05ccb9f-3a04-4b3d-a6a6-4713d5f57bdd" testId="b33f628b-6804-b047-d099-2007e38d6864" testName="ApplicationUser_PuedeCambiarValoresDespuesDeCreado" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0001683" startTime="2025-11-23T11:37:00.8621590-05:00" endTime="2025-11-23T11:37:00.8625308-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f05ccb9f-3a04-4b3d-a6a6-4713d5f57bdd" />
+    <UnitTestResult executionId="742c7d83-49a5-4bb8-8566-ed90b0310fbb" testId="ae89a7b8-83cd-f10c-381f-5935aee15782" testName="CrearNotificacion" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0008536" startTime="2025-11-23T11:37:02.2222818-05:00" endTime="2025-11-23T11:37:02.2233589-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="742c7d83-49a5-4bb8-8566-ed90b0310fbb" />
+    <UnitTestResult executionId="95fd1321-b025-4568-b888-3eb54f1431ad" testId="3cd2c94f-8734-2b27-5f6c-ce1da438d2f3" testName="Estudiante" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0005511" startTime="2025-11-23T11:37:02.2123259-05:00" endTime="2025-11-23T11:37:02.2130568-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95fd1321-b025-4568-b888-3eb54f1431ad" />
+    <UnitTestResult executionId="a1bf4c9d-a0ce-4e2d-9da1-ae50075e6783" testId="41e9ba6e-e488-513c-a52c-b9bf3525579c" testName="RegisterCurso_Get_ReturnsViewWithModelContainingDocentes" computerName="DESKTOP-KJ55FR1" duration="00:00:01.3899050" startTime="2025-11-23T11:37:00.8273249-05:00" endTime="2025-11-23T11:37:02.2380846-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a1bf4c9d-a0ce-4e2d-9da1-ae50075e6783" />
+    <UnitTestResult executionId="c79aaf7d-677e-4b37-a7bf-4dc5e810de1e" testId="617f6286-08c2-503e-67a7-f4d0e5b475d8" testName="Calificacion" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0002161" startTime="2025-11-23T11:37:00.8637929-05:00" endTime="2025-11-23T11:37:00.8640736-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c79aaf7d-677e-4b37-a7bf-4dc5e810de1e" />
+    <UnitTestResult executionId="4792edf9-0349-4d80-a349-99e526a3d215" testId="341c98c2-1585-9519-b490-1d4f4501df87" testName="Curso" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0003210" startTime="2025-11-23T11:37:02.2075462-05:00" endTime="2025-11-23T11:37:02.2080367-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4792edf9-0349-4d80-a349-99e526a3d215" />
+    <UnitTestResult executionId="744762cd-08ff-4f1a-89a1-b169af076d47" testId="85243388-cc2a-7e4c-ef57-7d8349ef36f3" testName="Register_Post_Valid_Admin_RedirectsToDashboard" computerName="DESKTOP-KJ55FR1" duration="00:00:00.5046478" startTime="2025-11-23T11:37:00.8275356-05:00" endTime="2025-11-23T11:37:01.3528622-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="744762cd-08ff-4f1a-89a1-b169af076d47" />
+    <UnitTestResult executionId="a01b1e44-e754-4f50-aeb6-d88a8dcafb30" testId="3b3c9c47-ad01-8d2d-5427-b0813352396d" testName="CrearTutor" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0006654" startTime="2025-11-23T11:37:02.2253209-05:00" endTime="2025-11-23T11:37:02.2261967-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a01b1e44-e754-4f50-aeb6-d88a8dcafb30" />
+    <UnitTestResult executionId="76128b60-cd28-4407-a9a1-cca60d2c0de9" testId="3093180a-a6e8-e871-5c58-892ae02c0c83" testName="ApplicationUser_PermitiraValoresPorDefecto" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0007524" startTime="2025-11-23T11:37:00.8607573-05:00" endTime="2025-11-23T11:37:00.8617769-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="76128b60-cd28-4407-a9a1-cca60d2c0de9" />
+    <UnitTestResult executionId="fa1e92a0-efd6-4061-845b-69a98b190088" testId="a1d9d55c-4960-0274-ce79-87a852d2fcd8" testName="Docente" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0003889" startTime="2025-11-23T11:37:02.2098852-05:00" endTime="2025-11-23T11:37:02.2104669-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fa1e92a0-efd6-4061-845b-69a98b190088" />
+    <UnitTestResult executionId="77a423be-d8f6-4476-9d63-58d2f0bf3e92" testId="c87a0dc3-9688-6126-cdf6-4431cef94f5e" testName="Docente_Conducta_Post_CreatesComportamiento_AndNotificacion" computerName="DESKTOP-KJ55FR1" duration="00:00:00.9384740" startTime="2025-11-23T11:37:01.3222238-05:00" endTime="2025-11-23T11:37:02.2608139-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77a423be-d8f6-4476-9d63-58d2f0bf3e92" />
+    <UnitTestResult executionId="df9242b2-f715-4a75-96a3-fb1135972760" testId="6ae9ffc3-dc0a-50d4-d9e8-75f5477ebcdb" testName="Tutor_Dashboard_ReturnsView_WithStudents" computerName="DESKTOP-KJ55FR1" duration="00:00:00.5985148" startTime="2025-11-23T11:37:01.6419970-05:00" endTime="2025-11-23T11:37:02.2407528-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df9242b2-f715-4a75-96a3-fb1135972760" />
+    <UnitTestResult executionId="8039e329-4954-4f25-bf97-eca435e99201" testId="ffedd7ef-6ab2-080f-44e7-03b8da3d43e5" testName="Comportamiento" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0001446" startTime="2025-11-23T11:37:00.8645040-05:00" endTime="2025-11-23T11:37:00.8647230-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8039e329-4954-4f25-bf97-eca435e99201" />
+    <UnitTestResult executionId="0facdfb5-8eec-40b5-9136-d4fc6a829e04" testId="c889f0b7-2bc6-0292-d680-54437480b7dd" testName="EstudianteCurso" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0003031" startTime="2025-11-23T11:37:02.2217474-05:00" endTime="2025-11-23T11:37:02.2222175-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0facdfb5-8eec-40b5-9136-d4fc6a829e04" />
+    <UnitTestResult executionId="8f710b34-bc4b-4999-b759-70cd872debac" testId="cc56eaa1-5d73-b592-aff1-bebea02d54f1" testName="CrearDocente" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0014324" startTime="2025-11-23T11:37:02.2081143-05:00" endTime="2025-11-23T11:37:02.2097804-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8f710b34-bc4b-4999-b759-70cd872debac" />
+    <UnitTestResult executionId="76521ffb-9204-41ac-863f-f82f5b577aaa" testId="00dbad58-8813-9bb7-1a4c-20cb2ddb04c2" testName="Estudiante_Dashboard_ReturnsView_WithCourses" computerName="DESKTOP-KJ55FR1" duration="00:00:00.9183713" startTime="2025-11-23T11:37:01.3529708-05:00" endTime="2025-11-23T11:37:02.2715330-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="76521ffb-9204-41ac-863f-f82f5b577aaa" />
+    <UnitTestResult executionId="2083a53d-4cd4-4250-8fb5-a074c6513e43" testId="6b46d043-78a6-30ac-ff8c-aa4a26594612" testName="DetalleUser_ReturnsNotFound_WhenUserMissing" computerName="DESKTOP-KJ55FR1" duration="00:00:00.4627648" startTime="2025-11-23T11:37:00.8280353-05:00" endTime="2025-11-23T11:37:01.3109200-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2083a53d-4cd4-4250-8fb5-a074c6513e43" />
+    <UnitTestResult executionId="b70ffd77-5827-417b-a4f3-e1214fef0a9c" testId="39b9077f-aac0-ffef-a06b-9ae249bc09f8" testName="Notificacion" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0003724" startTime="2025-11-23T11:37:02.2234508-05:00" endTime="2025-11-23T11:37:02.2239627-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b70ffd77-5827-417b-a4f3-e1214fef0a9c" />
+    <UnitTestResult executionId="8e7b163d-5862-4190-aade-9808e87d4d38" testId="655a0270-ff90-1652-bc4d-cf611b2f4824" testName="Tutor" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0002709" startTime="2025-11-23T11:37:02.2262689-05:00" endTime="2025-11-23T11:37:02.2266572-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8e7b163d-5862-4190-aade-9808e87d4d38" />
+    <UnitTestResult executionId="2d322787-ab3e-4c83-abfe-6b4914b9ad72" testId="cc415ba8-035f-b5c5-f983-43877dc6f9b5" testName="CrearEstudiante" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0013992" startTime="2025-11-23T11:37:02.2105500-05:00" endTime="2025-11-23T11:37:02.2122226-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2d322787-ab3e-4c83-abfe-6b4914b9ad72" />
+    <UnitTestResult executionId="45af3d0d-90e1-4115-a03c-c1182a323c90" testId="853ecbfa-f67a-4ff1-1086-62ea54ffc207" testName="EliminarCurso_Post_RemovesCourse_ReturnsJsonSuccess" computerName="DESKTOP-KJ55FR1" duration="00:00:01.4034074" startTime="2025-11-23T11:37:00.8279368-05:00" endTime="2025-11-23T11:37:02.2516348-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="45af3d0d-90e1-4115-a03c-c1182a323c90" />
+    <UnitTestResult executionId="84d270dd-7b5b-4240-b94c-7c4ea5736245" testId="184e49c9-9b9b-86af-4107-a2dad068f9c8" testName="Register_Get_ReturnsViewWithModel" computerName="DESKTOP-KJ55FR1" duration="00:00:01.3883039" startTime="2025-11-23T11:37:00.8274500-05:00" endTime="2025-11-23T11:37:02.2364679-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="84d270dd-7b5b-4240-b94c-7c4ea5736245" />
+    <UnitTestResult executionId="c993974f-5cdf-4b49-b9e5-2c6475b4efa6" testId="f5fcb523-ca07-020b-68e2-8227cfee5e95" testName="Tutor_LeerNotificacion_MarksAsRead_AndReturnsView" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0853652" startTime="2025-11-23T11:37:02.1561908-05:00" endTime="2025-11-23T11:37:02.2417207-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c993974f-5cdf-4b49-b9e5-2c6475b4efa6" />
+    <UnitTestResult executionId="aa8a5fd5-8883-49d0-b696-c977d027f7cd" testId="4f95ba64-583d-30bd-e979-f334308e72de" testName="CrearCurso" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0013321" startTime="2025-11-23T11:37:02.2032144-05:00" endTime="2025-11-23T11:37:02.2047914-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aa8a5fd5-8883-49d0-b696-c977d027f7cd" />
+    <UnitTestResult executionId="4b663aa3-00a0-44ac-b8b4-156039339b4f" testId="f46ca14f-2894-3aaa-0f35-005ada791b7b" testName="CrearComportamient" computerName="DESKTOP-KJ55FR1" duration="00:00:00.0002947" startTime="2025-11-23T11:37:00.8640956-05:00" endTime="2025-11-23T11:37:00.8644772-05:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4b663aa3-00a0-44ac-b8b4-156039339b4f" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="Estudiante_Dashboard_ReturnsView_WithCourses" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="00dbad58-8813-9bb7-1a4c-20cb2ddb04c2">
+      <Execution id="76521ffb-9204-41ac-863f-f82f5b577aaa" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ControllersAdditionalTests" name="Estudiante_Dashboard_ReturnsView_WithCourses" />
+    </UnitTest>
+    <UnitTest name="Docente" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="a1d9d55c-4960-0274-ce79-87a852d2fcd8">
+      <Execution id="fa1e92a0-efd6-4061-845b-69a98b190088" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.DocenteTests" name="Docente" />
+    </UnitTest>
+    <UnitTest name="RegisterCurso_Post_AddsCourseAndRedirects" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="ca403db6-7ff0-ee78-8d37-adcee83d4581">
+      <Execution id="631fbd4c-4de6-47b5-9332-ea4ad87fe04e" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="RegisterCurso_Post_AddsCourseAndRedirects" />
+    </UnitTest>
+    <UnitTest name="RegisterCurso_Post_WithDocente_AssignsDocenteCourse" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="d4d9a0ca-ca32-002f-f08e-a014bc9f61d2">
+      <Execution id="76cc3a2c-bcf6-4ff1-83b1-9fb33cfb3d72" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="RegisterCurso_Post_WithDocente_AssignsDocenteCourse" />
+    </UnitTest>
+    <UnitTest name="ApplicationUser_PermitiraValoresPorDefecto" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="3093180a-a6e8-e871-5c58-892ae02c0c83">
+      <Execution id="76128b60-cd28-4407-a9a1-cca60d2c0de9" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ApplicationUserTests" name="ApplicationUser_PermitiraValoresPorDefecto" />
+    </UnitTest>
+    <UnitTest name="Notificacion" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="39b9077f-aac0-ffef-a06b-9ae249bc09f8">
+      <Execution id="b70ffd77-5827-417b-a4f3-e1214fef0a9c" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.NotificacionTests" name="Notificacion" />
+    </UnitTest>
+    <UnitTest name="CrearNotificacion" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="ae89a7b8-83cd-f10c-381f-5935aee15782">
+      <Execution id="742c7d83-49a5-4bb8-8566-ed90b0310fbb" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.NotificacionTests" name="CrearNotificacion" />
+    </UnitTest>
+    <UnitTest name="CrearEstudianteCurso" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="e5416a52-5f6b-a041-aa15-85a30aae3641">
+      <Execution id="d09d1654-5cc6-4c4f-9068-14694a5b7b55" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.Estudiante_CursoTests" name="CrearEstudianteCurso" />
+    </UnitTest>
+    <UnitTest name="Register_Post_InvalidModel_ReturnsViewWithSameModel" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="18db9368-5053-6363-cbad-3e00051f80f6">
+      <Execution id="c6a3faa1-41a0-407b-9a11-21fcc4b6b0da" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="Register_Post_InvalidModel_ReturnsViewWithSameModel" />
+    </UnitTest>
+    <UnitTest name="ApplicationUser_PuedeCambiarValoresDespuesDeCreado" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="b33f628b-6804-b047-d099-2007e38d6864">
+      <Execution id="f05ccb9f-3a04-4b3d-a6a6-4713d5f57bdd" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ApplicationUserTests" name="ApplicationUser_PuedeCambiarValoresDespuesDeCreado" />
+    </UnitTest>
+    <UnitTest name="Calificacion" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="617f6286-08c2-503e-67a7-f4d0e5b475d8">
+      <Execution id="c79aaf7d-677e-4b37-a7bf-4dc5e810de1e" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.CalificacionTests" name="Calificacion" />
+    </UnitTest>
+    <UnitTest name="Estudiante" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="3cd2c94f-8734-2b27-5f6c-ce1da438d2f3">
+      <Execution id="95fd1321-b025-4568-b888-3eb54f1431ad" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.EstudianteTests" name="Estudiante" />
+    </UnitTest>
+    <UnitTest name="CrearTutor" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="3b3c9c47-ad01-8d2d-5427-b0813352396d">
+      <Execution id="a01b1e44-e754-4f50-aeb6-d88a8dcafb30" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.TutorTests" name="CrearTutor" />
+    </UnitTest>
+    <UnitTest name="DetalleUser_ReturnsNotFound_WhenUserMissing" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="6b46d043-78a6-30ac-ff8c-aa4a26594612">
+      <Execution id="2083a53d-4cd4-4250-8fb5-a074c6513e43" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="DetalleUser_ReturnsNotFound_WhenUserMissing" />
+    </UnitTest>
+    <UnitTest name="RegisterCurso_Get_ReturnsViewWithModelContainingDocentes" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="41e9ba6e-e488-513c-a52c-b9bf3525579c">
+      <Execution id="a1bf4c9d-a0ce-4e2d-9da1-ae50075e6783" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="RegisterCurso_Get_ReturnsViewWithModelContainingDocentes" />
+    </UnitTest>
+    <UnitTest name="Docente_Dashboard_ReturnsView_WhenDocenteExists" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="0cc1374b-6667-bbbe-4cf8-66d2e2d3bad3">
+      <Execution id="ac5af680-e07d-42c6-bcbf-87486fe9ae91" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ControllersAdditionalTests" name="Docente_Dashboard_ReturnsView_WhenDocenteExists" />
+    </UnitTest>
+    <UnitTest name="Docente_Calificaciones_Post_AddsCalificacion_AndRedirects" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="162ca63d-1b16-7aa4-1fbd-3c765692be0a">
+      <Execution id="c8c62f58-93c8-49b2-bc05-82f83fa3278f" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ControllersAdditionalTests" name="Docente_Calificaciones_Post_AddsCalificacion_AndRedirects" />
+    </UnitTest>
+    <UnitTest name="ActualizarCurso_Post_Valid_UpdatesCourseAndRedirects" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="2916c5c7-ac39-addd-41e0-04c4192e94b7">
+      <Execution id="61330c35-c57b-47c4-bbe0-3026e4c17082" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="ActualizarCurso_Post_Valid_UpdatesCourseAndRedirects" />
+    </UnitTest>
+    <UnitTest name="Docente_Conducta_Post_CreatesComportamiento_AndNotificacion" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="c87a0dc3-9688-6126-cdf6-4431cef94f5e">
+      <Execution id="77a423be-d8f6-4476-9d63-58d2f0bf3e92" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ControllersAdditionalTests" name="Docente_Conducta_Post_CreatesComportamiento_AndNotificacion" />
+    </UnitTest>
+    <UnitTest name="EliminarCurso_Post_RemovesCourse_ReturnsJsonSuccess" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="853ecbfa-f67a-4ff1-1086-62ea54ffc207">
+      <Execution id="45af3d0d-90e1-4115-a03c-c1182a323c90" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="EliminarCurso_Post_RemovesCourse_ReturnsJsonSuccess" />
+    </UnitTest>
+    <UnitTest name="CrearApplicationUser" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="28257ccb-ce7c-d5fe-08f7-dd24529a701d">
+      <Execution id="03931da7-3fdb-4fb1-bc8c-08a73f90d286" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ApplicationUserTests" name="CrearApplicationUser" />
+    </UnitTest>
+    <UnitTest name="CrearComportamient" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="f46ca14f-2894-3aaa-0f35-005ada791b7b">
+      <Execution id="4b663aa3-00a0-44ac-b8b4-156039339b4f" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ComportamientoTests" name="CrearComportamient" />
+    </UnitTest>
+    <UnitTest name="Tutor" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="655a0270-ff90-1652-bc4d-cf611b2f4824">
+      <Execution id="8e7b163d-5862-4190-aade-9808e87d4d38" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.TutorTests" name="Tutor" />
+    </UnitTest>
+    <UnitTest name="DetalleUser_ReturnsView_WhenUserExists" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="a80efd67-a1e8-7d56-2902-99bf65197a01">
+      <Execution id="337c1815-d493-4bfc-be58-2757abbbd062" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="DetalleUser_ReturnsView_WhenUserExists" />
+    </UnitTest>
+    <UnitTest name="CrearCurso" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="4f95ba64-583d-30bd-e979-f334308e72de">
+      <Execution id="aa8a5fd5-8883-49d0-b696-c977d027f7cd" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.CursoTests" name="CrearCurso" />
+    </UnitTest>
+    <UnitTest name="EstudianteCurso" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="c889f0b7-2bc6-0292-d680-54437480b7dd">
+      <Execution id="0facdfb5-8eec-40b5-9136-d4fc6a829e04" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.Estudiante_CursoTests" name="EstudianteCurso" />
+    </UnitTest>
+    <UnitTest name="Curso" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="341c98c2-1585-9519-b490-1d4f4501df87">
+      <Execution id="4792edf9-0349-4d80-a349-99e526a3d215" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.CursoTests" name="Curso" />
+    </UnitTest>
+    <UnitTest name="Tutor_LeerNotificacion_MarksAsRead_AndReturnsView" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="f5fcb523-ca07-020b-68e2-8227cfee5e95">
+      <Execution id="c993974f-5cdf-4b49-b9e5-2c6475b4efa6" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ControllersAdditionalTests" name="Tutor_LeerNotificacion_MarksAsRead_AndReturnsView" />
+    </UnitTest>
+    <UnitTest name="CrearDocente" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="cc56eaa1-5d73-b592-aff1-bebea02d54f1">
+      <Execution id="8f710b34-bc4b-4999-b759-70cd872debac" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.DocenteTests" name="CrearDocente" />
+    </UnitTest>
+    <UnitTest name="CrearEstudiante" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="cc415ba8-035f-b5c5-f983-43877dc6f9b5">
+      <Execution id="2d322787-ab3e-4c83-abfe-6b4914b9ad72" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.EstudianteTests" name="CrearEstudiante" />
+    </UnitTest>
+    <UnitTest name="Tutor_Dashboard_ReturnsView_WithStudents" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="6ae9ffc3-dc0a-50d4-d9e8-75f5477ebcdb">
+      <Execution id="df9242b2-f715-4a75-96a3-fb1135972760" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ControllersAdditionalTests" name="Tutor_Dashboard_ReturnsView_WithStudents" />
+    </UnitTest>
+    <UnitTest name="Register_Post_Valid_Admin_RedirectsToDashboard" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="85243388-cc2a-7e4c-ef57-7d8349ef36f3">
+      <Execution id="744762cd-08ff-4f1a-89a1-b169af076d47" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="Register_Post_Valid_Admin_RedirectsToDashboard" />
+    </UnitTest>
+    <UnitTest name="Register_Get_ReturnsViewWithModel" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="184e49c9-9b9b-86af-4107-a2dad068f9c8">
+      <Execution id="84d270dd-7b5b-4240-b94c-7c4ea5736245" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.AdministradorControllerTests" name="Register_Get_ReturnsViewWithModel" />
+    </UnitTest>
+    <UnitTest name="CrearCalificacion" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="a06dd349-79bc-311d-d461-c6f7dcdacdbc">
+      <Execution id="95872f76-6e24-4789-a120-d58b446d0d23" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.CalificacionTests" name="CrearCalificacion" />
+    </UnitTest>
+    <UnitTest name="Comportamiento" storage="c:\users\asus\source\repos\proyecto\testproyecto\bin\debug\net8.0\testproyecto.dll" id="ffedd7ef-6ab2-080f-44e7-03b8da3d43e5">
+      <Execution id="8039e329-4954-4f25-bf97-eca435e99201" />
+      <TestMethod codeBase="C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll" adapterTypeName="executor://mstestadapter/v2" className="TestProyecto.ComportamientoTests" name="Comportamiento" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="e5416a52-5f6b-a041-aa15-85a30aae3641" executionId="d09d1654-5cc6-4c4f-9068-14694a5b7b55" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a06dd349-79bc-311d-d461-c6f7dcdacdbc" executionId="95872f76-6e24-4789-a120-d58b446d0d23" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="18db9368-5053-6363-cbad-3e00051f80f6" executionId="c6a3faa1-41a0-407b-9a11-21fcc4b6b0da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a80efd67-a1e8-7d56-2902-99bf65197a01" executionId="337c1815-d493-4bfc-be58-2757abbbd062" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ca403db6-7ff0-ee78-8d37-adcee83d4581" executionId="631fbd4c-4de6-47b5-9332-ea4ad87fe04e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0cc1374b-6667-bbbe-4cf8-66d2e2d3bad3" executionId="ac5af680-e07d-42c6-bcbf-87486fe9ae91" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2916c5c7-ac39-addd-41e0-04c4192e94b7" executionId="61330c35-c57b-47c4-bbe0-3026e4c17082" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="162ca63d-1b16-7aa4-1fbd-3c765692be0a" executionId="c8c62f58-93c8-49b2-bc05-82f83fa3278f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d4d9a0ca-ca32-002f-f08e-a014bc9f61d2" executionId="76cc3a2c-bcf6-4ff1-83b1-9fb33cfb3d72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="28257ccb-ce7c-d5fe-08f7-dd24529a701d" executionId="03931da7-3fdb-4fb1-bc8c-08a73f90d286" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b33f628b-6804-b047-d099-2007e38d6864" executionId="f05ccb9f-3a04-4b3d-a6a6-4713d5f57bdd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae89a7b8-83cd-f10c-381f-5935aee15782" executionId="742c7d83-49a5-4bb8-8566-ed90b0310fbb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3cd2c94f-8734-2b27-5f6c-ce1da438d2f3" executionId="95fd1321-b025-4568-b888-3eb54f1431ad" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41e9ba6e-e488-513c-a52c-b9bf3525579c" executionId="a1bf4c9d-a0ce-4e2d-9da1-ae50075e6783" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="617f6286-08c2-503e-67a7-f4d0e5b475d8" executionId="c79aaf7d-677e-4b37-a7bf-4dc5e810de1e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="341c98c2-1585-9519-b490-1d4f4501df87" executionId="4792edf9-0349-4d80-a349-99e526a3d215" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="85243388-cc2a-7e4c-ef57-7d8349ef36f3" executionId="744762cd-08ff-4f1a-89a1-b169af076d47" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3b3c9c47-ad01-8d2d-5427-b0813352396d" executionId="a01b1e44-e754-4f50-aeb6-d88a8dcafb30" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3093180a-a6e8-e871-5c58-892ae02c0c83" executionId="76128b60-cd28-4407-a9a1-cca60d2c0de9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a1d9d55c-4960-0274-ce79-87a852d2fcd8" executionId="fa1e92a0-efd6-4061-845b-69a98b190088" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c87a0dc3-9688-6126-cdf6-4431cef94f5e" executionId="77a423be-d8f6-4476-9d63-58d2f0bf3e92" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6ae9ffc3-dc0a-50d4-d9e8-75f5477ebcdb" executionId="df9242b2-f715-4a75-96a3-fb1135972760" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ffedd7ef-6ab2-080f-44e7-03b8da3d43e5" executionId="8039e329-4954-4f25-bf97-eca435e99201" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c889f0b7-2bc6-0292-d680-54437480b7dd" executionId="0facdfb5-8eec-40b5-9136-d4fc6a829e04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc56eaa1-5d73-b592-aff1-bebea02d54f1" executionId="8f710b34-bc4b-4999-b759-70cd872debac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="00dbad58-8813-9bb7-1a4c-20cb2ddb04c2" executionId="76521ffb-9204-41ac-863f-f82f5b577aaa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b46d043-78a6-30ac-ff8c-aa4a26594612" executionId="2083a53d-4cd4-4250-8fb5-a074c6513e43" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="39b9077f-aac0-ffef-a06b-9ae249bc09f8" executionId="b70ffd77-5827-417b-a4f3-e1214fef0a9c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="655a0270-ff90-1652-bc4d-cf611b2f4824" executionId="8e7b163d-5862-4190-aade-9808e87d4d38" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc415ba8-035f-b5c5-f983-43877dc6f9b5" executionId="2d322787-ab3e-4c83-abfe-6b4914b9ad72" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="853ecbfa-f67a-4ff1-1086-62ea54ffc207" executionId="45af3d0d-90e1-4115-a03c-c1182a323c90" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="184e49c9-9b9b-86af-4107-a2dad068f9c8" executionId="84d270dd-7b5b-4240-b94c-7c4ea5736245" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f5fcb523-ca07-020b-68e2-8227cfee5e95" executionId="c993974f-5cdf-4b49-b9e5-2c6475b4efa6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f95ba64-583d-30bd-e979-f334308e72de" executionId="aa8a5fd5-8883-49d0-b696-c977d027f7cd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f46ca14f-2894-3aaa-0f35-005ada791b7b" executionId="4b663aa3-00a0-44ac-b8b4-156039339b4f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Resultados sin formato de lista" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="Todos los resultados cargados" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="35" executed="35" passed="35" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>Probar paralelización habilitada para C:\Users\ASUS\source\repos\Proyecto\TestProyecto\bin\Debug\net8.0\TestProyecto.dll (Trabajos: 12, Ámbito: MethodLevel)&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>
