@@ -85,8 +85,8 @@ namespace Proyecto.Controllers
 
                 seccionesRes.Add(new Secciones
                 {
-                    Grado = curso?.Nombre ?? string.Empty,
-                    Seccion = curso?.aula ?? string.Empty,
+                    Grado = curso.Nombre ?? string.Empty,
+                    Seccion = curso.aula ?? string.Empty,
                     Alumnos = alumnos
                 });
             }
@@ -139,10 +139,10 @@ namespace Proyecto.Controllers
                 int nota = MapNota(data.notas.ElementAtOrDefault(i));
                 string comentario = data.comentarios.ElementAtOrDefault(i) ?? "Sin comentario";
 
-                foreach (var ec in estudianteCursos)
+                foreach (var idEstudianteCurso in estudianteCursos.Select(ec => ec.IdEstudianteCurso))
                 {
                     var calificacionesAnteriores = await _context.Calificaciones
-                        .Where(c => c.estudiante_CursoId == ec.IdEstudianteCurso)
+                        .Where(c => c.estudiante_CursoId == idEstudianteCurso)
                         .OrderBy(c => c.FechaCalificacion)
                         .ToListAsync();
 
@@ -154,7 +154,7 @@ namespace Proyecto.Controllers
 
                     var calificacion = new Calificacion
                     {
-                        estudiante_CursoId = ec.IdEstudianteCurso,
+                        estudiante_CursoId = idEstudianteCurso,
                         Puntaje = nota,
                         FechaCalificacion = DateTime.Now,
                         promedioAcumulado = promedio,
@@ -177,7 +177,7 @@ namespace Proyecto.Controllers
                 .ToListAsync();
         }
 
-        private int MapNota(string? notaLiteral)
+        private static int MapNota(string? notaLiteral)
         {
             switch ((notaLiteral ?? string.Empty).Trim().ToUpper())
             {
@@ -189,7 +189,7 @@ namespace Proyecto.Controllers
             }
         }
 
-        private int CalculatePromedioAcumulado(List<Calificacion> anteriores, int nuevaNota)
+        private static int CalculatePromedioAcumulado(List<Calificacion> anteriores, int nuevaNota)
         {
             var listaNotas = anteriores.Select(c => c.Puntaje).ToList();
             listaNotas.Add(nuevaNota);
