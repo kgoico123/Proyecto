@@ -37,11 +37,22 @@ jobs:
         run: |
           New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
           dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
-      - name: Build and analyze
+      - name: Build, test (with coverage) and analyze
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"kgoico123_Proyecto" /o:"kgoico123" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          dotnet build
-          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          $scanner = "${{ runner.temp }}\scanner\dotnet-sonarscanner"
+          $coverage = "${{ runner.temp }}\coverage.opencover.xml"
+
+          # Begin Sonar scan and tell Sonar where coverage report will be
+          & $scanner dotnet-sonarscanner begin /k:"kgoico123_Proyecto" /o:"kgoico123" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="$coverage"
+
+          # Build solution
+          dotnet build Proyecto.sln --configuration Release
+
+          # Run tests and generate OpenCover report using coverlet
+          dotnet test TestProyecto\TestProyecto.csproj --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="$coverage"
+
+          # End Sonar scan (this uploads results and coverage)
+          & $scanner dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
