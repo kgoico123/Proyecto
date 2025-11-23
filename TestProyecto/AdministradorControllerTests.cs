@@ -288,5 +288,121 @@ namespace TestProyecto
             var view = (ViewResult)result;
             Assert.IsInstanceOfType(view.Model, typeof(UserDetailVM));
         }
+
+        [TestMethod]
+        public async Task Usuarios_ReturnsViewWithUsers()
+        {
+            // Arrange
+            var context = CreateInMemoryContext("usuarios_db");
+            var user = new ApplicationUser { Id = "u-list", UserName = "lista" };
+            // seed into EF so we can return an IAsyncEnumerable-compatible source
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+
+            var userManager = CreateMockUserManager();
+            userManager.SetupGet(u => u.Users).Returns(context.AppUsers);
+
+            var controller = new AdministradorController(userManager.Object, context);
+
+            // Act
+            var result = await controller.Usuarios();
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(ViewResult));
+            var view = (ViewResult)result;
+            Assert.IsInstanceOfType(view.Model, typeof(List<ApplicationUser>));
+            var list = (List<ApplicationUser>)view.Model;
+            Assert.IsTrue(list.Any(u => u.Id == "u-list"));
+        }
+
+        [TestMethod]
+        public async Task EliminarUser_Post_RemovesAssociatedEntities_AndRedirects()
+        {
+            // Arrange
+            var context = CreateInMemoryContext("eliminaruser_post_db");
+            var user = new ApplicationUser { Id = "del-1", UserName = "deluser" };
+            context.Docentes.Add(new Docente { IdDocente = 11, UserId = user.Id });
+            context.Estudiantes.Add(new Estudiante { IdEstudiante = 12, UserId = user.Id, Grado = "Primero", TutorId = 0 });
+            context.Tutores.Add(new Tutor { IdTutor = 13, UserId = user.Id });
+            await context.SaveChangesAsync();
+
+            var userManager = CreateMockUserManagerWithUser(user, new List<string>());
+            var controller = new AdministradorController(userManager.Object, context);
+
+            var vm = new UserDetailVM { UserId = user.Id };
+
+            // Act
+            var result = await controller.EliminarUser(vm);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            var redirect = (RedirectToActionResult)result;
+            Assert.AreEqual("Usuarios", redirect.ActionName);
+            Assert.IsFalse(context.Docentes.Any(d => d.UserId == user.Id));
+            Assert.IsFalse(context.Estudiantes.Any(e => e.UserId == user.Id));
+            Assert.IsFalse(context.Tutores.Any(t => t.UserId == user.Id));
+        }
+
+        [TestMethod]
+        public async Task DesvincularDocente_Success_ReturnsJsonSuccess()
+        {
+            // Arrange
+            var context = CreateInMemoryContext("desvincular_docente_db");
+            var curso = new Curso { IdCurso = 200, Nombre = "C1", Grado = "G", aula = "A" };
+            var docente = new Docente { IdDocente = 50, CursoId = curso.IdCurso, UserId = "u-doc" };
+            context.Cursos.Add(curso);
+            context.Docentes.Add(docente);
+            await context.SaveChangesAsync();
+
+            var userManager = CreateMockUserManager();
+            var controller = new AdministradorController(userManager.Object, context);
+
+            var req = new DesvincularDocenteRequest { DocenteId = docente.IdDocente, CursoId = curso.IdCurso };
+
+            // Act
+            var result = await controller.DesvincularDocente(req);
+
+            // Assert
+            Assert.IsInstanceOfType(result, typeof(JsonResult));
+            var json = (JsonResult)result;
+            var prop = json.Value!.GetType().GetProperty("success");
+            Assert.IsNotNull(prop);
+            Assert.IsTrue((bool)prop.GetValue(json.Value)!);
+            var updated = context.Docentes.Find(docente.IdDocente);
+            Assert.IsNull(updated!.CursoId);
+        }
+
+        [TestMethod]
+        public async Task DetalleUser_ReturnsView_ForTutorEstudianteDocenteRoles()
+        {
+            // Arrange common
+            var context = CreateInMemoryContext("detalle_roles_db");
+            var tutorUser = new ApplicationUser { Id = "t1", UserName = "t1" };
+            var estudUser = new ApplicationUser { Id = "e1", UserName = "e1" };
+            var docUser = new ApplicationUser { Id = "d1", UserName = "d1" };
+
+            context.Tutores.Add(new Tutor { IdTutor = 101, UserId = tutorUser.Id, direccion = "x" });
+            context.Estudiantes.Add(new Estudiante { IdEstudiante = 102, UserId = estudUser.Id, Grado = "Primero", TutorId = 0 });
+            context.Docentes.Add(new Docente { IdDocente = 103, UserId = docUser.Id });
+            await context.SaveChangesAsync();
+
+            // Tutor
+            var mgrTutor = CreateMockUserManagerWithUser(tutorUser, new List<string> { VCG.Role_Tutor });
+            var ctrlTutor = new AdministradorController(mgrTutor.Object, context);
+            var resTutor = await ctrlTutor.DetalleUser(tutorUser.Id);
+            Assert.IsInstanceOfType(resTutor, typeof(ViewResult));
+
+            // Estudiante
+            var mgrEst = CreateMockUserManagerWithUser(estudUser, new List<string> { VCG.Role_Estudiante });
+            var ctrlEst = new AdministradorController(mgrEst.Object, context);
+            var resEst = await ctrlEst.DetalleUser(estudUser.Id);
+            Assert.IsInstanceOfType(resEst, typeof(ViewResult));
+
+            // Docente
+            var mgrDoc = CreateMockUserManagerWithUser(docUser, new List<string> { VCG.Role_Docente });
+            var ctrlDoc = new AdministradorController(mgrDoc.Object, context);
+            var resDoc = await ctrlDoc.DetalleUser(docUser.Id);
+            Assert.IsInstanceOfType(resDoc, typeof(ViewResult));
+        }
     }
 }
