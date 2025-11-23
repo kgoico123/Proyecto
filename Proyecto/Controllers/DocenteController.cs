@@ -23,19 +23,8 @@ namespace Proyecto.Controllers
 
         public async Task<IActionResult> Dashboard()
         {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Unauthorized();
-            var userName = user.UserName;
-            // Removed duplicate null-check for user
-
-            var docenteRes = await _context.Docentes
-                .Include(d => d.Curso!)
-                    .ThenInclude(c => c.estudiante_Curso!)
-                        .ThenInclude(ec => ec.Estudiante!)
-                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
-
-            if (docenteRes == null)
-                return Unauthorized();
+            var (user, docenteRes) = await GetCurrentUserAndDocenteAsync();
+            if (user == null || docenteRes == null) return Unauthorized();
 
             DocenteDashboardVM Dashboard = new DocenteDashboardVM
             {
@@ -54,18 +43,8 @@ namespace Proyecto.Controllers
             {
                 return BadRequest();
             }
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Unauthorized();
-            var userName = user.UserName;
-            var docenteRes = await _context.Docentes
-                .Include(d => d.Curso!)
-                    .ThenInclude(c => c.estudiante_Curso!)
-                        .ThenInclude(ec => ec.Estudiante!)
-                            .ThenInclude(e => e.user!)
-                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
-
-            if (docenteRes == null)
-                return Unauthorized();
+            var (user, docenteRes) = await GetCurrentUserAndDocenteAsync();
+            if (user == null || docenteRes == null) return Unauthorized();
 
             // Usar el curso directamente desde el docente
             var curso = docenteRes.Curso;
@@ -114,20 +93,8 @@ namespace Proyecto.Controllers
             {
                 return BadRequest();
             }
-
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Unauthorized();
-            var userName = user.UserName;
-
-            var docente = await _context.Docentes
-                .Include(d => d.Curso!)
-                    .ThenInclude(c => c.estudiante_Curso!)
-                        .ThenInclude(ec => ec.Estudiante!)
-                            .ThenInclude(e => e.user!)
-                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
-
-            if (docente == null)
-                return Unauthorized();
+            var (user, docente) = await GetCurrentUserAndDocenteAsync();
+            if (user == null || docente == null) return Unauthorized();
 
             if (data?.alumnosId == null || data.notas == null || data.comentarios == null)
                 return BadRequest();
@@ -180,6 +147,22 @@ namespace Proyecto.Controllers
                 .ToListAsync();
         }
 
+        // Centraliza la obtención del usuario actual y el Docente asociado
+        private async Task<(ApplicationUser? user, Docente? docente)> GetCurrentUserAndDocenteAsync()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return (null, null);
+
+            var docente = await _context.Docentes
+                .Include(d => d.Curso!)
+                    .ThenInclude(c => c.estudiante_Curso!)
+                        .ThenInclude(ec => ec.Estudiante!)
+                            .ThenInclude(e => e.user!)
+                .FirstOrDefaultAsync(d => d.user!.UserName == user.UserName);
+
+            return (user, docente);
+        }
+
         private static int MapNota(string? notaLiteral)
         {
             switch ((notaLiteral ?? string.Empty).Trim().ToUpper())
@@ -208,16 +191,8 @@ namespace Proyecto.Controllers
             {
                 return BadRequest();
             }
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null) return Unauthorized();
-            var userName = user.UserName;
-
-            var docente = await _context.Docentes
-                .Include(d => d.Curso!)
-                    .ThenInclude(c => c.estudiante_Curso!)
-                        .ThenInclude(ec => ec.Estudiante!)
-                            .ThenInclude(e => e.user!)
-                .FirstOrDefaultAsync(d => d.user!.UserName == userName);
+            var (user, docente) = await GetCurrentUserAndDocenteAsync();
+            if (user == null || docente == null) return Unauthorized();
 
             var estudiantes = (docente?.Curso?.estudiante_Curso ?? Enumerable.Empty<Estudiante_Curso>())
                                 .Where(ec => ec?.Estudiante != null)
