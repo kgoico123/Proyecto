@@ -404,5 +404,68 @@ namespace TestProyecto
             var resDoc = await ctrlDoc.DetalleUser(docUser.Id);
             Assert.IsInstanceOfType(resDoc, typeof(ViewResult));
         }
+
+        [TestMethod]
+        public async Task Register_Post_Valid_Tutor_CreatesTutorAndRedirects()
+        {
+            var context = CreateInMemoryContext("reg_post_tutor_db");
+            var user = new ApplicationUser { Id = "tu-1", UserName = "tutor1", Dni = "111" };
+            var userManager = CreateMockUserManagerWithUser(user, new List<string>());
+            var controller = new AdministradorController(userManager.Object, context);
+
+            var vm = new NewRegisterTypeUserVM
+            {
+                tipo = TypesRegister.Tutor,
+                User = user,
+                tutor = new Tutor { direccion = "d1" }
+            };
+
+            var result = await controller.Register(vm);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.IsTrue(context.Tutores.Any(t => t.UserId == user.Id));
+        }
+
+        [TestMethod]
+        public async Task Register_Post_Valid_Estudiante_CreatesEstudianteAndMaybeTutor()
+        {
+            var context = CreateInMemoryContext("reg_post_est_db");
+            var user = new ApplicationUser { Id = "est-1", UserName = "est1", Dni = "222" };
+            var userManager = CreateMockUserManagerWithUser(user, new List<string>());
+            var controller = new AdministradorController(userManager.Object, context);
+
+            var vm = new NewRegisterTypeUserVM
+            {
+                tipo = TypesRegister.Estudiante,
+                User = user,
+                estudiante = new Estudiante { Grado = "Primero" },
+                tutor = new Tutor { user = new ApplicationUser { Id = "t-u", UserName = "tuser", Dni = "333" } }
+            };
+
+            var result = await controller.Register(vm);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.IsTrue(context.Estudiantes.Any(e => e.UserId == user.Id));
+        }
+
+        [TestMethod]
+        public async Task Register_Post_Valid_Docente_CreatesDocenteAndCourse()
+        {
+            var context = CreateInMemoryContext("reg_post_doc_db");
+            var user = new ApplicationUser { Id = "doc-1", UserName = "doc1", Dni = "444" };
+            var userManager = CreateMockUserManagerWithUser(user, new List<string>());
+            var controller = new AdministradorController(userManager.Object, context);
+
+            var curso = new Curso { Nombre = "Nueva", Grado = "G", aula = "A1", HorarioInicio = TimeSpan.Zero, HorarioFin = TimeSpan.FromHours(1) };
+            var vm = new NewRegisterTypeUserVM
+            {
+                tipo = TypesRegister.Docente,
+                User = user,
+                curso = curso
+            };
+
+            var result = await controller.Register(vm);
+            Assert.IsInstanceOfType(result, typeof(RedirectToActionResult));
+            Assert.IsTrue(context.Docentes.Any(d => d.UserId == user.Id));
+            Assert.IsTrue(context.Cursos.Any(c => c.Nombre == "Nueva"));
+        }
     }
 }
