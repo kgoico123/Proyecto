@@ -64,11 +64,11 @@
                                 <div class="flex-shrink-0">
                                     <span
                                         class="inline-flex items-center justify-center h-8 w-8 rounded-full @ColorClaseConducta(c.Calificacion ?? string.Empty)">
-                                        <span class="text-sm font-bold">@(c?.Calificacion ?? string.Empty)</span>
+                                        <span class="text-sm font-bold">@(c!.Calificacion ?? string.Empty)</span>
                                     </span>
                                 </div>
                                 <div class="ml-4">
-                                    <p class="text-sm font-medium text-gray-900">@(c?.Descripcion ?? string.Empty)</p>
+                                    <p class="text-sm font-medium text-gray-900">@(c!.Descripcion ?? string.Empty)</p>
                                     <p class="text-xs text-gray-500">@c!.FechaRegistro.ToString("dd MMM yyyy, HH:mm")</p>
                                 </div>
                             </div>
