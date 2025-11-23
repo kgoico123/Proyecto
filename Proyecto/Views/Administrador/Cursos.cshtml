@@ -68,13 +68,13 @@
                     {
                         <tr class="bg-white border-b hover:bg-gray-50">
                             <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                                @curso?.Nombre ?? string.Empty
+                                @(curso?.Nombre ?? string.Empty)
                             </td>
                             <td class="px-6 py-4">
-                                @curso?.aula ?? string.Empty
+                                @(curso?.aula ?? string.Empty)
                             </td>
                             <td class="px-6 py-4">
-                                @curso?.Grado ?? string.Empty
+                                @(curso?.Grado ?? string.Empty)
                             </td>
                             <td class="px-6 py-4">
                                 @(curso != null ? curso.HorarioInicio.ToString("hh\\:mm") : string.Empty) - @(curso != null ? curso.HorarioFin.ToString("hh\\:mm") : string.Empty)
