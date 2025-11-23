@@ -46,7 +46,7 @@ jobs:
           $coverage = "${{ runner.temp }}\coverage.opencover.xml"
 
           # Begin Sonar scan and tell Sonar where coverage report will be
-          & $scanner begin /k:"kgoico123_Proyecto" /o:"kgoico123" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.cs.opencover.reportsPaths="$coverage"
+          & $scanner begin /k:"kgoico123_Proyecto" /o:"kgoico123" /d:sonar.login="$env:SONAR_TOKEN" /d:sonar.cs.opencover.reportsPaths="$coverage"
 
           # Build solution
           dotnet build Proyecto.sln --configuration Release
@@ -55,4 +55,4 @@ jobs:
           dotnet test TestProyecto\TestProyecto.csproj --configuration Release /p:CollectCoverage=true /p:CoverletOutputFormat=opencover /p:CoverletOutput="$coverage"
 
           # End Sonar scan (this uploads results and coverage)
-          & $scanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+          & $scanner end /d:sonar.login="$env:SONAR_TOKEN"
