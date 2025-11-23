@@ -28,7 +28,7 @@ namespace TestProyecto
         {
             var store = new Mock<IUserStore<ApplicationUser>>();
             var mgr = new Mock<UserManager<ApplicationUser>>(store.Object,
-                (IOptions<IdentityOptions>)null!, (IPasswordHasher<ApplicationUser>)null!, new IUserValidator<ApplicationUser>[0], new IPasswordValidator<ApplicationUser>[0], (ILookupNormalizer)null!, (IdentityErrorDescriber)null!, (System.IServiceProvider)null!, (ILogger<UserManager<ApplicationUser>>)null!);
+                (IOptions<IdentityOptions>?)null, (IPasswordHasher<ApplicationUser>?)null, new IUserValidator<ApplicationUser>[0], new IPasswordValidator<ApplicationUser>[0], (ILookupNormalizer?)null, (IdentityErrorDescriber?)null, (System.IServiceProvider?)null, (ILogger<UserManager<ApplicationUser>>?)null);
             return mgr;
         }
 
@@ -84,7 +84,7 @@ namespace TestProyecto
         public async Task DeletePersonalData_OnGet_NotFound_WhenUserMissing()
         {
             var userMgr = CreateMockUserManager();
-            userMgr.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((ApplicationUser)null);
+            userMgr.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((ApplicationUser?)null);
             var signIn = CreateMockSignInManager(userMgr);
             var logger = new Mock<ILogger<DeletePersonalDataModel>>();
 
@@ -142,7 +142,7 @@ namespace TestProyecto
         public async Task RegisterConfirmation_OnGet_NotFound_WhenUserMissing()
         {
             var userMgr = CreateMockUserManager();
-            userMgr.Setup(x => x.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((ApplicationUser)null);
+            userMgr.Setup(x => x.FindByEmailAsync(It.IsAny<string>())).ReturnsAsync((ApplicationUser?)null);
             var page = new RegisterConfirmationModel(userMgr.Object);
             var res = await page.OnGetAsync("missing@example.com", "/");
             Assert.IsInstanceOfType(res, typeof(NotFoundObjectResult));

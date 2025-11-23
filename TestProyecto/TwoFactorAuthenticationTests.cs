@@ -21,14 +21,14 @@ namespace TestProyecto
             var store = new Mock<IUserStore<ApplicationUser>>();
             var mgr = new Mock<UserManager<ApplicationUser>>(
                 store.Object,
-                (IOptions<IdentityOptions>)null!,
-                (IPasswordHasher<ApplicationUser>)null!,
+                (IOptions<IdentityOptions>?)null,
+                (IPasswordHasher<ApplicationUser>?)null,
                 new IUserValidator<ApplicationUser>[0],
                 new IPasswordValidator<ApplicationUser>[0],
-                (ILookupNormalizer)null!,
-                (IdentityErrorDescriber)null!,
-                (IServiceProvider)null!,
-                (ILogger<UserManager<ApplicationUser>>)null!
+                (ILookupNormalizer?)null,
+                (IdentityErrorDescriber?)null,
+                (IServiceProvider?)null,
+                (ILogger<UserManager<ApplicationUser>>?)null
             );
             return mgr;
         }
@@ -42,7 +42,9 @@ namespace TestProyecto
             options.Setup(o => o.Value).Returns(new IdentityOptions());
             var logger = new Mock<ILogger<SignInManager<ApplicationUser>>>();
             var schemes = new Mock<Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider>();
+            #pragma warning disable CS0618
             var clock = new Mock<Microsoft.AspNetCore.Authentication.ISystemClock>();
+            #pragma warning restore CS0618
 
             var sm = new Mock<SignInManager<ApplicationUser>>(
                 um.Object,
@@ -61,7 +63,7 @@ namespace TestProyecto
         {
             var um = CreateUserManagerMock();
             var sm = new FakeSignInManager(um.Object) { remembered = false };
-            um.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((ApplicationUser)null);
+            um.Setup(u => u.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((ApplicationUser?)null);
             um.Setup(u => u.GetUserId(It.IsAny<ClaimsPrincipal>())).Returns("no-id");
 
             var page = new TwoFactorAuthenticationModel(um.Object, sm);

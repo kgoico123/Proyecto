@@ -34,14 +34,14 @@ namespace TestProyecto
             // Use explicit casts with null-forgiving to avoid CS8625 warnings when constructing UserManager
             var mgr = new Mock<UserManager<ApplicationUser>>(
                 store.Object,
-                (IOptions<IdentityOptions>)null!,
-                (IPasswordHasher<ApplicationUser>)null!,
+                (IOptions<IdentityOptions>?)null,
+                (IPasswordHasher<ApplicationUser>?)null,
                 new IUserValidator<ApplicationUser>[0],
                 new IPasswordValidator<ApplicationUser>[0],
-                (ILookupNormalizer)null!,
-                (IdentityErrorDescriber)null!,
-                (IServiceProvider)null!,
-                (ILogger<UserManager<ApplicationUser>>)null!
+                (ILookupNormalizer?)null,
+                (IdentityErrorDescriber?)null,
+                (IServiceProvider?)null,
+                (ILogger<UserManager<ApplicationUser>>?)null
             );
             mgr.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);

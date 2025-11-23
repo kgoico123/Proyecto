@@ -32,14 +32,14 @@ namespace TestProyecto
             var store = new Mock<IUserStore<ApplicationUser>>();
             var mgr = new Mock<UserManager<ApplicationUser>>(
                 store.Object,
-                (IOptions<IdentityOptions>)null!,
-                (IPasswordHasher<ApplicationUser>)null!,
+                (IOptions<IdentityOptions>?)null,
+                (IPasswordHasher<ApplicationUser>?)null,
                 new IUserValidator<ApplicationUser>[0],
                 new IPasswordValidator<ApplicationUser>[0],
-                (ILookupNormalizer)null!,
-                (IdentityErrorDescriber)null!,
-                (IServiceProvider)null!,
-                (ILogger<UserManager<ApplicationUser>>)null!
+                (ILookupNormalizer?)null,
+                (IdentityErrorDescriber?)null,
+                (IServiceProvider?)null,
+                (ILogger<UserManager<ApplicationUser>>?)null
             );
             mgr.Setup(x => x.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).ReturnsAsync((ApplicationUser?)null);
             return mgr;

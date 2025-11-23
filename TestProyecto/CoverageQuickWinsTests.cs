@@ -71,7 +71,7 @@ namespace TestProyecto
             }
         }
 
-        private object GetSampleValue(Type type)
+        private object? GetSampleValue(Type type)
         {
             if (type == typeof(string)) return "x";
             if (type == typeof(int) || type == typeof(int?)) return 1;

@@ -30,7 +30,7 @@ namespace TestProyecto
         {
             var store = new Mock<IUserStore<ApplicationUser>>();
             var mgr = new Mock<UserManager<ApplicationUser>>(store.Object,
-                (IOptions<IdentityOptions>)null!, (IPasswordHasher<ApplicationUser>)null!, new IUserValidator<ApplicationUser>[0], new IPasswordValidator<ApplicationUser>[0], (ILookupNormalizer)null!, (IdentityErrorDescriber)null!, (System.IServiceProvider)null!, (ILogger<UserManager<ApplicationUser>>)null!);
+                (IOptions<IdentityOptions>?)null, (IPasswordHasher<ApplicationUser>?)null, new IUserValidator<ApplicationUser>[0], new IPasswordValidator<ApplicationUser>[0], (ILookupNormalizer?)null, (IdentityErrorDescriber?)null, (System.IServiceProvider?)null, (ILogger<UserManager<ApplicationUser>>?)null);
             mgr.Setup(x => x.GetUserAsync(It.IsAny<ClaimsPrincipal>())).ReturnsAsync((ClaimsPrincipal cp) => null as ApplicationUser);
             mgr.Setup(x => x.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
             mgr.Setup(x => x.AddToRoleAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>())).ReturnsAsync(IdentityResult.Success);
