@@ -3,42 +3,6 @@
 @using Proyecto.Models
 @{
     ViewData["Title"] = "Detalle de Usuario";
-    string userName = string.Empty;
-    string userApellido = string.Empty;
-    string userEmail = string.Empty;
-    string userDni = string.Empty;
-
-    var roles = Model?.role ?? Enumerable.Empty<string>();
-    string userRole = roles.FirstOrDefault() ?? "Usuario";
-
-    if (roles.Contains(VCG.Role_Docente))
-    {
-        userName = Model?.docente?.user?.UserName ?? string.Empty;
-        userApellido = Model?.docente?.user?.Apellido ?? string.Empty;
-        userEmail = Model?.docente?.user?.Email ?? string.Empty;
-        userDni = Model?.docente?.user?.Dni ?? string.Empty;
-    }
-    else if (roles.Contains(VCG.Role_Tutor))
-    {
-        userName = Model?.tutor?.user?.UserName ?? string.Empty;
-        userApellido = Model?.tutor?.user?.Apellido ?? string.Empty;
-        userEmail = Model?.tutor?.user?.Email ?? string.Empty;
-        userDni = Model?.tutor?.user?.Dni ?? string.Empty;
-    }
-    else if (roles.Contains(VCG.Role_Estudiante))
-    {
-        userName = Model?.estudiante?.user?.UserName ?? string.Empty;
-        userApellido = Model?.estudiante?.user?.Apellido ?? string.Empty;
-        userEmail = Model?.estudiante?.user?.Email ?? string.Empty;
-        userDni = Model?.estudiante?.user?.Dni ?? string.Empty;
-    }
-    else if (roles.Contains(VCG.Role_Admin))
-    {
-        userName = Model?.Administrador?.UserName ?? string.Empty;
-        userApellido = Model?.Administrador?.Apellido ?? string.Empty;
-        userEmail = Model?.Administrador?.Email ?? string.Empty;
-        userDni = Model?.Administrador?.Dni ?? string.Empty;
-    }
 }
 
 <div class="min-h-screen p-4 sm:p-8">
@@ -51,94 +15,6 @@
                 Volver a la lista
             </a>
         </div>
-        <div class="bg-white rounded-2xl shadow-xl overflow-hidden">
-            <!-- User Header -->
-            <div class="p-6 md:p-8 bg-gradient-to-r from-blue-500 to-indigo-600 text-white">
-                <h1 class="text-3xl md:text-4xl font-bold">@userName @userApellido</h1>
-                <p class="text-lg text-blue-200 uppercase tracking-wider mt-1">@userRole</p>
-                <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-2 text-blue-100">
-                    <div class="flex items-center">
-                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                        <span>@userEmail</span>
-                    </div>
-                    <div class="flex items-center">
-                        <svg class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 012-2h4a2 2 0 012 2v1m-4 0h4" /></svg>
-                        <span>DNI: @userDni</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="p-6 md:p-8">
-                <!-- Role-specific details -->
-                @if (Model?.role?.Contains(VCG.Role_Docente) == true)
-                {
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Curso Asignado</h2>
-                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-6">
-                        <h3 class="text-xl font-bold text-indigo-700">@Model?.docente?.Curso?.Nombre ?? string.Empty</h3>
-                        <p class="text-gray-600">Grado: @Model?.docente?.Curso?.Grado ?? string.Empty</p>
-                        <div class="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-                            <div><strong class="block text-gray-700">Aula:</strong> @Model?.docente?.Curso?.aula ?? string.Empty</div>
-                            <div><strong class="block text-gray-700">Horario:</strong> @(Model?.docente?.Curso != null ? Model.docente.Curso.HorarioInicio.ToString() : string.Empty) - @(Model?.docente?.Curso != null ? Model.docente.Curso.HorarioFin.ToString() : string.Empty)</div>
-                            <div><strong class="block text-gray-700">N° Estudiantes:</strong> <span class="bg-indigo-100 text-indigo-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-full">@(Model?.docente?.Curso?.estudiante_Curso?.Count() ?? 0)</span></div>
-                        </div>
-                    </div>
-                }
-
-                @if (Model?.role?.Contains(VCG.Role_Tutor) == true)
-                {
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Estudiantes a Cargo (@(Model?.tutor?.Estudiantes?.Count() ?? 0))</h2>
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full bg-white border border-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">DNI</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-200">
-                                @foreach (var estudiante in Model?.tutor?.Estudiantes ?? new List<Estudiante>())
-                                {
-                                    <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">@estudiante?.user?.UserName @estudiante?.user?.Apellido</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@estudiante?.user?.Email</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">@estudiante?.user?.Dni</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-
-                @if (Model?.role?.Contains(VCG.Role_Estudiante) == true)
-                {
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">Cursos Inscritos (@(Model?.estudiante?.Estudiante_Cursos?.Count() ?? 0))</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        @foreach (var curso in Model?.estudiante?.Estudiante_Cursos ?? new List<Estudiante_Curso>())
-                        {
-                            <div class="bg-gray-50 border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                                <h3 class="font-bold text-lg text-indigo-700">@curso?.Curso?.Nombre</h3>
-                                <p class="text-sm text-gray-600">Docente: @(curso?.Curso?.Docentes?.FirstOrDefault()?.user?.UserName ?? "No asignado")</p>
-                                <div class="mt-3 text-xs space-y-1 text-gray-700">
-                                    <p><strong>Aula:</strong> @curso?.Curso?.aula</p>
-                                    <p><strong>Horario:</strong> @(curso?.Curso != null ? curso.Curso.HorarioInicio.ToString() : string.Empty) - @(curso?.Curso != null ? curso.Curso.HorarioFin.ToString() : string.Empty)</p>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                }
-
-                @if (Model?.role?.Contains(VCG.Role_Admin) == true)
-                {
-                    <div class="text-center py-10">
-                        <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100">
-                            <svg class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
-                        </div>
-                        <h3 class="mt-2 text-lg font-medium text-gray-900">Acceso de Administrador</h3>
-                        <p class="mt-1 text-sm text-gray-500">Este usuario tiene permisos elevados en el sistema.</p>
-                    </div>
-                }
-            </div>
-        </div>
+        @await Html.PartialAsync("_UserDetailsPartial", Model)
     </div>
 </div>
