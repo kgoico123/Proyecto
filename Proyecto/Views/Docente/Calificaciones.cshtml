@@ -41,6 +41,7 @@
                         </div>
                         <div class="px-6 py-4">
                             <form method="post" asp-action="Calificaciones">
+                                @Html.AntiForgeryToken()
                                 <input type="hidden" asp-for="seccion" value="@seccion.Seccion" />
                                 <div class="overflow-x-auto">
                                     <table class="min-w-full text-sm text-left rounded-xl bg-gray-100 shadow-inner">

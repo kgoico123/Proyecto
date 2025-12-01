@@ -5,7 +5,7 @@ namespace Proyecto.ViewModels;
 
 public class DocenteCalificacionesVM
 {
-    public Docente docente { get; set; } = null!;
+    public Docente? docente { get; set; }
     public List<Secciones> secciones { get; set; } = new List<Secciones>();
     public string seccion { get; set; } = string.Empty;
     public List<int> alumnosId { get; set; } = new List<int>();
